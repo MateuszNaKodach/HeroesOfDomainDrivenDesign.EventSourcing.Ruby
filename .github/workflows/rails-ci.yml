@@ -96,7 +96,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          DATABASE_URL: postgres://heroes_of_ddd_db_user:heroes_of_ddd_db_password@localhost:5444/heroes_of_ddd_test
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test test:system
         working-directory: heroesofddd_rails_application
