@@ -66,10 +66,11 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: heroes_of_ddd_development
+          POSTGRES_USER: heroes_of_ddd_db_user
+          POSTGRES_PASSWORD: heroes_of_ddd_db_password
         ports:
-          - 5432:5432
+          - 5444:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
 
       # redis:

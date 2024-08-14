@@ -1,0 +1,16 @@
+version: '3'
+services:
+  db:
+    image: postgres:16
+    restart: always
+    volumes:
+      - heroes_of_ddd_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: heroes_of_ddd_development
+      POSTGRES_USER: heroes_of_ddd_db_user
+      POSTGRES_PASSWORD: heroes_of_ddd_db_password
+    ports:
+      - "5444:5432"
+
+volumes:
+  heroes_of_ddd_db_data:
