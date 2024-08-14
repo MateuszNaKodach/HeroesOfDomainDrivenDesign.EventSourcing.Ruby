@@ -5,10 +5,6 @@ on:
   push:
     branches: [ main ]
 
-defaults:
-  run:
-    working-directory: ./heroesofddd_rails_application
-
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
@@ -20,11 +16,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          working-directory: heroesofddd_rails_application
           ruby-version: .ruby-version
           bundler-cache: true
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
+        working-directory: heroesofddd_rails_application
 
   scan_js:
     runs-on: ubuntu-latest
@@ -36,11 +34,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          working-directory: heroesofddd_rails_application
           ruby-version: .ruby-version
           bundler-cache: true
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
+        working-directory: heroesofddd_rails_application
 
   lint:
     runs-on: ubuntu-latest
@@ -51,11 +51,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          working-directory: heroesofddd_rails_application
           ruby-version: .ruby-version
           bundler-cache: true
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
+        working-directory: heroesofddd_rails_application
 
   test:
     runs-on: ubuntu-latest
@@ -86,6 +88,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          working-directory: heroesofddd_rails_application
           ruby-version: .ruby-version
           bundler-cache: true
 
@@ -95,11 +98,12 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test test:system
+        working-directory: heroesofddd_rails_application
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
+          path: ${{ github.workspace }}/heroesofddd_rails_application/tmp/screenshots
           if-no-files-found: ignore
