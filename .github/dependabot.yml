@@ -1,0 +1,12 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/heroesofddd_rails_application"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: github-actions
+  directory: "/heroesofddd_rails_application"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
