@@ -19,9 +19,8 @@ module Heroes
         if state.is_a?(Built)
           []
         end
-        [DwellingBuilt.new(data: { dwelling_id: command.dwelling_id, creature_id: command.creature_id, cost_per_troop: command.cost_per_troop, available_creatures: 0 })]
+        [ DwellingBuilt.new(dwelling_id: command.dwelling_id, creature_id: command.creature_id, cost_per_troop: command.cost_per_troop) ]
       end
-
     end
   end
 end
