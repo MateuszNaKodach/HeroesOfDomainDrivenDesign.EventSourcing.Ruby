@@ -4,22 +4,24 @@ module Heroes
       NotBuilt = Data.define
       Built = Data.define(:dwelling_id, :creature_id, :cost_per_troop, :available_creatures)
 
-      def self.decide(command, state)
-        case command
-        when BuildDwelling
-          build(command, state)
-        else
-          raise "Unknown command"
+      class << self
+        def decide(command, state)
+          case command
+          when BuildDwelling
+            build(command, state)
+          else
+            raise "Unknown command"
+          end
         end
-      end
 
-      private
+        private
 
-      def self.build(command, state)
-        if state.is_a?(Built)
-          []
+        def build(command, state)
+          if state.is_a?(Built)
+            []
+          end
+          [ DwellingBuilt.new(dwelling_id: command.dwelling_id, creature_id: command.creature_id, cost_per_troop: command.cost_per_troop) ]
         end
-        [ DwellingBuilt.new(dwelling_id: command.dwelling_id, creature_id: command.creature_id, cost_per_troop: command.cost_per_troop) ]
       end
     end
   end
