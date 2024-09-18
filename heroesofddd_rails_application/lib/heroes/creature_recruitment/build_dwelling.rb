@@ -22,7 +22,7 @@ module Heroes
         result_events = Dwelling.decide(command, state)
 
         expected_stream_version = stored_events.count
-        @event_store.publish(result_events.map(&method(:domain_to_infra_mapper)), stream_name: stream_name, expected_version: expected_stream_version)
+        @event_store.publish(result_events, stream_name: stream_name, expected_version: expected_stream_version)
       end
 
       private
@@ -31,26 +31,7 @@ module Heroes
       end
 
       def state_from(events)
-        events.reduce(Dwelling.initial_state) { |state, event| DECIDER.evolve(state, event) }
-      end
-
-      def domain_to_infra_mapper(event)
-        event_class_name = event.class.name.split("::").last
-        infra_event_class = Object.const_get("Heroes::CreatureRecruitment::#{event_class_name}")
-        #infra_event_class = Object.const_get(event.event_type)
-
-        infra_event_class.new(
-          data: event_to_data(event)
-        )
-      end
-
-      def event_to_data(event)
-        event.instance_variables.each_with_object({}) do |var, hash|
-          key = var.to_s.delete("@").to_sym
-          value = event.instance_variable_get(var)
-
-          hash[key] = value
-        end
+        events.reduce(Dwelling.initial_state) { |state, event| Dwelling.evolve(state, event) }
       end
 
     end
