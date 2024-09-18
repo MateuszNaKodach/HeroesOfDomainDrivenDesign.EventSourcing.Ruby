@@ -11,6 +11,8 @@ Install ruby on your machine and Rails:
 3. `rails db:migrate`
 4. `rails server`
 
+Fixing format errors:
+`rubocop --auto-correct`
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
