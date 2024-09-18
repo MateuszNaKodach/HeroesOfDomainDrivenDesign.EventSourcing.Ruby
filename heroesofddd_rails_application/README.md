@@ -14,6 +14,10 @@ Install ruby on your machine and Rails:
 Fixing format errors:
 `rubocop --auto-correct`
 
+
+## Assumptions:
+- Domain Events do not contain ValueObjects. Be
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 

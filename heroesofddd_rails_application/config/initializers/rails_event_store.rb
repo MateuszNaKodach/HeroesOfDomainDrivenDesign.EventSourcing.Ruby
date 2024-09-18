@@ -26,4 +26,6 @@ Rails.configuration.to_prepare do
   #   bus.register(PrintInvoice, Invoicing::OnPrint.new)
   #   bus.register(SubmitOrder, ->(cmd) { Ordering::OnSubmitOrder.new.call(cmd) })
   # end
+
+  Configuration.new.call(Rails.configuration.event_store, Rails.configuration.command_bus)
 end
