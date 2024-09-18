@@ -1,3 +1,5 @@
+require 'test_helper'
+
 class InMemoryTestCase < ActiveSupport::TestCase
   def before_setup
     result = super
