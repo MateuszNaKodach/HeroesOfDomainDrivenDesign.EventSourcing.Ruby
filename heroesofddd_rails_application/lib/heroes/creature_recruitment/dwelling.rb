@@ -17,7 +17,7 @@ module Heroes
         def evolve(state, event)
           case event
           when DwellingBuilt
-            Built.new(dwelling_id: event.dwelling_id, creature_id: event.creature_id, cost_per_troop: event.cost_per_troop, available_creatures: SharedKernel::Amount.of(0))
+            Built.new(dwelling_id: event.dwelling_id, creature_id: event.creature_id, cost_per_troop: event.cost_per_troop, available_creatures: SharedKernel::Resources::Amount.of(0))
           else
             raise "Unknown event"
           end
