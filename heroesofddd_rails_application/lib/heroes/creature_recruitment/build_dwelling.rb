@@ -8,7 +8,6 @@ module Heroes
     end
 
     class BuildDwellingCommandHandler
-      DECIDER = Heroes::CreatureRecruitment::Dwelling
       def initialize(event_store)
         @event_store = event_store # todo: make it private?
       end
@@ -20,7 +19,7 @@ module Heroes
           .stream(stream_name)
         state = state_from(stored_events)
 
-        result_events = DECIDER.decide(command, state)
+        result_events = Dwelling.decide(command, state)
 
         expected_stream_version = stored_events.count
         @event_store.publish(result_events, stream_name, expected_stream_version)
