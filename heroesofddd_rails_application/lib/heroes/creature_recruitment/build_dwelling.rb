@@ -22,7 +22,7 @@ module Heroes
         result_events = Dwelling.decide(command, state)
 
         expected_stream_version = stored_events.count
-        @event_store.publish(result_events, stream_name, expected_stream_version)
+        @event_store.publish(result_events, stream_name: stream_name, expected_version: expected_stream_version)
       end
 
       private
@@ -31,7 +31,7 @@ module Heroes
       end
 
       def state_from(events)
-        events.reduce(DECIDER.initial_state) { |state, event| DECIDER.evolve(state, event) }
+        events.reduce(Dwelling.initial_state) { |state, event| DECIDER.evolve(state, event) }
       end
 
     end
