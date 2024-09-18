@@ -1,7 +1,7 @@
 require "minitest/autorun"
-require_relative "../../../../../lib/heroes/modules/creature_recruitment/dwelling"
-require_relative "../../../../../lib/heroes/modules/creature_recruitment/write_build_dwelling"
-require_relative "../../../../../lib/heroes/modules/shared_kernel/resources"
+require_relative "../../../../lib/heroes/creature_recruitment/write_build_dwelling"
+require_relative "../../../../lib/heroes/creature_recruitment/dwelling"
+require_relative "../../../../lib/heroes/shared_kernel/resources"
 
 
 module Heroes
