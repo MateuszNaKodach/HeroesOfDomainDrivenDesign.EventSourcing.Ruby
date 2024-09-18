@@ -1,6 +1,6 @@
-require 'test_helper'
+require "test_helper"
 
-class InMemoryTestCase < ActiveSupport::TestCase
+class InMemoryEventStoreTestCase < ActiveSupport::TestCase
   def before_setup
     result = super
     @previous_event_store = Rails.configuration.event_store
