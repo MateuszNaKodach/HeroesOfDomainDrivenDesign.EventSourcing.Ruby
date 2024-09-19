@@ -1,15 +1,12 @@
 require "in_memory_event_store_test_case"
+require "real_event_store_integration_test_case"
 
 module Heroes
   module CreatureRecruitment
-    class CreatureRecruitmentModuleTest < InMemoryEventStoreTestCase
-      @dwelling_id = "portal_of_glory"
-      @creature_id = "angel"
-      @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
-
+    class CreatureRecruitmentModuleTest < RealEventStoreIntegrationTestCase
       def setup
         super
-        @dwelling_id = "portal_of_glory"
+        @dwelling_id = SecureRandom.uuid
         @creature_id = "angel"
         @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
       end

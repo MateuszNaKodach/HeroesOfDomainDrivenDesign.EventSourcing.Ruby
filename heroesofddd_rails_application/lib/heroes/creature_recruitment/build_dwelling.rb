@@ -21,13 +21,14 @@ module Heroes
 
         result_events = Dwelling.decide(command, state)
 
+        infra_events = result_events.map(&method(:domain_to_infra_mapper))
         expected_stream_version = stored_events.count - 1
-        @event_store.publish(result_events.map(&method(:domain_to_infra_mapper)), stream_name: stream_name, expected_version: expected_stream_version)
+        @event_store.publish(infra_events, stream_name: stream_name, expected_version: expected_stream_version)
       end
 
       private
       def stream_name(dwelling_id)
-        "CreatureRecruitment::Dwelling#{dwelling_id}"
+        "CreatureRecruitment::Dwelling$#{dwelling_id}"
       end
 
       def state_from(events)
