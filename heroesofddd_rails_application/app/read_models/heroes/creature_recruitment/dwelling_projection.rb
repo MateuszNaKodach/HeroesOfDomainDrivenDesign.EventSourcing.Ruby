@@ -9,7 +9,7 @@ module Heroes
 
   class DwellingProjection
     def call(event_store)
-      infra_event = create_infra_event_class(:DwellingBuilt)
+      infra_event = create_infra_event_class(:DwellingBuilt) # todo: better to pass class and extract name
       event_store.subscribe(OnDwellingBuilt, to: [ infra_event ])
     end
 

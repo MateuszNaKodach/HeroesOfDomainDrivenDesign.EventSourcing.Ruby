@@ -3,6 +3,8 @@ module Heroes
     BuildDwelling = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
     DwellingBuilt = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
 
+    # todo: move mapping to another class. Add subscribe which map from infra to domain
+    #
     class BuildDwellingCommandHandler
       def initialize(event_store)
         @event_store = event_store # todo: make it private?
