@@ -12,7 +12,7 @@ Install ruby on your machine and Rails:
 4. `rails server`
 
 Fixing format errors:
-`rubocop --auto-correct`
+`rubocop --autocorrect`
 
 
 ## Assumptions:
