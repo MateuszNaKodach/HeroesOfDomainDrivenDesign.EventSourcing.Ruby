@@ -8,10 +8,12 @@ module Heroes
   module CreatureRecruitment
     DECIDER = Heroes::CreatureRecruitment::Dwelling
     class BuildDwellingDomainTest < Minitest::Test
-      # givens
-      @dwelling_id = "portal_of_glory"
-      @creature_id = "angel"
-      @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
+      def setup
+        super
+        @dwelling_id = "portal_of_glory"
+        @creature_id = "angel"
+        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
+      end
 
       def test_given_not_built_dwelling_when_build_dwelling_then_dwelling_built
         # given
