@@ -7,6 +7,7 @@ module Heroes
       def initialize(event_store, event_type_mapper)
         @event_store = event_store
         @event_type_mapper = event_type_mapper
+        @event_type_mapper.add_event_type(DwellingBuilt)
       end
 
       def call(command)

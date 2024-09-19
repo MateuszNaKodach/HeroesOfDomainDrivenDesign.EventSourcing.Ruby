@@ -18,7 +18,7 @@ module Heroes
     def call(event)
       id = event.data.fetch(:dwelling_id)
       creature_id = event.data.fetch(:creature_id)
-      available_creatures = event.data.fetch(:available_creatures)
+      available_creatures = 0
       cost_per_troop = event.data.fetch(:cost_per_troop)
       dwelling = DwellingReadModel.create(
         id: id,
