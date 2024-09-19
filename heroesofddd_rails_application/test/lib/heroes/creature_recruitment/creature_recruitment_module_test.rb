@@ -32,6 +32,8 @@ module Heroes
 
         # then
         assert_nothing_raised(&action)
+        read_model = DwellingReadModel.find_by(id: @dwelling_id)
+        assert_not_nil(read_model)
       end
     end
   end

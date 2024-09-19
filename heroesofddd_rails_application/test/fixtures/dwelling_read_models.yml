@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  id:
-  creature_id: MyString
-  available_creatures: 1
-  cost_per_troop: 
+#one:
+#  id:
+#  creature_id: MyString
+#  available_creatures: 1
+#  cost_per_troop:
 
-two:
-  id:
-  creature_id: MyString
-  available_creatures: 1
-  cost_per_troop: 
+#two:
+#  id:
+#  creature_id: MyString
+#  available_creatures: 1
+#  cost_per_troop:
