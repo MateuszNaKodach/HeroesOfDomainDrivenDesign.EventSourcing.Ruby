@@ -12,4 +12,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  get "heroes/creature_recruitment/dwellings", to: "heroes/creature_recruitment/dwellings#index"
 end

@@ -14,6 +14,9 @@ Install ruby on your machine and Rails:
 Fixing format errors:
 `rubocop --autocorrect`
 
+## Routes:
+- http://127.0.0.1:3000/heroes/creature_recruitment/dwellings
+
 
 ## Assumptions:
 - Domain Events do not contain ValueObjects. Be
