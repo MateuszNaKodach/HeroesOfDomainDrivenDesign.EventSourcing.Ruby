@@ -9,7 +9,17 @@ module Heroes
 
   class DwellingProjection
     def call(event_store)
-      event_store.subscribe(OnDwellingBuilt, to: [ DwellingBuilt ])
+      infra_event = create_infra_event_class(:DwellingBuilt)
+      event_store.subscribe(OnDwellingBuilt, to: [ infra_event ])
+    end
+
+    def create_infra_event_class(name)
+      @infra_module = Object.const_get("EventStore::Heroes::CreatureRecruitment")
+      safe_const_set(@infra_module, name, Class.new(RailsEventStore::Event))
+    end
+
+    def safe_const_set(mod, const_name, value)
+      mod.const_set(const_name, value) unless mod.const_defined?(const_name)
     end
   end
 
