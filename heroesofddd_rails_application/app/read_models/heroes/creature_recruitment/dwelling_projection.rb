@@ -8,8 +8,8 @@ module Heroes
     end
 
   class DwellingProjection
-    def call(event_store)
-      infra_event = create_infra_event_class(:DwellingBuilt) # todo: better to pass class and extract name
+    def call(event_store, event_type_mapper)
+      infra_event = event_type_mapper.
       event_store.subscribe(OnDwellingBuilt, to: [ infra_event ])
     end
 
