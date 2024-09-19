@@ -6,7 +6,6 @@ module Heroes
       validates :available_creatures, presence: true, numericality: { greater_than_or_equal_to: 0 }
       validates :cost_per_troop, presence: true
     end
-  end
 
   class DwellingProjection
     def call(event_store)
@@ -27,5 +26,6 @@ module Heroes
         cost_per_troop: cost_per_troop) # todo: transform to domain event before?
       dwelling.save!
     end
+  end
   end
 end
