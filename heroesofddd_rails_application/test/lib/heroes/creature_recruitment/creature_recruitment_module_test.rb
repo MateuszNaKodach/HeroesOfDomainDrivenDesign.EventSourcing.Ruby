@@ -73,7 +73,7 @@ module Heroes
         assert_event_stream_contains(stream_name, store_event_class(DwellingBuilt), {
           dwelling_id: @dwelling_id,
           creature_id: @creature_id,
-          cost_per_troop: Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
+          cost_per_troop: { resources: { GOLD: 3000, CRYSTAL: 1 } }
         })
       end
     end
