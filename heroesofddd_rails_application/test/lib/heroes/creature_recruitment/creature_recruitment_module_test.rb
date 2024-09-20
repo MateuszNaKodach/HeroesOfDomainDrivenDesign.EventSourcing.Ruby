@@ -69,7 +69,7 @@ module Heroes
         build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
         execute_command(build_dwelling)
 
-        # then - problem - whole event here is a hash!
+        # then - problem - whole event here is a hash! because we do the mapping of data to hash
         assert_event_stream_contains(stream_name, store_event_class(DwellingBuilt), {
           dwelling_id: @dwelling_id,
           creature_id: @creature_id,

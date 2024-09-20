@@ -23,8 +23,8 @@ module BuildingBlocks
 
         def domain_to_store(event)
           infra_class = domain_to_store_class(event.class)
-          data = event_to_data(event)
-          infra_class.new(data: data)
+          #data = event_to_data(event)
+          infra_class.new(data: event)
         end
 
         def store_to_domain(event)

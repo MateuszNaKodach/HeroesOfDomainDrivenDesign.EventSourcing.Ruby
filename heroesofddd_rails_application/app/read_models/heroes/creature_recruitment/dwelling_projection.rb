@@ -16,10 +16,10 @@ module Heroes
 
   class OnDwellingBuilt
     def call(event)
-      id = event.data.fetch(:dwelling_id)
-      creature_id = event.data.fetch(:creature_id)
+      id = event.data.dwelling_id
+      creature_id = event.data.creature_id
       available_creatures = 4 # for a while
-      cost_per_troop = event.data.fetch(:cost_per_troop)
+      cost_per_troop = event.data.cost_per_troop
       dwelling = DwellingReadModel.create(
         id: id,
         creature_id: creature_id,
