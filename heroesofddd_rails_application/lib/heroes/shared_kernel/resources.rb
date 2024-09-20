@@ -29,17 +29,23 @@ module Heroes
 
       Cost = Data.define(:resources) do
         def self.resources(*resources)
-          resource_map = resources.to_h { |type, amount| [ type, Amount.new(amount) ] }
+          #resource_map = resources.to_h { |type, amount| [ type, Amount.new(amount) ] }
+          resource_map = resources.to_h { |type, amount| [ type, amount ] }
           new(resource_map)
         end
 
         def *(multiplier)
-          resource_map = resources.transform_values { |amount| Amount.new(amount.raw * multiplier) }
+          #resource_map = resources.transform_values { |amount| Amount.new(amount.raw * multiplier) }
+          resource_map = resources.transform_values { |amount| amount * multiplier }
           self.class.new(resource_map)
         end
 
         def map_resources(&block)
           resources.transform_values { |amount| block.call(amount) }
+        end
+
+        def ==(other)
+          resources == other.resources
         end
       end
     end

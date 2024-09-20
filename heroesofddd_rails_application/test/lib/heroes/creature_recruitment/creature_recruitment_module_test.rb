@@ -8,7 +8,19 @@ module Heroes
         super
         @dwelling_id = SecureRandom.uuid
         @creature_id = "angel"
-        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
+        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
+      end
+
+      def test_equality_event
+        event_1 = DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop)
+        event_2 = DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop)
+        assert_equal event_1, event_2
+      end
+
+      def test_equality_cost
+        cost_1 = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
+        cost_2 = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
+        assert_equal cost_1, cost_2
       end
 
       def test_given_nothing_when_build_dwelling_then_success
@@ -36,7 +48,7 @@ module Heroes
         assert_not_nil(read_model)
       end
 
-      def test_events
+      def test_given_dwelling_built_when_build_same_dwelling_one_more_time_then_nothing
         # given
         stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
         publish_event(stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
@@ -49,42 +61,20 @@ module Heroes
         assert_event_count_in_stream(stream_name, store_event_class(DwellingBuilt), 1)
       end
 
-      private
+      def test_given_nothing_when_build_dwelling_then_success_event
+        # given
+        stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
 
-      def publish_event(stream_name, domain_event)
-        store_event = event_mapper.domain_to_store(domain_event)
-        event_store.publish(store_event, stream_name: stream_name)
-      end
+        # when
+        build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
+        execute_command(build_dwelling)
 
-      def assert_event_present(event_class, data)
-        events = event_store.read.of_type(event_class).to_a
-        assert_event_matches(events, event_class, data)
-      end
-
-      def assert_event_stream_contains(stream_name, event_class, data)
-        events = event_store.read.stream(stream_name).of_type(event_class).to_a
-        assert_event_matches(events, event_class, data)
-      end
-
-      def assert_event_count(event_class, expected_count)
-        actual_count = event_store.read.of_type(event_class).to_a.size
-        assert_equal expected_count, actual_count, "Expected #{expected_count} #{event_class} events, but found #{actual_count}."
-      end
-
-      def event_store
-        Rails.configuration.event_store
-      end
-
-      def assert_event_matches(events, event_class, data)
-        matching_event = events.find do |event|
-          data.all? { |key, value| event.data[key] == value }
-        end
-        assert matching_event, "Expected to find a #{event_class} event with data #{data}, but none was found."
-      end
-
-      def assert_event_count_in_stream(stream_name, event_class, expected_count)
-        actual_count = event_store.read.stream(stream_name).of_type(event_class).to_a.size
-        assert_equal expected_count, actual_count, "Expected #{expected_count} #{event_class} events in stream #{stream_name}, but found #{actual_count}."
+        # then - problem - whole event here is a hash!
+        assert_event_stream_contains(stream_name, store_event_class(DwellingBuilt), {
+          dwelling_id: @dwelling_id,
+          creature_id: @creature_id,
+          cost_per_troop: Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
+        })
       end
     end
   end
