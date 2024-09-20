@@ -17,6 +17,8 @@ Fixing format errors:
 ## Routes:
 - http://127.0.0.1:3000/heroes/creature_recruitment/dwellings
 
+You can run the server with test env: `rails server -e test`
+
 
 ## Assumptions:
 - Domain Events do not contain ValueObjects. Be

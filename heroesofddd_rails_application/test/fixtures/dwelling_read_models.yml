@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-#one:
-#  id:
-#  creature_id: MyString
-#  available_creatures: 1
-#  cost_per_troop:
+one:
+  id: f8cca8b6-a714-443b-91d0-456d0f0386cb
+  creature_id: angel
+  available_creatures: 3
+  cost_per_troop: { 'resources': { 'GOLD': 3000, 'GEM': 1 } }
 
-#two:
-#  id:
-#  creature_id: MyString
-#  available_creatures: 1
-#  cost_per_troop:
+two:
+  id: f8cca8b6-a714-443b-91d0-456d0f0386cb
+  creature_id: angel
+  available_creatures: 1
+  cost_per_troop: { 'resources': { 'GOLD': 3000, 'GEM': 1 } }
