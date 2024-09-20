@@ -81,3 +81,4 @@ module Heroes
 end
 
 # decision: create without changes to meet how the library works. Use approach with mapping events to infra classes.
+# do the mapping in ApplicationService for certain module
