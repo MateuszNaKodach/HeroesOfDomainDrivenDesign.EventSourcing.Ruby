@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.recruitment-component {
+  border: #831A1C 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 480px;
+  flex-direction: column;
+  background-image: asset-url("Heroes3MenuBackground.png");
+}
+
+.title-text {
+  color: #F9E18F;
+  font-size: 1.6rem;
+}
+
+.creature-image {
+  width: 120px;
+  height: 180px;
+  object-fit: contain;
+  border: #F12126 2px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+}
+
+.cost-per-troop {
+  p {
+    font-size: 1rem;
+    color: #F9E18F;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+  }
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #E4CF72 ;
+
+  .cost_details {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  img {
+    margin-bottom: 0.2rem;
+  }
+
+  .cost_count {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.cost_count{
+  color: #F8F0D6;
+}
+
+.controls {
+  margin-top: 2rem;
+}

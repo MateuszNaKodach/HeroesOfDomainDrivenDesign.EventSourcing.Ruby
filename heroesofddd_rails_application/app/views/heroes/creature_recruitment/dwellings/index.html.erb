@@ -1,1 +1,49 @@
-<h1>Hello, Rails!</h1>
+<div class="page-container">
+ <div class="recruitment-component">
+   <h1 class="title-text">Recruit Angels</h1>
+   <%= image_tag "RecruitAngelImage.png", alt: "Description of image", class: "creature-image" %>
+
+   <div class="controls">
+    <div class="cost-per-troop">
+      <p>Cost Per Troop</p>
+      <div class="cost_details">
+        <div class="gold_cost">
+          <%= image_tag "gold_resource.png", alt: "Description of image" %>
+          <div class="cost_count">3000</div>
+        </div>
+        <div class="resource_cost">
+          <%= image_tag "gem_resource.png", alt: "Description of image" %>
+          <div class="cost_count">1</div>
+        </div>
+      </div>
+    </div>
+     <div class="controls__center">
+       <div class="creatures__counts">
+         <div class="creatures__count">0</div>
+         <div class="creatures__count">2</div>
+       </div>
+       <div class="creatures__count__slider"></div>
+     </div>
+     <div class="cost-per-troop">
+       <p>Total Cost</p>
+       <div class="cost_details">
+         <div class="gold_cost">
+           <%= image_tag "gold_resource.png", alt: "Description of image" %>
+           <div class="cost_count">3000</div>
+         </div>
+         <div class="resource_cost">
+           <%= image_tag "gem_resource.png", alt: "Description of image" %>
+           <div class="cost_count">1</div>
+         </div>
+       </div>
+     </div>
+     </div>
+   </div>
+
+   <div class="buttons">
+     <div class="select_all_buttons"></div>
+     <div class="recruit_button"></div>
+     <div class="cancel_button"></div>
+   </div>
+
+ </div>
