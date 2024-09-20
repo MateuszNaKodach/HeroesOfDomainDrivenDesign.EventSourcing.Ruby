@@ -29,7 +29,7 @@ module BuildingBlocks
 
         def store_to_domain(event)
           domain_class = store_to_domain_class(event.class)
-          #domain_class.new(**event.data.transform_keys(&:to_sym))
+          # domain_class.new(**event.data.transform_keys(&:to_sym))
           domain_class.new(**event.data.deep_symbolize_keys)
         end
 
@@ -47,13 +47,29 @@ module BuildingBlocks
         end
 
         def event_to_data(event)
-          if event.respond_to?(:to_h)
+          if event.is_a?(Data)
+            event.to_h.transform_values { |v| serialize_value(v) }.deep_symbolize_keys
+          elsif event.respond_to?(:to_h)
             event.to_h.deep_symbolize_keys
           else
             event.instance_variables.each_with_object({}) do |var, hash|
-              key = var.to_s.delete("@")
-              hash[key] = event.instance_variable_get(var).to_h.deep_symbolize_keys
+              key = var.to_s.delete("@").to_sym
+              value = event.instance_variable_get(var)
+              hash[key] = serialize_value(value)
             end
+          end
+        end
+
+        def serialize_value(value)
+          case value
+          when Data
+            value.to_h.transform_values { |v| serialize_value(v) }
+          when Array
+            value.map { |v| serialize_value(v) }
+          when Hash
+            value.transform_values { |v| serialize_value(v) }
+          else
+            value
           end
         end
       end
