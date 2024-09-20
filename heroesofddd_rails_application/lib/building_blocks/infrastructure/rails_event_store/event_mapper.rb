@@ -23,8 +23,8 @@ module BuildingBlocks
 
         def domain_to_store(event)
           infra_class = domain_to_store_class(event.class)
-          #data = event_to_data(event)
-          infra_class.new(data: event)
+          data = event_to_data(event)
+          infra_class.new(data)
         end
 
         def store_to_domain(event)
@@ -47,7 +47,7 @@ module BuildingBlocks
 
         def event_to_data(event)
           if event.respond_to?(:to_h)
-            event.to_h
+            event.to_h.transform_keys(&:to_s)
           else
             event.instance_variables.each_with_object({}) do |var, hash|
               key = var.to_s.delete("@")
