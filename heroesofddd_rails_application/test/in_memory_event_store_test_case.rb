@@ -15,7 +15,7 @@ class InMemoryEventStoreTestCase < ActiveSupport::TestCase
     Rails.configuration.query_bus = Arkency::CommandBus.new
 
     Configuration.new.call(
-      Rails.configuration.event_store, Rails.configuration.command_bus
+      Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.query_bus
     )
     result
   end
