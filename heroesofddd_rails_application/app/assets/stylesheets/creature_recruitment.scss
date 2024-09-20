@@ -82,6 +82,10 @@
 
 .creatures__counts {
   display: flex;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 250px;
+  justify-content: space-between;
 }
 
 .creatures__count {
@@ -91,8 +95,6 @@
   }
   border: 1px solid #E4CF72;
   padding: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
   .count_title{
     padding-bottom: 0.4rem;
   }
