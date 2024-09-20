@@ -47,6 +47,7 @@
     margin: 0;
     text-align: center;
   }
+
   width: 140px;
   display: flex;
   flex-direction: column;
@@ -72,7 +73,7 @@
   }
 }
 
-.cost_count{
+.cost_count {
   color: #F8F0D6;
 }
 
@@ -96,20 +97,25 @@
     color: #F8F0D6;
     text-align: center;
   }
+
   border: 1px solid #E4CF72;
   padding: 1rem;
-  .count_title{
+
+  .count_title {
     padding-bottom: 0.4rem;
   }
+
   width: 100px;
 }
 
 .buttons {
   margin-top: 1.4rem;
+
   button {
     all: unset;
     cursor: pointer;
   }
+
   width: 240px;
   display: flex;
   justify-content: space-between;
