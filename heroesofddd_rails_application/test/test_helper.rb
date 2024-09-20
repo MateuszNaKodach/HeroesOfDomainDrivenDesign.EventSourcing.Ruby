@@ -23,4 +23,16 @@ module EventStoreTest
   def command_bus
     Rails.configuration.command_bus
   end
+
+  def event_mapper
+    Rails.configuration.event_mapper
+  end
+
+  def store_event(domain_event)
+    event_mapper.domain_to_store(domain_event)
+  end
+
+  def store_event_class(domain_event_class)
+    event_mapper.domain_to_store_class(domain_event_class)
+  end
 end
