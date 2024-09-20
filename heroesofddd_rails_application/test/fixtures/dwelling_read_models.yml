@@ -9,7 +9,7 @@ one:
   updated_at: 2024-09-20 12:02:43.025745
 
 two:
-  id: f8cca8b6-a714-443b-91d0-456d0f0386cb
+  id: 6ffc3cb2-826f-4c41-940a-bf63773d0033
   creature_id: angel
   available_creatures: 1
   cost_per_troop: { 'resources': { 'GOLD': 3000, 'GEM': 1 } }
