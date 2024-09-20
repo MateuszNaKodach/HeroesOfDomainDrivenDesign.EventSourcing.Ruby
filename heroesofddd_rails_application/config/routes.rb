@@ -12,5 +12,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  get "heroes/creature_recruitment/dwellings", to: "heroes/creature_recruitment/dwellings#index"
+  # get "heroes/creature_recruitment/dwellings", to: "heroes/creature_recruitment/dwellings#index"
+  namespace :heroes do
+    namespace :creature_recruitment do
+      resources :dwellings, only: [ :index, :show ]
+    end
+  end
 end
