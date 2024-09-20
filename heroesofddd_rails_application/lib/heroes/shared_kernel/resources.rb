@@ -37,6 +37,10 @@ module Heroes
           resource_map = resources.transform_values { |amount| Amount.new(amount.raw * multiplier) }
           self.class.new(resource_map)
         end
+
+        def map_resources(&block)
+          resources.transform_values { |amount| block.call(amount) }
+        end
       end
     end
   end
