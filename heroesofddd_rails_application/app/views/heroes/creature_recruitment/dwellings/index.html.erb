@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="creatures__count-slider">
-          <input type="range" min="0" max="<%= @dwelling.available_creatures %>" value="1" class="slider" id="recruit-slider">
+          <input type="range" min="1" max="<%= @dwelling.available_creatures %>" value="1" class="slider" id="recruit-slider">
         </div>
       </div>
       <div class="cost-per-troop">
@@ -36,7 +36,7 @@
           <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
             <div class="<%= resource.downcase %>_cost">
               <%= image_tag "#{resource.downcase}_resource.png", alt: "#{resource.capitalize} resource" %>
-              <div class="cost_count"><%= amount %></div>
+              <div class="cost_count" id="total-<%= resource.downcase %>"><%= amount %></div>
             </div>
           <% end %>
         </div>
@@ -44,41 +44,15 @@
     </div>
 
     <div class="buttons">
-      <button class="select_all_buttons">
+      <button class="select_all_buttons" id="select-all-btn">
         <%= image_tag "button_select_all.png", alt: "Select All", class: "button-image" %>
       </button>
-      <button class="recruit_button">
+      <button class="recruit_button" id="recruit-btn">
         <%= image_tag "button_recruit.png", alt: "Recruit", class: "button-image" %>
       </button>
-      <button class="cancel_button">
+      <button class="cancel_button" id="cancel-btn">
         <%= image_tag "button_cancel.png", alt: "Cancel", class: "button-image" %>
       </button>
     </div>
   </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const slider = document.getElementById('recruit-slider');
-        const recruitCount = document.getElementById('recruit-count');
-        const totalCost = document.getElementById('total-cost');
-
-        slider.addEventListener('input', function() {
-            recruitCount.textContent = this.value;
-            updateTotalCost(this.value);
-        });
-
-        function updateTotalCost(count) {
-            let costHtml = '';
-            <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
-            costHtml += `
-        <div class="<%= resource.downcase %>_cost">
-          <%= image_tag "#{resource.downcase}_resource.png", alt: "#{resource.capitalize} resource" %>
-          <div class="cost_count">${<%= amount %> * count}</div>
-        </div>
-      `;
-            <% end %>
-            totalCost.innerHTML = costHtml;
-        }
-    });
-</script>
