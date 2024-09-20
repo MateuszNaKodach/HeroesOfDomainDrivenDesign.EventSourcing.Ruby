@@ -1,1 +1,63 @@
-<h1>Hello, Rails!</h1>
+<div class="page-container">
+  <div class="recruitment-component">
+    <h1 class="title-text">Recruit Angels</h1>
+    <%= image_tag "RecruitAngelImage.png", alt: "Description of image", class: "creature-image" %>
+
+    <div class="controls">
+      <div class="cost-per-troop">
+        <p>Cost Per Troop</p>
+        <div class="cost_details">
+          <div class="gold_cost">
+            <%= image_tag "gold_resource.png", alt: "Description of image" %>
+            <div class="cost_count">3000</div>
+          </div>
+          <div class="resource_cost">
+            <%= image_tag "gem_resource.png", alt: "Description of image" %>
+            <div class="cost_count">1</div>
+          </div>
+        </div>
+      </div>
+      <div class="controls__center">
+        <div class="creatures__counts">
+          <div class="creatures__count">
+            <div class="count_title">Available</div>
+            <div class="count">0</div>
+          </div>
+          <div class="creatures__count">
+            <div class="count_title">Recruit</div>
+            <div class="count">2</div>
+          </div>
+        </div>
+        <div class="creatures__count-slider">
+          <input type="range" min="1" max="3" value="2" class="slider">
+        </div>
+      </div>
+      <div class="cost-per-troop">
+        <p>Total Cost</p>
+        <div class="cost_details">
+          <div class="gold_cost">
+            <%= image_tag "gold_resource.png", alt: "Description of image" %>
+            <div class="cost_count">3000</div>
+          </div>
+          <div class="resource_cost">
+            <%= image_tag "gem_resource.png", alt: "Description of image" %>
+            <div class="cost_count">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="select_all_buttons">
+        <%= image_tag "button_select_all.png", alt: "Description of image", class: "button-image" %>
+      </button>
+      <button class="recruit_button">
+        <%= image_tag "button_recruit.png", alt: "Description of image", class: "button-image" %>
+      </button>
+      <button class="cancel_button">
+        <%= image_tag "button_cancel.png", alt: "Description of image", class: "button-image" %>
+      </button>
+    </div>
+  </div>
+
+</div>
