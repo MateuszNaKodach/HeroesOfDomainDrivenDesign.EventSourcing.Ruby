@@ -9,7 +9,7 @@ module Heroes
 
   class DwellingProjection
     def call(event_store, event_type_mapper)
-      infra_event_class = event_type_mapper.domain_to_infra_class(DwellingBuilt)
+      infra_event_class = event_type_mapper.domain_to_store_class(DwellingBuilt)
       event_store.subscribe(OnDwellingBuilt, to: [ infra_event_class ])
     end
   end
