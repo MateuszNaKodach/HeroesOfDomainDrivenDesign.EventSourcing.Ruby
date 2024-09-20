@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   # get "heroes/creature_recruitment/dwellings", to: "heroes/creature_recruitment/dwellings#index"
   namespace :heroes do
     namespace :creature_recruitment do
-      resources :dwellings, only: [:index, :show]
+      resources :dwellings, only: [ :index, :show ]
     end
   end
 end

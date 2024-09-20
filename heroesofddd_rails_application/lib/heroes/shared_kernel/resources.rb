@@ -1,7 +1,7 @@
 module Heroes
   module SharedKernel
     module Resources
-      Type = [:GOLD, :WOOD, :ORE, :MERCURY, :SULFUR, :CRYSTAL, :GEMS]
+      Type = [ :GOLD, :WOOD, :ORE, :MERCURY, :SULFUR, :CRYSTAL, :GEMS ]
 
       Amount = Data.define(:raw) do
         def self.of(raw)
@@ -29,7 +29,7 @@ module Heroes
 
       Cost = Data.define(:resources) do
         def self.resources(*resources)
-          resource_map = resources.to_h { |type, amount| [type, Amount.new(amount)] }
+          resource_map = resources.to_h { |type, amount| [ type, Amount.new(amount) ] }
           new(resource_map)
         end
 

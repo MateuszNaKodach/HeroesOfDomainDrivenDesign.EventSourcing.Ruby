@@ -65,12 +65,6 @@
         const recruitBtn = document.getElementById('recruit-btn');
         const cancelBtn = document.getElementById('cancel-btn');
 
-        const costPerTroop = {
-        <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
-        <%= resource.downcase %>: <%= amount %>,
-        <% end %>
-    };
-
         function updateTotalCost(count) {
             <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
             document.getElementById('total-<%= resource.downcase %>').textContent = count * <%= amount %>;
