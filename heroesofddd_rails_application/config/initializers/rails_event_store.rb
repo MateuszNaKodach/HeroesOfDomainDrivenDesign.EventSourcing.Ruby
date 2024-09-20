@@ -1,7 +1,6 @@
 require "rails_event_store"
 require "aggregate_root"
 require "arkency/command_bus"
-require "building_blocks/infrastructure/rails_event_store/event_mapper"
 
 Rails.configuration.to_prepare do
   Rails.configuration.event_store = RailsEventStore::JSONClient.new
@@ -9,12 +8,6 @@ Rails.configuration.to_prepare do
   Rails.configuration.command_bus = Arkency::CommandBus.new
   Rails.configuration.query_bus = Arkency::CommandBus.new
 
-  app_config = {
-    event_store: Rails.configuration.event_store,
-    event_mapper: BuildingBlocks::Infrastructure::RailsEventStore::EventMapper.new,
-    command_bus: Arkency::CommandBus.new,
-    query_bus: Arkency::CommandBus.new
-  }
   AggregateRoot.configure do |config|
     config.default_event_store = Rails.configuration.event_store
   end
@@ -36,5 +29,5 @@ Rails.configuration.to_prepare do
   #   bus.register(SubmitOrder, ->(cmd) { Ordering::OnSubmitOrder.new.call(cmd) })
   # end
 
-  Configuration.new.call(app_config)
+  Configuration.new.call(Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.query_bus)
 end

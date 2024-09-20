@@ -13,3 +13,14 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+
+module EventStoreTest
+  def event_store
+    Rails.configuration.event_store
+  end
+
+  def command_bus
+    Rails.configuration.command_bus
+  end
+end

@@ -1,6 +1,6 @@
 class Configuration
-  def call(app_config)
-    Heroes::Configuration.new.call(app_config[:event_store], app_config[:command_bus], app_config[:query_bus])
+  def call(event_store, command_bus, query_bus)
+    Heroes::Configuration.new.call(event_store, command_bus, query_bus)
   end
 
   private
