@@ -56,3 +56,53 @@
     </div>
   </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const slider = document.getElementById('recruit-slider');
+        const recruitCount = document.getElementById('recruit-count');
+        const selectAllBtn = document.getElementById('select-all-btn');
+        const recruitBtn = document.getElementById('recruit-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+
+        const costPerTroop = {
+        <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
+        <%= resource.downcase %>: <%= amount %>,
+        <% end %>
+    };
+
+        function updateTotalCost(count) {
+            <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
+            document.getElementById('total-<%= resource.downcase %>').textContent = count * <%= amount %>;
+            <% end %>
+        }
+
+        function updateRecruitCount(count) {
+            recruitCount.textContent = count;
+            updateTotalCost(count);
+        }
+
+        // Initialize with 1
+        updateRecruitCount(1);
+
+        slider.addEventListener('input', function() {
+            const count = parseInt(this.value);
+            updateRecruitCount(count);
+        });
+
+        selectAllBtn.addEventListener('click', function() {
+            slider.value = <%= @dwelling.available_creatures %>;
+            updateRecruitCount(<%= @dwelling.available_creatures %>);
+        });
+
+        recruitBtn.addEventListener('click', function() {
+            const count = parseInt(slider.value);
+            alert(`Recruiting ${count} <%= @dwelling.creature_id.capitalize.pluralize %>!`);
+            // Here you would typically send an AJAX request to your server
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            window.location.href = '<%= heroes_creature_recruitment_dwellings_path %>';
+        });
+    });
+</script>
