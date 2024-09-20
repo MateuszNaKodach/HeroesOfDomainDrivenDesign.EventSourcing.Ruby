@@ -15,10 +15,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
-  width: 480px;
+  min-height: 400px;
+  min-width: 480px;
   flex-direction: column;
   background-image: asset-url("Heroes3MenuBackground.png");
+  padding: 3rem;
 }
 
 .title-text {
@@ -41,7 +42,7 @@
 .cost-per-troop {
   p {
     font-size: 1rem;
-    color: #F9E18F;
+    color: #F8F0D6;
     font-weight: 400;
     margin: 0;
     text-align: center;
@@ -50,7 +51,7 @@
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid #E4CF72 ;
+  border: 1px solid #E4CF72;
 
   .cost_details {
     margin-top: 0.5rem;
@@ -77,4 +78,23 @@
 
 .controls {
   margin-top: 2rem;
+}
+
+.creatures__counts {
+  display: flex;
+}
+
+.creatures__count {
+  * {
+    color: #F8F0D6;
+    text-align: center;
+  }
+  border: 1px solid #E4CF72;
+  padding: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  .count_title{
+    padding-bottom: 0.4rem;
+  }
+  width: 100px;
 }
