@@ -9,7 +9,7 @@ module Heroes
 
   class DwellingProjection
     def call(event_store, event_type_mapper)
-      infra_event_class = event_type_mapper.domain_to_infra_class(DwellingBuilt)
+      infra_event_class = event_type_mapper.domain_to_store_class(DwellingBuilt)
       event_store.subscribe(OnDwellingBuilt, to: [ infra_event_class ])
     end
   end
@@ -19,12 +19,12 @@ module Heroes
       id = event.data.fetch(:dwelling_id)
       creature_id = event.data.fetch(:creature_id)
       available_creatures = 4 # for a while
-      cost_per_troop = event.data.fetch(:cost_per_troop).map_resources { |v| v.raw }
+      cost_per_troop = event.data.fetch(:cost_per_troop)
       dwelling = DwellingReadModel.create(
         id: id,
         creature_id: creature_id,
         available_creatures: available_creatures,
-        cost_per_troop: { resources: cost_per_troop }) # todo: transform to domain event before?
+        cost_per_troop: cost_per_troop)
       dwelling.save!
     end
   end
