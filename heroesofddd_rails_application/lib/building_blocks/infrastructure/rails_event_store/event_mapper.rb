@@ -29,8 +29,8 @@ module BuildingBlocks
 
         def store_to_domain(event)
           domain_class = store_to_domain_class(event.class)
-          # domain_class.new(**event.data.transform_keys(&:to_sym))
-          domain_class.new(**event.data.deep_symbolize_keys)
+          json_data = JSON.parse(event.data, symbolize_names: true)
+          domain_class.new(**json_data)
         end
 
         private
@@ -57,18 +57,6 @@ module BuildingBlocks
           end
         end
 
-        def serialize_value(value)
-          case value
-          when Data
-            value.to_h.transform_values { |v| serialize_value(v) }
-          when Array
-            value.map { |v| serialize_value(v) }
-          when Hash
-            value.transform_values { |v| serialize_value(v) }
-          else
-            value
-          end
-        end
       end
     end
   end
