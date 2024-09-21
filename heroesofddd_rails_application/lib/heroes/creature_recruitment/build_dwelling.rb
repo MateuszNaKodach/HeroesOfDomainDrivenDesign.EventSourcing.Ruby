@@ -19,7 +19,7 @@ module Heroes
 
         result_events = Dwelling.decide(command, state)
 
-        infra_events = result_events.map { |event| @event_type_mapper.domain_to_infra(event) }
+        infra_events = result_events.map { |event| @event_type_mapper.domain_to_store(event) }
         expected_stream_version = stored_events.count - 1
         @event_store.publish(infra_events, stream_name: stream_name, expected_version: expected_stream_version)
       end
@@ -32,7 +32,7 @@ module Heroes
 
       def state_from(events)
         events.reduce(Dwelling.initial_state) do |state, event|
-          Dwelling.evolve(state, @event_type_mapper.infra_to_domain(event))
+          Dwelling.evolve(state, @event_type_mapper.store_to_domain(event))
         end
       end
 
