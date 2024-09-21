@@ -58,7 +58,8 @@ module EventStoreTest
 
   def assert_event_matches(events, event_class, data)
     matching_event = events.find do |event|
-      data.all? { |key, value| event.data[key] == value }
+      event_data = event.data.deep_symbolize_keys
+      data.all? { |key, value| event_data[key] == value }
     end
     assert matching_event, "Expected to find a #{event_class} event with data #{data}, but none was found."
   end

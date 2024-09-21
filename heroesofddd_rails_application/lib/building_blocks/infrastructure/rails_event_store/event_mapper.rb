@@ -47,15 +47,12 @@ module BuildingBlocks
         end
 
         def event_to_data(event)
-          if event.is_a?(Data)
-            event.to_h.transform_values { |v| serialize_value(v) }.deep_symbolize_keys
-          elsif event.respond_to?(:to_h)
+          if event.respond_to?(:to_h)
             event.to_h.deep_symbolize_keys
           else
             event.instance_variables.each_with_object({}) do |var, hash|
-              key = var.to_s.delete("@").to_sym
-              value = event.instance_variable_get(var)
-              hash[key] = serialize_value(value)
+              key = var.to_s.delete("@")
+              hash[key] = event.instance_variable_get(var)
             end
           end
         end
