@@ -22,7 +22,7 @@ module BuildingBlocks
         end
 
         def domain_to_store(event)
-          #todo: check if instance of the ruby event store event class
+          # todo: check if instance of the ruby event store event class
           infra_class = domain_to_store_class(event.class)
           data = event_to_data(event)
           infra_class.new(data: data)
@@ -57,7 +57,6 @@ module BuildingBlocks
             end
           end
         end
-
       end
     end
   end

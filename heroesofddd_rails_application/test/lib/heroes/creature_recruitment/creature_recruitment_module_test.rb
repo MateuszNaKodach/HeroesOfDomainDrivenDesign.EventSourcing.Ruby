@@ -8,7 +8,7 @@ module Heroes
         super
         @dwelling_id = SecureRandom.uuid
         @creature_id = "angel"
-        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
+        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
       end
 
       def test_equality_event
@@ -18,8 +18,8 @@ module Heroes
       end
 
       def test_equality_cost
-        cost_1 = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
-        cost_2 = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:CRYSTAL, 1])
+        cost_1 = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
+        cost_2 = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
         assert_equal cost_1, cost_2
       end
 
