@@ -28,6 +28,18 @@ module BuildingBlocks
             domain_event
           end
         end
+
+        def store_to_domain(store_event)
+          mapping = @mappings.values.find { |m| m[:storage_class] == store_event.class }
+
+          if mapping && !mapping[:to_domain].nil?
+            # Use the provided to_domain lambda to map the store event back to a domain event
+            mapping[:to_domain].call(store_event)
+          else
+            # Default case, return the event as is (for RubyEventStore::Event)
+            store_event
+          end
+        end
       end
     end
   end

@@ -102,6 +102,39 @@ module BuildingBlocks
           assert_equal domain_event.value1, store_event.data[:value1]
           assert_equal domain_event.value2.hash_value, store_event.data[:value2]
         end
+
+        def test_store_to_domain_round_trip_mapping
+          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+
+          # Register mappings between DomainEvent and StorageEvent
+          event_registry.map_event_type(
+            DomainEvent,
+            StorageEvent,
+            ->(domain_event) {
+              # Map DomainEvent to StorageEvent
+              StorageEvent.new(data: { value1: domain_event.value1, value2: domain_event.value2.hash_value })
+            },
+            ->(store_event) {
+              # Map StorageEvent back to DomainEvent
+              DomainEvent.new(value1: store_event.data[:value1], value2: NestedHash.new(store_event.data[:value2]))
+            }
+          )
+
+          # Create an instance of DomainEvent
+          original_domain_event = DomainEvent.new(value1: "test_value1", value2: NestedHash.new({ cost: { value: 10, currency: "PLN" } }))
+
+          # Convert DomainEvent to StorageEvent
+          store_event = event_registry.domain_to_store(original_domain_event)
+
+          # Convert back from StorageEvent to DomainEvent
+          restored_domain_event = event_registry.store_to_domain(store_event)
+
+          # Assert that the original DomainEvent and the restored DomainEvent are equal
+          assert_equal original_domain_event.value1, restored_domain_event.value1
+          assert_equal original_domain_event.value2.hash_value, restored_domain_event.value2.hash_value
+          assert_equal original_domain_event, restored_domain_event
+        end
+
       end
     end
   end
