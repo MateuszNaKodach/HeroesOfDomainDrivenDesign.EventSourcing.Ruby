@@ -35,6 +35,8 @@ module Heroes
           Dwelling.evolve(state, @event_type_mapper.store_to_domain(event))
         end
       end
+
+      private def domain_to_store(event) end
     end
   end
 end
@@ -42,6 +44,26 @@ end
 module EventStore
   module Heroes
     module CreatureRecruitment
+      DwellingBuilt = Class.new(RailsEventStore::Event) do
+        def from_domain(domain_event)
+          ::EventStore::CreatureRecruitment::DwellingBuilt.new(
+            data: {
+              dwelling_id: domain_event.dwelling_id,
+              creature_id: domain_event.creature_id,
+              cost_per_troop: domain_event.cost_per_troop
+            }
+          )
+        end
+
+        def to_domain(stored_event)
+          @data = stored_event.data
+          ::Heroes::CreatureRecruitment::DwellingBuilt.new(
+            dwelling_id: @data.fetch(:dwelling_id),
+            creature_id: @data.fetch(:creature_id),
+            cost_per_troop: @data.fetch(:cost_per_troop)
+          )
+        end
+      end
     end
   end
 end
