@@ -35,6 +35,8 @@ module Heroes
           Dwelling.evolve(state, @event_type_mapper.infra_to_domain(event))
         end
       end
+
+      private def domain_to_store(event) end
     end
   end
 end
@@ -52,6 +54,7 @@ module EventStore
             }
           )
         end
+
         def to_domain(stored_event)
           @data = stored_event.data
           ::Heroes::CreatureRecruitment::DwellingBuilt.new(
