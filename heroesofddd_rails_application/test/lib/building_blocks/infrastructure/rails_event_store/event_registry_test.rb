@@ -58,6 +58,24 @@ module BuildingBlocks
             event_registry.map_event_type(DomainEvent, StorageEvent, ->(d) { d }, nil)
           end
         end
+
+        def test_domain_to_store_returns_non_event_object_for_non_event_domain_class
+          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+
+          # Provide all arguments for a non-RubyEventStore::Event domain class
+          event_registry.map_event_type(DomainEvent, StorageEvent, ->(domain_event) { StorageEvent.new(data: domain_event) }, ->(store_event) { store_event })
+
+          # Create an instance of DomainEvent (which doesn't extend RubyEventStore::Event)
+          domain_event = DomainEvent.new(value1: "test_value1", value2: NestedHash.new({ cost: { value: 10, currency: "PLN" } }))
+
+          # Call domain_to_store
+          store_event = event_registry.domain_to_store(domain_event)
+
+          # Assert that the returned object is different from RubyEventStore::Event
+          refute_equal domain_event, store_event
+          refute_instance_of StorageEvent, domain_event
+          assert_instance_of StorageEvent, store_event
+        end
       end
     end
   end
