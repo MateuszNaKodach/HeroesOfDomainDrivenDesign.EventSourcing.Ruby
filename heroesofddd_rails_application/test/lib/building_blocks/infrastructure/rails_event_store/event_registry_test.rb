@@ -26,6 +26,38 @@ module BuildingBlocks
 
           assert_equal event_instance, store_event
         end
+
+        def test_map_event_type_raises_exception_if_args_missing_for_non_event_class
+          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+
+          # Case 1: No exception if domain_class extends RubyEventStore::Event and no other arguments are passed
+          assert_silent do
+            event_registry.map_event_type(StorageEvent)
+          end
+
+          # Case 2: Raise error if domain_class does not extend RubyEventStore::Event and arguments are nil
+          assert_raises(ArgumentError) do
+            event_registry.map_event_type(DomainEvent) # No other arguments
+          end
+
+          # Case 3: No exception if all arguments are provided for a non-RubyEventStore::Event class
+          assert_silent do
+            event_registry.map_event_type(DomainEvent, StorageEvent, ->(d) { d }, ->(s) { s })
+          end
+
+          # Case 4: Raise error if any argument is nil for a non-RubyEventStore::Event class
+          assert_raises(ArgumentError) do
+            event_registry.map_event_type(DomainEvent, nil, ->(d) { d }, ->(s) { s })
+          end
+
+          assert_raises(ArgumentError) do
+            event_registry.map_event_type(DomainEvent, StorageEvent, nil, ->(s) { s })
+          end
+
+          assert_raises(ArgumentError) do
+            event_registry.map_event_type(DomainEvent, StorageEvent, ->(d) { d }, nil)
+          end
+        end
       end
     end
   end
