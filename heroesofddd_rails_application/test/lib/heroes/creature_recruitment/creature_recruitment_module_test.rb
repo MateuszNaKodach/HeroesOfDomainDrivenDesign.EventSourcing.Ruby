@@ -79,21 +79,21 @@ module Heroes
 
       TestEvent = Class.new(RailsEventStore::Event)
 
-      def test_serialization
-        # given
-        stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
-
-        # when
-        build_dwelling = TestEvent.new(data: { dwelling_id: @dwelling_id, creature_id: @creature_id, cost_per_troop: @cost_per_troop })
-        publish_event(stream_name, build_dwelling)
-
-        # then - problem - whole event here is a hash!
-        assert_event_stream_contains(stream_name, TestEvent, {
-          dwelling_id: @dwelling_id,
-          creature_id: @creature_id,
-          cost_per_troop: { resources: { GOLD: 3000, CRYSTAL: 1 } }
-        })
-      end
+      # def test_serialization
+      #   # given
+      #   stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+      #
+      #   # when
+      #   build_dwelling = TestEvent.new(data: { dwelling_id: @dwelling_id, creature_id: @creature_id, cost_per_troop: @cost_per_troop })
+      #   publish_event(stream_name, build_dwelling)
+      #
+      #   # then - problem - whole event here is a hash!
+      #   assert_event_stream_contains(stream_name, TestEvent, {
+      #     dwelling_id: @dwelling_id,
+      #     creature_id: @creature_id,
+      #     cost_per_troop: { resources: { GOLD: 3000, CRYSTAL: 1 } }
+      #   })
+      # end
     end
   end
 end

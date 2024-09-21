@@ -22,6 +22,7 @@ module BuildingBlocks
         end
 
         def domain_to_store(event)
+          #todo: check if instance of the ruby event store event class
           infra_class = domain_to_store_class(event.class)
           data = event_to_data(event)
           infra_class.new(data: data)
@@ -29,7 +30,7 @@ module BuildingBlocks
 
         def store_to_domain(event)
           domain_class = store_to_domain_class(event.class)
-          json_data = JSON.parse(event.data, symbolize_names: true)
+          json_data = event.data.deep_symbolize_keys
           domain_class.new(**json_data)
         end
 
