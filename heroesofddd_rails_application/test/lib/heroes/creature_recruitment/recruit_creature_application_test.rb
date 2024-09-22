@@ -11,7 +11,7 @@ module Heroes
         super
         @dwelling_id = SecureRandom.uuid
         @creature_id = "angel"
-        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:GEM, 1])
+        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
         @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
       end
 
@@ -49,6 +49,21 @@ module Heroes
 
         # then
         expected_event = CreatureRecruited.new(@dwelling_id, @creature_id, 1, @cost_per_troop)
+        then_domain_event(@stream_name, expected_event)
+      end
+
+      def test_given_dwelling_with_3_creature_when_recruit_2_creature_then_success
+        # given
+        given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
+        given_domain_event(@stream_name, AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 3))
+
+        # when
+        recruit_creature = RecruitCreature.new(@dwelling_id, @creature_id, 2)
+        execute_command(recruit_creature)
+
+        # then
+        expected_cost = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 6000 ], [ :GEM, 2 ])
+        expected_event = CreatureRecruited.new(@dwelling_id, @creature_id, 2, expected_cost)
         then_domain_event(@stream_name, expected_event)
       end
 
