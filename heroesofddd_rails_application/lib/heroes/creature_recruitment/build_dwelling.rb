@@ -22,6 +22,7 @@ module Heroes
   end
 end
 
+# todo: consider move to to another file, because of loading files - eg. in domain test
 module EventStore
   module Heroes
     module CreatureRecruitment
