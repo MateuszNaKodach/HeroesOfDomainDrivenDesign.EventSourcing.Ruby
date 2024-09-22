@@ -1,3 +1,5 @@
+require "rails_event_store"
+
 module Heroes
   module CreatureRecruitment
     BuildDwelling = Data.define(:dwelling_id, :creature_id, :cost_per_troop)

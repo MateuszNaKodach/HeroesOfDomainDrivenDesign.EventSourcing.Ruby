@@ -1,5 +1,4 @@
 require "minitest/autorun"
-require "rails_event_store"
 require_relative "../../../../lib/heroes/creature_recruitment/build_dwelling"
 require_relative "../../../../lib/heroes/creature_recruitment/dwelling"
 require_relative "../../../../lib/heroes/shared_kernel/resources"
