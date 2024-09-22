@@ -56,6 +56,8 @@ module Heroes
         end
 
         def increase_available_creatures(command, state)
+          raise ::Heroes::CreatureRecruitment::OnlyBuiltDwellingCanHaveAvailableCreatures unless state.is_a?(Built)
+
           [
             AvailableCreaturesChanged.new(dwelling_id: command.dwelling_id,
                                           creature_id: command.creature_id,
