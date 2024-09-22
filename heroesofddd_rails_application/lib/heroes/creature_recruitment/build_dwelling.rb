@@ -18,7 +18,7 @@ end
 module EventStore
   module Heroes
     module CreatureRecruitment
-      DwellingBuilt = Class.new(RailsEventStore::Event) do
+      DwellingBuilt = Class.new(RubyEventStore::Event) do
         def self.from_domain(domain_event)
           ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.new(
             data: {

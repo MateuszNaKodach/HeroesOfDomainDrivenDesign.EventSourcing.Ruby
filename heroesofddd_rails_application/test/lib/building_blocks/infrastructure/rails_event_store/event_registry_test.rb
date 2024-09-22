@@ -1,10 +1,10 @@
 require "minitest/autorun"
 require "rails_event_store"
-require_relative "../../../../../lib/building_blocks/infrastructure/rails_event_store/event_registry"
+require_relative "../../../../../lib/building_blocks/infrastructure/event_store/event_registry"
 
 module BuildingBlocks
   module Infrastructure
-    module RailsEventStore
+    module EventStore
       DomainEvent = Data.define(:value1, :value2)
       StorageEvent = Class.new(RubyEventStore::Event)
       NestedHash = Data.define(:hash_value)
@@ -17,7 +17,7 @@ module BuildingBlocks
       class EventRegistryTest < Minitest::Test
         def test_map_domain_to_store_for_domain_extends_rubyeventstore_event
           # given
-          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+          event_registry = ::BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
           event_registry.map_event_type(StorageEvent)
 
           # when
@@ -28,7 +28,7 @@ module BuildingBlocks
         end
 
         def test_map_event_type_raises_exception_if_args_missing_for_non_event_class
-          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+          event_registry = ::BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
 
           # Case 1: No exception if domain_class extends RubyEventStore::Event and no other arguments are passed
           assert_silent do
@@ -60,7 +60,7 @@ module BuildingBlocks
         end
 
         def test_domain_to_store_returns_non_event_object_for_non_event_domain_class
-          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+          event_registry = ::BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
 
           # Provide all arguments for a non-RubyEventStore::Event domain class
           event_registry.map_event_type(DomainEvent, StorageEvent, ->(domain_event) { StorageEvent.new(data: domain_event) }, ->() { })
@@ -78,7 +78,7 @@ module BuildingBlocks
         end
 
         def test_domain_to_store_maps_domain_event_to_storage_event_using_mapping_function
-          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+          event_registry = ::BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
 
           # Provide all arguments for a non-RubyEventStore::Event domain class
           event_registry.map_event_type(
@@ -104,7 +104,7 @@ module BuildingBlocks
         end
 
         def test_store_to_domain_round_trip_mapping
-          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+          event_registry = ::BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
 
           # Register mappings between DomainEvent and StorageEvent
           event_registry.map_event_type(
@@ -136,7 +136,7 @@ module BuildingBlocks
         end
 
         def test_domain_to_store_with_complex_nested_object
-          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+          event_registry = ::BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
 
           # Register mappings between DomainEvent and StorageEvent with nested objects
           event_registry.map_event_type(
@@ -177,7 +177,7 @@ module BuildingBlocks
         end
 
         def test_domain_to_store_with_date_time_and_symbols
-          event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
+          event_registry = ::BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
 
           # Register mappings between DomainEvent and StorageEvent with different Ruby types
           event_registry.map_event_type(

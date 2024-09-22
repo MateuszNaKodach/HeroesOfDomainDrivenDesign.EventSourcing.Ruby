@@ -1,6 +1,6 @@
 module BuildingBlocks
   module Infrastructure
-    module RailsEventStore
+    module EventStore
       class EventRegistry
         def initialize
           super
