@@ -96,8 +96,6 @@ module Heroes
           execute_command(recruit_creature)
         end
       end
-
-
     end
   end
 end
