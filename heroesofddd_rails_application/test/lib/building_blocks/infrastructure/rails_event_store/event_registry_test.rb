@@ -72,8 +72,8 @@ module BuildingBlocks
           store_event = event_registry.domain_to_store(domain_event)
 
           # Assert that the returned object is different from RubyEventStore::Event
-          refute_equal domain_event, store_event
-          refute_instance_of StorageEvent, domain_event
+          assert_not_equal domain_event, store_event
+          assert_not_instance_of StorageEvent, domain_event
           assert_instance_of StorageEvent, store_event
         end
 
