@@ -1,6 +1,6 @@
 require "building_blocks/infrastructure/event_sourcing_application_service"
-require "heroes/creature_recruitment/build_dwelling"
-require "heroes/creature_recruitment/dwelling"
+require "heroes/creature_recruitment/write/build_dwelling/command_build_dwelling"
+require "heroes/creature_recruitment/write/dwelling"
 
 module Heroes
   module CreatureRecruitment

@@ -1,3 +1,6 @@
+require_relative "./build_dwelling/rule_only_not_built"
+require_relative "./build_dwelling/event_dwelling_built"
+
 module Heroes
   module CreatureRecruitment
     module Dwelling
