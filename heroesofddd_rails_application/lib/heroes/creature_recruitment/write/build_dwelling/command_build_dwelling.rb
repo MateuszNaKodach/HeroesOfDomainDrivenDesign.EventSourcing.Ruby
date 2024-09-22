@@ -3,8 +3,6 @@ require "rails_event_store"
 module Heroes
   module CreatureRecruitment
     BuildDwelling = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
-    OnlyNotBuiltBuildingCanBeBuild = Class.new(StandardError)
-    DwellingBuilt = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
 
     class BuildDwellingCommandHandler
       def initialize(application_service, event_registry)

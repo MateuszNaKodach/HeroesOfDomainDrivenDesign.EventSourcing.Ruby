@@ -24,8 +24,8 @@ module BuildingBlocks
 
       private
 
-      def state_from(events)
-        events.reduce(@decider.initial_state) do |state, event|
+      def state_from(stored_events)
+        stored_events.reduce(@decider.initial_state) do |state, event|
           @decider.evolve(state, @event_registry.store_to_domain(event))
         end
       end
