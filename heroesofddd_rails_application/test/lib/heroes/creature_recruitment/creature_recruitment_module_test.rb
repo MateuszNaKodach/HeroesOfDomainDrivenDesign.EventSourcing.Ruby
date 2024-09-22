@@ -58,7 +58,7 @@ module Heroes
         execute_command(build_dwelling)
 
         # then
-        assert_event_count_in_stream(stream_name, store_event_class(DwellingBuilt), 1)
+        assert_event_count_in_stream(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
       end
 
       def test_given_nothing_when_build_dwelling_then_success_event
@@ -70,7 +70,7 @@ module Heroes
         execute_command(build_dwelling)
 
         # then - problem - whole event here is a hash!
-        assert_event_stream_contains(stream_name, store_event_class(DwellingBuilt), {
+        assert_event_stream_contains(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, {
           dwelling_id: @dwelling_id,
           creature_id: @creature_id,
           cost_per_troop: { resources: { GOLD: 3000, CRYSTAL: 1 } }

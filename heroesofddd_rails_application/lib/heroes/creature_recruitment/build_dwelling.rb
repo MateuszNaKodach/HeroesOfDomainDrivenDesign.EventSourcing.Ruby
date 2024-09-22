@@ -4,8 +4,18 @@ module Heroes
     DwellingBuilt = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
 
     class BuildDwellingCommandHandler
-      def initialize(application_service)
+      def initialize(application_service, event_registry)
         @application_service = application_service
+        event_registry.map_event_type(
+          Heroes::CreatureRecruitment::DwellingBuilt,
+          ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt,
+          ->(domain_event) {
+            ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.from_domain(domain_event)
+          },
+          ->(store_event) {
+            ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.to_domain(store_event)
+          }
+        )
       end
 
       def call(command)

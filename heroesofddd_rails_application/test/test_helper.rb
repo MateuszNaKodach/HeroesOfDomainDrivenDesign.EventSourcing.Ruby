@@ -24,20 +24,16 @@ module EventStoreTest
     Rails.configuration.command_bus
   end
 
-  def event_mapper
-    Rails.configuration.event_mapper
+  def event_registry
+    Rails.configuration.event_registry
   end
 
   def store_event(domain_event)
-    event_mapper.domain_to_store(domain_event)
-  end
-
-  def store_event_class(domain_event_class)
-    event_mapper.domain_to_store_class(domain_event_class)
+    event_registry.domain_to_store(domain_event)
   end
 
   def publish_event(stream_name, domain_event)
-    store_event = event_mapper.domain_to_store(domain_event)
+    store_event = event_registry.domain_to_store(domain_event)
     event_store.publish(store_event, stream_name: stream_name)
   end
 
