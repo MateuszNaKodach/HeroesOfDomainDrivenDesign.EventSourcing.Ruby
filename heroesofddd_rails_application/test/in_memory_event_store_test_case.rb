@@ -8,14 +8,18 @@ class InMemoryEventStoreTestCase < ActiveSupport::TestCase
     @previous_event_store = Rails.configuration.event_store
     @previous_command_bus = Rails.configuration.command_bus
     @previous_query_bus = Rails.configuration.query_bus
-    Rails.configuration.event_store =  RubyEventStore::Client.new(
+    @previous_event_registry = Rails.configuration.event_registry
+    Rails.configuration.event_store = RubyEventStore::Client.new(
       repository: RubyEventStore::InMemoryRepository.new
     )
     Rails.configuration.command_bus = Arkency::CommandBus.new
     Rails.configuration.query_bus = Arkency::CommandBus.new
 
     Configuration.new.call(
-      Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.query_bus
+      Rails.configuration.event_store,
+      Rails.configuration.command_bus,
+      Rails.configuration.query_bus,
+      Rails.configuration.event_registry
     )
     result
   end
@@ -25,6 +29,7 @@ class InMemoryEventStoreTestCase < ActiveSupport::TestCase
     Rails.configuration.event_store = @previous_event_store
     Rails.configuration.command_bus = @previous_command_bus
     Rails.configuration.query_bus = @previous_query_bus
+    Rails.configuration.event_registry = @previous_event_registry
     result
   end
 

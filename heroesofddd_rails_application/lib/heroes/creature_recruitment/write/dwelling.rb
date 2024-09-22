@@ -50,7 +50,7 @@ module Heroes
         end
 
         def recruit(command, state)
-          raise ::Heroes::CreatureRecruitment::RecruitCreaturesNotExceedAvailableCreatures unless command.recruit > state.available_creatures
+          raise ::Heroes::CreatureRecruitment::RecruitCreaturesNotExceedAvailableCreatures if state.is_a?(NotBuilt) || (command.recruit > state.available_creatures)
 
           [
             DwellingBuilt.new(dwelling_id: command.dwelling_id,
