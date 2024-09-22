@@ -63,7 +63,7 @@ module BuildingBlocks
           event_registry = ::BuildingBlocks::Infrastructure::RailsEventStore::EventRegistry.new
 
           # Provide all arguments for a non-RubyEventStore::Event domain class
-          event_registry.map_event_type(DomainEvent, StorageEvent, ->(domain_event) { StorageEvent.new(data: domain_event) }, ->() {})
+          event_registry.map_event_type(DomainEvent, StorageEvent, ->(domain_event) { StorageEvent.new(data: domain_event) }, ->() { })
 
           # Create an instance of DomainEvent (which doesn't extend RubyEventStore::Event)
           domain_event = DomainEvent.new(value1: "test_value1", value2: NestedHash.new({ cost: { value: 10, currency: "PLN" } }))
@@ -72,8 +72,8 @@ module BuildingBlocks
           store_event = event_registry.domain_to_store(domain_event)
 
           # Assert that the returned object is different from RubyEventStore::Event
-          refute_equal domain_event, store_event
-          refute_instance_of StorageEvent, domain_event
+          assert_not_equal domain_event, store_event
+          assert_not_instance_of StorageEvent, domain_event
           assert_instance_of StorageEvent, store_event
         end
 
@@ -88,7 +88,7 @@ module BuildingBlocks
               # Simulate mapping by creating a StorageEvent with data from DomainEvent
               StorageEvent.new(data: { value1: domain_event.value1, value2: domain_event.value2.hash_value })
             },
-            ->() {}
+            ->() { }
           )
 
           # Create an instance of DomainEvent
@@ -164,7 +164,7 @@ module BuildingBlocks
             }
           )
 
-          complex_data = { cost: { value: 10, currency: "PLN" }, date: Date.today, items: ["item1", "item2"] }
+          complex_data = { cost: { value: 10, currency: "PLN" }, date: Date.today, items: [ "item1", "item2" ] }
           domain_event = DomainEvent.new(value1: "test_value1", value2: NestedHash.new(complex_data))
 
           store_event = event_registry.domain_to_store(domain_event)
@@ -229,8 +229,6 @@ module BuildingBlocks
           assert_equal domain_event.value2.hash_value[:status], restored_domain_event.value2.hash_value[:status]  # Symbol comparison
           assert_equal domain_event, restored_domain_event
         end
-
-
       end
     end
   end

@@ -29,7 +29,6 @@ module BuildingBlocks
           @decider.evolve(state, @event_registry.store_to_domain(event))
         end
       end
-
     end
   end
 end

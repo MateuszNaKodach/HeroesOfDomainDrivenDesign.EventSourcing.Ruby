@@ -37,11 +37,11 @@ module Heroes
       private
 
       def domain_to_store(domain_event)
-        ::EventStore::CreatureRecruitment::DwellingBuilt.from_domain(domain_event)
+        ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.from_domain(domain_event)
       end
 
       def store_to_domain(stored_event)
-        ::EventStore::CreatureRecruitment::DwellingBuilt.to_domain(stored_event)
+        ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.to_domain(stored_event)
       end
     end
   end
@@ -52,7 +52,7 @@ module EventStore
     module CreatureRecruitment
       DwellingBuilt = Class.new(RailsEventStore::Event) do
         def self.from_domain(domain_event)
-          ::EventStore::CreatureRecruitment::DwellingBuilt.new(
+          ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.new(
             data: {
               dwelling_id: domain_event.dwelling_id,
               creature_id: domain_event.creature_id,
