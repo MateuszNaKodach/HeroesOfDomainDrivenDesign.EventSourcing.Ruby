@@ -1,6 +1,9 @@
+require "rails_event_store"
+
 module Heroes
   module CreatureRecruitment
     BuildDwelling = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
+    OnlyNotBuiltBuildingCanBeBuild = Class.new(StandardError)
     DwellingBuilt = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
 
     class BuildDwellingCommandHandler
@@ -9,12 +12,8 @@ module Heroes
         event_registry.map_event_type(
           Heroes::CreatureRecruitment::DwellingBuilt,
           ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt,
-          ->(domain_event) {
-            ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.from_domain(domain_event)
-          },
-          ->(store_event) {
-            ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.to_domain(store_event)
-          }
+          ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.method(:from_domain),
+          ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.method(:to_domain)
         )
       end
 
@@ -25,6 +24,7 @@ module Heroes
   end
 end
 
+# todo: consider move to to another file, because of loading files - eg. in domain test
 module EventStore
   module Heroes
     module CreatureRecruitment
@@ -39,8 +39,8 @@ module EventStore
           )
         end
 
-        def self.to_domain(stored_event)
-          @data = stored_event.data
+        def self.to_domain(store_event)
+          @data = store_event.data
           ::Heroes::CreatureRecruitment::DwellingBuilt.new(
             dwelling_id: @data.fetch(:dwelling_id),
             creature_id: @data.fetch(:creature_id),

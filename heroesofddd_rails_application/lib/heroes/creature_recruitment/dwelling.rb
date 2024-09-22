@@ -30,9 +30,8 @@ module Heroes
         private
 
         def build(command, state)
-          if state.is_a?(Built)
-            return []
-          end
+          raise ::Heroes::CreatureRecruitment::OnlyNotBuiltBuildingCanBeBuild unless state.is_a?(NotBuilt)
+
           [ DwellingBuilt.new(dwelling_id: command.dwelling_id, creature_id: command.creature_id, cost_per_troop: command.cost_per_troop) ]
         end
       end

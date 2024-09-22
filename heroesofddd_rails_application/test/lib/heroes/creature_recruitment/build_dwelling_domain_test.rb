@@ -28,7 +28,7 @@ module Heroes
         assert_equal(expected_events, result)
       end
 
-      def test_given_built_dwelling_when_build_dwelling_then_nothing
+      def test_given_built_dwelling_when_build_dwelling_then_failed
         # given
         given_events = [
           Heroes::CreatureRecruitment::DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop)
@@ -36,11 +36,11 @@ module Heroes
 
         # when
         command = Heroes::CreatureRecruitment::BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
-        result = decide(given_events, command)
 
         # then
-        expected_events = []
-        assert_equal(expected_events, result)
+        assert_raises(OnlyNotBuiltBuildingCanBeBuild) do
+          decide(given_events, command)
+        end
       end
 
       private

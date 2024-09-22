@@ -1,3 +1,7 @@
+require "building_blocks/infrastructure/event_sourcing_application_service"
+require "heroes/creature_recruitment/build_dwelling"
+require "heroes/creature_recruitment/dwelling"
+
 module Heroes
   module CreatureRecruitment
     class Configuration
