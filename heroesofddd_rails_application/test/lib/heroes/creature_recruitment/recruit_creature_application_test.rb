@@ -67,6 +67,21 @@ module Heroes
         then_domain_event(@stream_name, expected_event)
       end
 
+      def test_given_dwelling_when_recruit_creature_not_from_this_dwelling_then_failure
+        # given
+        given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
+        given_domain_event(@stream_name, AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 3))
+
+        # when
+        another_creature_id = SecureRandom.uuid
+        recruit_creature = RecruitCreature.new(@dwelling_id, another_creature_id, 1)
+
+        # then
+        assert_raises(RecruitCreaturesNotExceedAvailableCreatures) do
+          execute_command(recruit_creature)
+        end
+      end
+
     end
   end
 end
