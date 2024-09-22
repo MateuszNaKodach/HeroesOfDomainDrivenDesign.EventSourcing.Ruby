@@ -33,7 +33,7 @@ module Heroes
           when AvailableCreaturesChanged
             state.with(available_creatures: event.changed_to)
           when CreatureRecruited
-            state.with(available_creatures: state.available_creatures - command.recruit)
+            state.with(available_creatures: state.available_creatures - event.recruited)
           else
             raise "Unknown event"
           end

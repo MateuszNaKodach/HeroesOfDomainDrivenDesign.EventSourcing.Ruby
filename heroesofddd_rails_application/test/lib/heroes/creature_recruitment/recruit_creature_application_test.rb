@@ -67,7 +67,7 @@ module Heroes
         then_domain_event(@stream_name, expected_event)
       end
 
-      def test_given_dwelling_when_recruit_creature_not_from_this_dwelling_then_failure
+      def test_given_dwelling_when_recruit_creature_not_from_this_dwelling_then_failed
         # given
         given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
         given_domain_event(@stream_name, AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 3))
@@ -81,6 +81,22 @@ module Heroes
           execute_command(recruit_creature)
         end
       end
+
+      def test_given_dwelling_with_recruited_all_available_creatures_at_once_when_recruit_creature_then_failed
+        # given
+        given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
+        given_domain_event(@stream_name, AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 5))
+        given_domain_event(@stream_name, CreatureRecruited.new(@dwelling_id, @creature_id, 5, @cost_per_troop * 5))
+
+        # when
+        recruit_creature = RecruitCreature.new(@dwelling_id, @creature_id, 1)
+
+        # then
+        assert_raises(RecruitCreaturesNotExceedAvailableCreatures) do
+          execute_command(recruit_creature)
+        end
+      end
+
 
     end
   end
