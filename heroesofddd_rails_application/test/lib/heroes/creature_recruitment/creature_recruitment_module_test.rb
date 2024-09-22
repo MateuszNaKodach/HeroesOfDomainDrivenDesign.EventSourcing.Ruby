@@ -45,8 +45,8 @@ module Heroes
 
         # then
         assert_raise(&action)
-        #read_model = DwellingReadModel.find_by(id: @dwelling_id)
-        #assert_not_nil(read_model)
+        # read_model = DwellingReadModel.find_by(id: @dwelling_id)
+        # assert_not_nil(read_model)
       end
 
       def test_given_dwelling_built_when_build_same_dwelling_one_more_time_then_failure_and_event_not_duplicated
