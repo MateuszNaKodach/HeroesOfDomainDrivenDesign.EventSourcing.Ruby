@@ -51,14 +51,14 @@ module Heroes
       def test_given_dwelling_built_when_build_same_dwelling_one_more_time_then_nothing
         # given
         stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        publish_event(stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
+        given_domain_event(stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
 
         # when
         build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
         execute_command(build_dwelling)
 
         # then
-        assert_event_count_in_stream(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
+        then_stored_events_count(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
       end
 
       def test_given_nothing_when_build_dwelling_then_success_event
@@ -70,7 +70,7 @@ module Heroes
         execute_command(build_dwelling)
 
         # then - problem - whole event here is a hash!
-        assert_event_stream_contains(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, {
+        then_stored_event(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, {
           dwelling_id: @dwelling_id,
           creature_id: @creature_id,
           cost_per_troop: { resources: { GOLD: 3000, CRYSTAL: 1 } }
@@ -85,10 +85,10 @@ module Heroes
 
         # when
         build_dwelling = TestEvent.new(data: { dwelling_id: @dwelling_id, creature_id: @creature_id, cost_per_troop: @cost_per_troop })
-        publish_event(stream_name, build_dwelling)
+        given_domain_event(stream_name, build_dwelling)
 
         # then - problem - whole event here is a hash!
-        assert_event_stream_contains(stream_name, TestEvent, {
+        then_stored_event(stream_name, TestEvent, {
           dwelling_id: @dwelling_id,
           creature_id: @creature_id,
           cost_per_troop: { resources: { GOLD: 3000, CRYSTAL: 1 } }

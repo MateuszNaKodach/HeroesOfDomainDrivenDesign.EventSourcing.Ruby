@@ -28,40 +28,27 @@ module EventStoreTest
     Rails.configuration.event_registry
   end
 
-  def store_event(domain_event)
-    event_registry.domain_to_store(domain_event)
-  end
-
-  def publish_event(stream_name, domain_event)
+  def given_domain_event(stream_name, domain_event)
     store_event = event_registry.domain_to_store(domain_event)
     event_store.publish(store_event, stream_name: stream_name)
   end
 
-  def assert_event_present(event_class, data)
-    events = event_store.read.of_type(event_class).to_a
-    assert_event_matches(events, event_class, data)
-  end
-
-  def assert_event_stream_contains(stream_name, event_class, data)
+  def then_stored_event(stream_name, event_class, data)
     events = event_store.read.stream(stream_name).of_type(event_class).to_a
-    assert_event_matches(events, event_class, data)
+    assert_event_with_data(events, event_class, data)
   end
 
-  def assert_event_count(event_class, expected_count)
-    actual_count = event_store.read.of_type(event_class).to_a.size
-    assert_equal expected_count, actual_count, "Expected #{expected_count} #{event_class} events, but found #{actual_count}."
+  def then_stored_events_count(stream_name, event_class, expected_count)
+    actual_count = event_store.read.stream(stream_name).of_type(event_class).to_a.size
+    assert_equal expected_count, actual_count, "Expected #{expected_count} #{event_class} events in stream #{stream_name}, but found #{actual_count}."
   end
 
-  def assert_event_matches(events, event_class, data)
-    matching_event = events.find do |event|
+  private
+  def assert_event_with_data(stream_stored_events, stored_event, data)
+    matching_event = stream_stored_events.find do |event|
       event_data = event.data.deep_symbolize_keys
       data.all? { |key, value| event_data[key] == value }
     end
-    assert matching_event, "Expected to find a #{event_class} event with data #{data}, but none was found."
-  end
-
-  def assert_event_count_in_stream(stream_name, event_class, expected_count)
-    actual_count = event_store.read.stream(stream_name).of_type(event_class).to_a.size
-    assert_equal expected_count, actual_count, "Expected #{expected_count} #{event_class} events in stream #{stream_name}, but found #{actual_count}."
+    assert matching_event, "Expected to find a #{stored_event} event with data #{data}, but none was found."
   end
 end
