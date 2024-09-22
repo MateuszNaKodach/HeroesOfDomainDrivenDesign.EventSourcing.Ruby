@@ -70,7 +70,8 @@ module Heroes
           [
             CreatureRecruited.new(dwelling_id: command.dwelling_id,
                                   creature_id: command.creature_id,
-                                  recruited: command.recruit)
+                                  recruited: command.recruit,
+                                  total_cost: state.cost_per_troop * command.recruit)
           ]
         end
       end

@@ -31,7 +31,8 @@ module EventStore
             data: {
               dwelling_id: domain_event.dwelling_id,
               creature_id: domain_event.creature_id,
-              recruited: domain_event.recruited
+              recruited: domain_event.recruited,
+              total_cost: domain_event.total_cost
             }
           )
         end
@@ -41,7 +42,8 @@ module EventStore
           ::Heroes::CreatureRecruitment::CreatureRecruited.new(
             dwelling_id: @data.fetch(:dwelling_id),
             creature_id: @data.fetch(:creature_id),
-            recruited: @data.fetch(:recruited)
+            recruited: @data.fetch(:recruited),
+            total_cost: @data.fetch(:total_cost),
           )
         end
       end

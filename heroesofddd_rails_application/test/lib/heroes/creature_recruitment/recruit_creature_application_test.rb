@@ -48,7 +48,7 @@ module Heroes
         execute_command(recruit_creature)
 
         # then
-        expected_event = CreatureRecruited.new(@dwelling_id, @creature_id, 1)
+        expected_event = CreatureRecruited.new(@dwelling_id, @creature_id, 1, @cost_per_troop)
         then_domain_event(@stream_name, expected_event)
       end
 
