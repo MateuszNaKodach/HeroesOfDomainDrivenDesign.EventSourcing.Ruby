@@ -1,5 +1,7 @@
 require_relative "./build_dwelling/rule_only_not_built"
 require_relative "./build_dwelling/event_dwelling_built"
+require_relative "./change_available_creatures/event_available_creatures_changed"
+require_relative "./recruit_creature/event_creature_recruited"
 
 module Heroes
   module CreatureRecruitment
@@ -12,6 +14,10 @@ module Heroes
           case command
           when BuildDwelling
             build(command, state)
+          when IncreaseAvailableCreatures
+            increase_available_creatures(command, state)
+          when RecruitCreature
+            recruit(command, state)
           else
             raise "Unknown command"
           end
@@ -20,7 +26,14 @@ module Heroes
         def evolve(state, event)
           case event
           when DwellingBuilt
-            Built.new(dwelling_id: event.dwelling_id, creature_id: event.creature_id, cost_per_troop: event.cost_per_troop, available_creatures: 0)
+            Built.new(dwelling_id: event.dwelling_id,
+                      creature_id: event.creature_id,
+                      cost_per_troop: event.cost_per_troop,
+                      available_creatures: 0)
+          when AvailableCreaturesChanged
+            state.with(available_creatures: event.changed_to)
+          when CreatureRecruited
+            state.with(available_creatures: state.available_creatures - event.recruited)
           else
             raise "Unknown event"
           end
@@ -35,7 +48,33 @@ module Heroes
         def build(command, state)
           raise ::Heroes::CreatureRecruitment::OnlyNotBuiltBuildingCanBeBuild unless state.is_a?(NotBuilt)
 
-          [ DwellingBuilt.new(dwelling_id: command.dwelling_id, creature_id: command.creature_id, cost_per_troop: command.cost_per_troop) ]
+          [
+            DwellingBuilt.new(dwelling_id: command.dwelling_id,
+                              creature_id: command.creature_id,
+                              cost_per_troop: command.cost_per_troop)
+          ]
+        end
+
+        def increase_available_creatures(command, state)
+          raise ::Heroes::CreatureRecruitment::OnlyBuiltDwellingCanHaveAvailableCreatures unless state.is_a?(Built)
+
+          [
+            AvailableCreaturesChanged.new(dwelling_id: command.dwelling_id,
+                                          creature_id: command.creature_id,
+                                          changed_to: state.available_creatures + command.increase_by)
+          ]
+        end
+
+        def recruit(command, state)
+          raise ::Heroes::CreatureRecruitment::RecruitCreaturesNotExceedAvailableCreatures if state.is_a?(NotBuilt) || command.creature_id != state.creature_id || (command.recruit > state.available_creatures)
+
+          # todo: add total cost
+          [
+            CreatureRecruited.new(dwelling_id: command.dwelling_id,
+                                  creature_id: command.creature_id,
+                                  recruited: command.recruit,
+                                  total_cost: state.cost_per_troop * command.recruit)
+          ]
         end
       end
     end
