@@ -4,44 +4,22 @@ module Heroes
     DwellingBuilt = Data.define(:dwelling_id, :creature_id, :cost_per_troop)
 
     class BuildDwellingCommandHandler
-      def initialize(event_store)
-        @event_store = event_store
+      def initialize(application_service, event_registry)
+        @application_service = application_service
+        event_registry.map_event_type(
+          Heroes::CreatureRecruitment::DwellingBuilt,
+          ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt,
+          ->(domain_event) {
+            ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.from_domain(domain_event)
+          },
+          ->(store_event) {
+            ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.to_domain(store_event)
+          }
+        )
       end
 
       def call(command)
-        stream_name = stream_name(command.dwelling_id)
-        stored_events = @event_store
-                          .read
-                          .stream(stream_name)
-        state = state_from(stored_events)
-
-        result_events = Dwelling.decide(command, state)
-
-        infra_events = result_events.map { |event| domain_to_store(event) }
-        expected_stream_version = stored_events.count - 1
-        @event_store.publish(infra_events, stream_name: stream_name, expected_version: expected_stream_version)
-      end
-
-      private
-
-      def stream_name(dwelling_id)
-        "CreatureRecruitment::Dwelling$#{dwelling_id}"
-      end
-
-      def state_from(events)
-        events.reduce(Dwelling.initial_state) do |state, event|
-          Dwelling.evolve(state, store_to_domain(event))
-        end
-      end
-
-      private
-
-      def domain_to_store(domain_event)
-        ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.from_domain(domain_event)
-      end
-
-      def store_to_domain(stored_event)
-        ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.to_domain(stored_event)
+        @application_service.call(command)
       end
     end
   end
@@ -50,7 +28,7 @@ end
 module EventStore
   module Heroes
     module CreatureRecruitment
-      DwellingBuilt = Class.new(RailsEventStore::Event) do
+      DwellingBuilt = Class.new(RubyEventStore::Event) do
         def self.from_domain(domain_event)
           ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt.new(
             data: {
@@ -66,7 +44,7 @@ module EventStore
           ::Heroes::CreatureRecruitment::DwellingBuilt.new(
             dwelling_id: @data.fetch(:dwelling_id),
             creature_id: @data.fetch(:creature_id),
-            cost_per_troop: @data.fetch(:cost_per_troop)
+            cost_per_troop: @data.fetch(:cost_per_troop).deep_symbolize_keys
           )
         end
       end
