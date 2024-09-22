@@ -41,15 +41,18 @@ module Heroes
       def test_given_dwelling_with_1_creature_when_recruit_1_creature_then_success
         # given
         given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
-        # todo: available creatures changed
+        given_domain_event(@stream_name, AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 1))
 
         # when
         recruit_creature = RecruitCreature.new(@dwelling_id, @creature_id, 1)
+        execute_command(recruit_creature)
 
         # then
-        assert_raises(RecruitCreaturesNotExceedAvailableCreatures) do
-          execute_command(recruit_creature)
-        end
+        then_stored_event(@stream_name, EventStore::Heroes::CreatureRecruitment::CreatureRecruited, {
+          dwelling_id: @dwelling_id,
+          creature_id: @creature_id,
+          recruited: 1
+        })
       end
 
     end

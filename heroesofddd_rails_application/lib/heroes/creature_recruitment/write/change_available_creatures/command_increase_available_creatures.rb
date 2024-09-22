@@ -2,16 +2,16 @@ require "rails_event_store"
 
 module Heroes
   module CreatureRecruitment
-    RecruitCreature = Data.define(:dwelling_id, :creature_id, :recruit)
+    IncreaseAvailableCreatures = Data.define(:dwelling_id, :creature_id, :increase_by)
 
-    class RecruitCreatureCommandHandler
+    class IncreaseAvailableCreaturesCommandHandler
       def initialize(application_service, event_registry)
         @application_service = application_service
         event_registry.map_event_type(
-          Heroes::CreatureRecruitment::CreatureRecruited,
-          ::EventStore::Heroes::CreatureRecruitment::CreatureRecruited,
-          ::EventStore::Heroes::CreatureRecruitment::CreatureRecruited.method(:from_domain),
-          ::EventStore::Heroes::CreatureRecruitment::CreatureRecruited.method(:to_domain)
+          Heroes::CreatureRecruitment::AvailableCreaturesChanged,
+          ::EventStore::Heroes::CreatureRecruitment::AvailableCreaturesChanged,
+          ::EventStore::Heroes::CreatureRecruitment::AvailableCreaturesChanged.method(:from_domain),
+          ::EventStore::Heroes::CreatureRecruitment::AvailableCreaturesChanged.method(:to_domain)
         )
       end
 
@@ -25,23 +25,23 @@ end
 module EventStore
   module Heroes
     module CreatureRecruitment
-      CreatureRecruited = Class.new(RubyEventStore::Event) do
+      AvailableCreaturesChanged = Class.new(RubyEventStore::Event) do
         def self.from_domain(domain_event)
-          ::EventStore::Heroes::CreatureRecruitment::CreatureRecruited.new(
+          ::EventStore::Heroes::CreatureRecruitment::AvailableCreaturesChanged.new(
             data: {
               dwelling_id: domain_event.dwelling_id,
               creature_id: domain_event.creature_id,
-              recruited: domain_event.recruited
+              changed_to: domain_event.changed_to
             }
           )
         end
 
         def self.to_domain(store_event)
           @data = store_event.data
-          ::Heroes::CreatureRecruitment::CreatureRecruited.new(
+          ::Heroes::CreatureRecruitment::AvailableCreaturesChanged.new(
             dwelling_id: @data.fetch(:dwelling_id),
             creature_id: @data.fetch(:creature_id),
-            recruited: @data.fetch(:recruited)
+            changed_to: @data.fetch(:changed_to)
           )
         end
       end
