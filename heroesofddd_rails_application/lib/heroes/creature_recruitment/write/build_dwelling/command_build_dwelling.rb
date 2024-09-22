@@ -41,7 +41,7 @@ module EventStore
           ::Heroes::CreatureRecruitment::DwellingBuilt.new(
             dwelling_id: @data.fetch(:dwelling_id),
             creature_id: @data.fetch(:creature_id),
-            cost_per_troop: @data.fetch(:cost_per_troop).deep_symbolize_keys
+            cost_per_troop: @data.fetch(:cost_per_troop)
           )
         end
       end
