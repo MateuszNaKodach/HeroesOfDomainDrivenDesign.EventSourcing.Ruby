@@ -48,11 +48,8 @@ module Heroes
         execute_command(recruit_creature)
 
         # then
-        then_stored_event(@stream_name, EventStore::Heroes::CreatureRecruitment::CreatureRecruited, {
-          dwelling_id: @dwelling_id,
-          creature_id: @creature_id,
-          recruited: 1
-        })
+        expected_event = CreatureRecruited.new(@dwelling_id, @creature_id, 1)
+        then_domain_event(@stream_name, expected_event)
       end
 
     end
