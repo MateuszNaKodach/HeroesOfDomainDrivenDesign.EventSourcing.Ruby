@@ -7,7 +7,7 @@ require_relative "../../../../lib/heroes/shared_kernel/resources"
 module Heroes
   module CreatureRecruitment
     DECIDER = Heroes::CreatureRecruitment::Dwelling
-    class BuildDwellingDomainTest < Minitest::Test
+    class DwellingDomainTest < Minitest::Test
       def setup
         super
         @dwelling_id = "portal_of_glory"
