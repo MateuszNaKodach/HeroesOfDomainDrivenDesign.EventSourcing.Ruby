@@ -3,6 +3,7 @@ require "heroes/creature_recruitment/write/build_dwelling/command_build_dwelling
 require "heroes/creature_recruitment/write/recruit_creature/command_recruit_creature"
 require "heroes/creature_recruitment/write/change_available_creatures/command_increase_available_creatures"
 require "heroes/creature_recruitment/write/dwelling"
+require "heroes/creature_recruitment/read/dwelling_read_model"
 
 module Heroes
   module CreatureRecruitment
@@ -26,6 +27,8 @@ module Heroes
           RecruitCreature,
           RecruitCreatureCommandHandler.new(application_service, event_registry)
         )
+
+        Heroes::CreatureRecruitment::Projection.new.call(event_store)
       end
     end
   end
