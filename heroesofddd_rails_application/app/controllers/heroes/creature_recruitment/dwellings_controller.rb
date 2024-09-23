@@ -6,7 +6,7 @@ module Heroes
 
       def show
         dwelling_id = params[:id]
-        @dwelling = DwellingReadModel.find_by(id: dwelling_id)
+        @dwelling = DwellingReadModel::State.find_by(id: dwelling_id)
 
         if @dwelling
           render template: "heroes/creature_recruitment/dwellings/index"
