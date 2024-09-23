@@ -37,11 +37,11 @@ module EventStore
         end
 
         def self.to_domain(store_event)
-          @data = store_event.data
+          data = store_event.data
           ::Heroes::CreatureRecruitment::DwellingBuilt.new(
-            dwelling_id: @data.fetch(:dwelling_id),
-            creature_id: @data.fetch(:creature_id),
-            cost_per_troop: @data.fetch(:cost_per_troop)
+            dwelling_id: data.fetch(:dwelling_id),
+            creature_id: data.fetch(:creature_id),
+            cost_per_troop: data.fetch(:cost_per_troop)
           )
         end
       end

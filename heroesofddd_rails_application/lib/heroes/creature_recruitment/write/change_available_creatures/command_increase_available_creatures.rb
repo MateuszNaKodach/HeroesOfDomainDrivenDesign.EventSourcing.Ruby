@@ -37,11 +37,11 @@ module EventStore
         end
 
         def self.to_domain(store_event)
-          @data = store_event.data
+          data = store_event.data
           ::Heroes::CreatureRecruitment::AvailableCreaturesChanged.new(
-            dwelling_id: @data.fetch(:dwelling_id),
-            creature_id: @data.fetch(:creature_id),
-            changed_to: @data.fetch(:changed_to)
+            dwelling_id: data.fetch(:dwelling_id),
+            creature_id: data.fetch(:creature_id),
+            changed_to: data.fetch(:changed_to)
           )
         end
       end
