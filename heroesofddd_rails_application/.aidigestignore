@@ -1,0 +1,6 @@
+/bin
+/config
+/db/migrate
+/log
+/vendor
+/tmp

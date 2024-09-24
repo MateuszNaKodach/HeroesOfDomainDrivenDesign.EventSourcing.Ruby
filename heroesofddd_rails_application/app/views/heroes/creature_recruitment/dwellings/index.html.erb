@@ -1,9 +1,9 @@
-<div class="page-container">
-  <div class="recruitment-component">
-    <h1 class="title-text">Recruit <%= @dwelling.creature_id.capitalize.pluralize %></h1>
-    <%= image_tag "Recruit#{@dwelling.creature_id.capitalize}Image.png", alt: "#{@dwelling.creature_id.capitalize} image", class: "creature-image" %>
-
-    <div class="controls">
+<%= form_with(url: recruit_heroes_creature_recruitment_dwelling_path(@dwelling), local: true, method: :post, id: 'recruit-form') do |form| %>
+  <div class="page-container">
+    <div class="recruitment-component">
+      <h1 class="title-text">Recruit <%= @dwelling.creature_id.capitalize.pluralize %></h1>
+      <%= image_tag "Recruit#{@dwelling.creature_id.capitalize}Image.png", alt: "#{@dwelling.creature_id.capitalize} image", class: "creature-image" %>
+      <div class="controls">
       <div class="cost-per-troop">
         <p>Cost Per Troop</p>
         <div class="cost_details">
@@ -43,19 +43,21 @@
       </div>
     </div>
 
-    <div class="buttons">
-      <button class="select_all_buttons" id="select-all-btn">
-        <%= image_tag "button_select_all.png", alt: "Select All", class: "button-image" %>
-      </button>
-      <button class="recruit_button" id="recruit-btn">
-        <%= image_tag "button_recruit.png", alt: "Recruit", class: "button-image" %>
-      </button>
-      <button class="cancel_button" id="cancel-btn">
-        <%= image_tag "button_cancel.png", alt: "Cancel", class: "button-image" %>
-      </button>
+      <div class="buttons">
+        <button type="button" class="select_all_buttons" id="select-all-btn">
+          <%= image_tag "button_select_all.png", alt: "Select All", class: "button-image" %>
+        </button>
+        <%= form.submit "", class: "recruit_button", id: "recruit-btn" do %>
+          <%= image_tag "button_recruit.png", alt: "Recruit", class: "button-image" %>
+        <% end %>
+        <button type="button" class="cancel_button" id="cancel-btn">
+          <%= image_tag "button_cancel.png", alt: "Cancel", class: "button-image" %>
+        </button>
+      </div>
     </div>
   </div>
-</div>
+  <%= form.hidden_field :recruit_count, id: 'recruit-count-input' %>
+<% end %>
 
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -64,6 +66,9 @@
         const selectAllBtn = document.getElementById('select-all-btn');
         const recruitBtn = document.getElementById('recruit-btn');
         const cancelBtn = document.getElementById('cancel-btn');
+
+        const recruitForm = document.getElementById('recruit-form');
+        const recruitCountInput = document.getElementById('recruit-count-input');
 
         function updateTotalCost(count) {
             <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
@@ -89,10 +94,10 @@
             updateRecruitCount(<%= @dwelling.available_creatures %>);
         });
 
-        recruitBtn.addEventListener('click', function() {
-            const count = parseInt(slider.value);
-            alert(`Recruiting ${count} <%= @dwelling.creature_id.capitalize.pluralize %>!`);
-            // Here you would typically send an AJAX request to your server
+        recruitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            recruitCountInput.value = parseInt(slider.value);
+            recruitForm.submit();
         });
 
         cancelBtn.addEventListener('click', function() {
