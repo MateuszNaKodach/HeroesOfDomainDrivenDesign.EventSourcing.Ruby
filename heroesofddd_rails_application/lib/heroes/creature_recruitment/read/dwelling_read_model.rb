@@ -9,6 +9,7 @@ module Heroes
             t.jsonb :cost_per_troop, null: false
 
             t.timestamps
+            t.integer :lock_version, null: false, default: 0
           end
         end
       end
@@ -33,6 +34,13 @@ module Heroes
           event_store.subscribe(
             ->(event) { DwellingReadModel::State.find_by(id: event.data[:dwelling_id]).update(available_creatures: event.data[:changed_to]) },
             to: [ ::EventStore::Heroes::CreatureRecruitment::AvailableCreaturesChanged ])
+          event_store.subscribe(
+            ->(event) {
+              state = DwellingReadModel::State.find_by(id: event.data[:dwelling_id])
+              recruited = event.data[:recruited]
+              state.update!(available_creatures: state.available_creatures - recruited)
+            },
+            to: [ ::EventStore::Heroes::CreatureRecruitment::CreatureRecruited ])
         end
       end
     end

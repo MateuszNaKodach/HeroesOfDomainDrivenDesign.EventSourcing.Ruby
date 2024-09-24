@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_19_115455) do
     t.jsonb "cost_per_troop", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "lock_version", default: 0, null: false
   end
 
   create_table "event_store_events", force: :cascade do |t|
