@@ -32,18 +32,20 @@ module EventStore
               dwelling_id: domain_event.dwelling_id,
               creature_id: domain_event.creature_id,
               recruited: domain_event.recruited,
-              total_cost: domain_event.total_cost
+              total_cost: {
+                resources: domain_event.total_cost.resources
+              }
             }
           )
         end
 
         def self.to_domain(store_event)
-          data = store_event.data
+          data = store_event.data.deep_symbolize_keys
           ::Heroes::CreatureRecruitment::CreatureRecruited.new(
             dwelling_id: data[:dwelling_id],
             creature_id: data[:creature_id],
             recruited: data[:recruited],
-            total_cost: data[:total_cost],
+            total_cost: ::Heroes::SharedKernel::Resources::Cost.new(store_event.data[:total_cost][:resources])
           )
         end
       end
