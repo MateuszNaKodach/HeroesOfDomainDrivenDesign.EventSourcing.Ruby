@@ -9,6 +9,7 @@ module Heroes
             t.jsonb :cost_per_troop, null: false
 
             t.timestamps
+            t.integer :lock_version, null: false, default: 0
           end
         end
       end
