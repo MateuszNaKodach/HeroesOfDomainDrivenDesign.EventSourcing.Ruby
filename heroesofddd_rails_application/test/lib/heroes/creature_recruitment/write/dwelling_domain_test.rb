@@ -25,7 +25,7 @@ module Heroes
 
         # then
         expected_events = [ Heroes::CreatureRecruitment::DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop) ]
-        assert_equal(expected_events, result)
+        assert_equal expected_events, result
       end
 
       def test_given_built_dwelling_when_build_dwelling_then_failed
