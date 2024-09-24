@@ -28,7 +28,7 @@ module Heroes
           RecruitCreatureCommandHandler.new(application_service, event_registry)
         )
 
-        Heroes::CreatureRecruitment::Projection.new.call(event_store)
+        Heroes::CreatureRecruitment::DwellingReadModel::Projection.new.call(event_store)
       end
     end
   end

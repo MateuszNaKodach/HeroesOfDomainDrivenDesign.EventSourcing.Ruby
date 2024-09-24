@@ -42,12 +42,10 @@ module EventStoreTest
     domain_events = event_store.read.stream(stream_name).of_type(store_event.class)
                         .map { |stored_event| event_registry.store_to_domain(stored_event) }.to_a
 
-    data = domain_event.to_h.deep_symbolize_keys
     matching_event = domain_events.find do |event|
-      event_data = event.to_h.deep_symbolize_keys
-      data.all? { |key, value| event_data[key] == value }
+      event == domain_event
     end
-    assert matching_event, "Expected to find a #{domain_event.class} event with data #{data}, but none was found."
+    assert matching_event, "Expected to find a #{domain_event.class} event with data #{domain_event.to_h}, but none was found."
   end
 
   def then_stored_events_count(stream_name, event_class, expected_count)

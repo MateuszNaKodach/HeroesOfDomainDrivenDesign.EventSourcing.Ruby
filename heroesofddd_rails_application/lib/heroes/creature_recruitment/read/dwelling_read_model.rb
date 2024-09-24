@@ -18,9 +18,9 @@ module Heroes
                                                         available_creatures: event.data[:available_creatures],
                                                         cost_per_troop: event.data[:cost_per_troop]) },
             to: [ ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt ])
-          event_store.subscribe(
-            ->(event) { DwellingReadModel::State.find_by(id: event.data[:dwelling_id]).update(available_creatures: event.data[:changed_to]) },
-            to: [ ::EventStore::Heroes::CreatureRecruitment::AvailableCreaturesChanged ])
+          # event_store.subscribe(
+          #   ->(event) { DwellingReadModel::State.find_by(id: event.data[:dwelling_id]).update(available_creatures: event.data[:changed_to]) },
+          #   to: [ ::EventStore::Heroes::CreatureRecruitment::AvailableCreaturesChanged ])
         end
       end
     end

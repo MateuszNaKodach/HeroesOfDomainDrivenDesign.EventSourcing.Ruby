@@ -6,7 +6,7 @@ require "heroes/shared_kernel/resources"
 
 module Heroes
   module CreatureRecruitment
-    class BuildDwellingApplicationTest < InMemoryEventStoreTestCase
+    class BuildDwellingApplicationTest < RealEventStoreIntegrationTestCase
       def setup
         super
         @dwelling_id = SecureRandom.uuid
