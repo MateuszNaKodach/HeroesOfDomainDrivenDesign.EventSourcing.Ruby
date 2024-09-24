@@ -1,0 +1,163 @@
+.recruitment {
+  box-sizing: border-box;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+  }
+
+  &__component {
+    border: 16px solid #831A1C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    min-width: 480px;
+    flex-direction: column;
+    background-image: asset-url("Heroes3MenuBackground.png");
+    padding: 3rem;
+  }
+
+  &__title {
+    color: #F9E18F;
+    font-size: 1.6rem;
+  }
+
+  &__creature-image {
+    width: 120px;
+    min-height: 140px;
+    object-fit: contain;
+    border: 2px solid #F12126;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+  }
+
+  &__cost-per-troop,
+  &__total-cost {
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #E4CF72;
+  }
+
+  &__cost-title {
+    font-size: 1rem;
+    color: #F8F0D6;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+  }
+
+  &__cost-details {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__resource {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__resource-image {
+    margin-bottom: 0.2rem;
+  }
+
+  &__resource-amount {
+    color: #F8F0D6;
+    width: 100%;
+    text-align: center;
+  }
+
+  &__center-controls {
+    width: 250px;
+  }
+
+  &__counts {
+    display: flex;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    justify-content: space-between;
+  }
+
+  &__count {
+    border: 1px solid #E4CF72;
+    padding: 1rem;
+    width: 100px;
+
+    &-title,
+    &-value {
+      color: #F8F0D6;
+      text-align: center;
+    }
+
+    &-title {
+      padding-bottom: 0.4rem;
+    }
+  }
+
+  &__slider {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
+
+  &__slider-input {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: black;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #221811;
+      cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #221811;
+      cursor: pointer;
+    }
+  }
+
+  &__buttons {
+    margin-top: 1.4rem;
+    width: 240px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    all: unset;
+    cursor: pointer;
+  }
+
+  &__button-image {
+    // Styles for button images can be added here if needed
+  }
+}
