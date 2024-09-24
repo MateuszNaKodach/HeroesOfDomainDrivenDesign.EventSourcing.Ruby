@@ -43,6 +43,23 @@ module Heroes
                                                       cost_per_troop: @cost_per_troop)
         assert_equal expected_state, state
       end
+
+      def test_update_on_creature_recruited
+        # given
+        given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
+        given_domain_event(@stream_name, AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 99))
+        given_domain_event(@stream_name, CreatureRecruited.new(@dwelling_id, @creature_id, 1, @cost_per_troop))
+
+        # when
+        state = DwellingReadModel::State.find_by(id: @dwelling_id)
+
+        # then
+        expected_state = DwellingReadModel::State.new(id: @dwelling_id,
+                                                      creature_id: @creature_id,
+                                                      available_creatures: 98,
+                                                      cost_per_troop: @cost_per_troop)
+        assert_equal expected_state, state
+      end
     end
   end
 end
