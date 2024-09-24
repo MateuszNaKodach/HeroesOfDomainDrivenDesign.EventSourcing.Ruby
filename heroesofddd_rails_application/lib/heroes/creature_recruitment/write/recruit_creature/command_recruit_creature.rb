@@ -40,10 +40,10 @@ module EventStore
         def self.to_domain(store_event)
           data = store_event.data
           ::Heroes::CreatureRecruitment::CreatureRecruited.new(
-            dwelling_id: data.fetch(:dwelling_id),
-            creature_id: data.fetch(:creature_id),
-            recruited: data.fetch(:recruited),
-            total_cost: data.fetch(:total_cost),
+            dwelling_id: data[:dwelling_id],
+            creature_id: data[:creature_id],
+            recruited: data[:recruited],
+            total_cost: data[:total_cost],
           )
         end
       end
