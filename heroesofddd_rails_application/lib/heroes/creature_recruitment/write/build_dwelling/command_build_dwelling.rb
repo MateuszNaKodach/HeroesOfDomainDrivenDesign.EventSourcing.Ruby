@@ -1,4 +1,5 @@
 require "rails_event_store"
+require "heroes/shared_kernel/resources"
 
 module Heroes
   module CreatureRecruitment
@@ -31,17 +32,19 @@ module EventStore
             data: {
               dwelling_id: domain_event.dwelling_id,
               creature_id: domain_event.creature_id,
-              cost_per_troop: domain_event.cost_per_troop
+              cost_per_troop: {
+                resources: domain_event.cost_per_troop.resources
+              }
             }
           )
         end
 
         def self.to_domain(store_event)
-          data = store_event.data
+          data = store_event.data.deep_symbolize_keys
           ::Heroes::CreatureRecruitment::DwellingBuilt.new(
-            dwelling_id: data.fetch(:dwelling_id),
-            creature_id: data.fetch(:creature_id),
-            cost_per_troop: data.fetch(:cost_per_troop)
+            dwelling_id: data[:dwelling_id],
+            creature_id: data[:creature_id],
+            cost_per_troop: ::Heroes::SharedKernel::Resources::Cost.new(store_event.data[:cost_per_troop][:resources])
           )
         end
       end

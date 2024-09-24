@@ -1,7 +1,7 @@
 require "minitest/autorun"
-require_relative "../../../../lib/heroes/creature_recruitment/write/build_dwelling/command_build_dwelling"
-require_relative "../../../../lib/heroes/creature_recruitment/write/dwelling"
-require_relative "../../../../lib/heroes/shared_kernel/resources"
+require "heroes/creature_recruitment/write/build_dwelling/command_build_dwelling"
+require "heroes/creature_recruitment/write/dwelling"
+require "heroes/shared_kernel/resources"
 
 
 module Heroes
@@ -25,7 +25,7 @@ module Heroes
 
         # then
         expected_events = [ Heroes::CreatureRecruitment::DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop) ]
-        assert_equal(expected_events, result)
+        assert_equal expected_events, result
       end
 
       def test_given_built_dwelling_when_build_dwelling_then_failed

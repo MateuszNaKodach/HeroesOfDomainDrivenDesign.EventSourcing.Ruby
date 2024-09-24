@@ -68,7 +68,6 @@ module Heroes
         def recruit(command, state)
           raise ::Heroes::CreatureRecruitment::RecruitCreaturesNotExceedAvailableCreatures if state.is_a?(NotBuilt) || command.creature_id != state.creature_id || (command.recruit > state.available_creatures)
 
-          # todo: add total cost
           [
             CreatureRecruited.new(dwelling_id: command.dwelling_id,
                                   creature_id: command.creature_id,
