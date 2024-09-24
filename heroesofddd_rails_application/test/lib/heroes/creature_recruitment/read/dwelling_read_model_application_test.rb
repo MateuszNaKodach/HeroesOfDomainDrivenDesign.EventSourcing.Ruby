@@ -9,7 +9,7 @@ module Heroes
         super
         @dwelling_id = SecureRandom.uuid
         @creature_id = "black_dragon"
-        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 4000], [:SULFUR, 2])
+        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 4000 ], [ :SULFUR, 2 ])
         @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
       end
 
@@ -43,7 +43,6 @@ module Heroes
                                                       cost_per_troop: @cost_per_troop)
         assert_equal expected_state, state
       end
-
     end
   end
 end
