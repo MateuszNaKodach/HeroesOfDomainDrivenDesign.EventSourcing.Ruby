@@ -1,6 +1,7 @@
 require "real_event_store_integration_test_case"
 require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol"
 require "heroes/creature_recruitment/write/build_dwelling/event_dwelling_built"
+require "heroes/creature_recruitment/write/change_available_creatures/command_increase_available_creatures"
 
 module Heroes
   module Astrologers
@@ -12,17 +13,17 @@ module Heroes
         titan_dwelling_id = given_dwelling_built_event("titan")
 
         # when
-        proclaim_week_symbol = ProclaimWeekSymbol.new(104, 99, "angel", +2)
+        proclaim_week_symbol = ProclaimWeekSymbol.new(309, 99, "angel", +2)
         execute_command(proclaim_week_symbol)
 
         # then
-        expected_command_1 = IncreaseAvailableCreatures.new(angel_dwelling_id_1, "angel", +2)
+        expected_command_1 = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(angel_dwelling_id_1, "angel", +2)
         then_command_executed(expected_command_1)
 
-        expected_command_2 = IncreaseAvailableCreatures.new(angel_dwelling_id_2, "angel", +2)
+        expected_command_2 = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(angel_dwelling_id_2, "angel", +2)
         then_command_executed(expected_command_2)
 
-        not_expected_command = IncreaseAvailableCreatures.new(titan_dwelling_id, "titan", +2)
+        not_expected_command = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(titan_dwelling_id, "titan", +2)
         then_command_not_executed(not_expected_command)
       end
 

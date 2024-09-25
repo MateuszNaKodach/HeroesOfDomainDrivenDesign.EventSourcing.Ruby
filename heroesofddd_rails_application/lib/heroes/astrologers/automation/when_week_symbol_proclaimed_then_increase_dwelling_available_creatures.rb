@@ -19,6 +19,9 @@ module Heroes
         if week_symbol_proclaimed?(event)
           increase_available_creatures_for_week_symbol(event, state)
         end
+      rescue => e
+        # Handle any exception
+        puts "An error occurred: #{e.message}"
       end
 
       private
