@@ -1,7 +1,7 @@
 <%= form_with(url: recruit_heroes_creature_recruitment_dwelling_path(@dwelling), local: true, method: :post, id: 'recruit-form', class: 'recruitment') do |form| %>
   <div class="recruitment__container">
     <div class="recruitment__component">
-      <h1 class="recruitment__title"><%= @dwelling.creature_id.capitalize.pluralize %> Recruitment</h1>
+      <h1 class="recruitment__title">Recruit <%= @dwelling.creature_id.capitalize.pluralize %></h1>
       <%= image_tag "Recruit#{@dwelling.creature_id.capitalize}Image.png", alt: "#{@dwelling.creature_id.capitalize} image", class: "recruitment__creature-image" %>
 
       <div class="recruitment__controls">

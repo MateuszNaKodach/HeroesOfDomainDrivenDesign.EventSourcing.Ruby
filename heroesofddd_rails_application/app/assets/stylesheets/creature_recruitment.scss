@@ -1,5 +1,7 @@
 .recruitment {
-  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+  }
 
   &__container {
     display: flex;
@@ -30,7 +32,8 @@
     width: 120px;
     min-height: 140px;
     object-fit: contain;
-    border: 2px solid #F12126;
+    border: 1px solid #F12126;
+    margin-top: 1rem;
   }
 
   &__controls {
