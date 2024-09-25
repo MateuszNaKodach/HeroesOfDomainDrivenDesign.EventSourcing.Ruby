@@ -26,10 +26,11 @@
   &__title {
     color: #F9E18F;
     font-size: 1.6rem;
+    font-weight: 400;
   }
 
   &__creature-image {
-    width: 120px;
+    width: 140px;
     min-height: 140px;
     object-fit: contain;
     border: 1px solid #F12126;
