@@ -1,11 +1,9 @@
 require "real_event_store_integration_test_case"
-require "heroes/creature_recruitment/write/build_dwelling/command_build_dwelling"
-require "heroes/creature_recruitment/write/build_dwelling/rule_only_not_built"
-require "heroes/shared_kernel/resources"
+require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol"
 
 module Heroes
-  module CreatureRecruitment
-    class BuildDwellingApplicationTest < RealEventStoreIntegrationTestCase
+  module Astrologers
+    class ProclaimWeekSymbolApplicationTest < RealEventStoreIntegrationTestCase
       def setup
         super
         @dwelling_id = SecureRandom.uuid

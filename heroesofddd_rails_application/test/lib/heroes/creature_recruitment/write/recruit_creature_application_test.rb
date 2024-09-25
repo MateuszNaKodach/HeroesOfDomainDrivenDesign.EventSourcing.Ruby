@@ -1,4 +1,3 @@
-require "in_memory_event_store_test_case"
 require "real_event_store_integration_test_case"
 require "heroes/creature_recruitment/write/recruit_creature/command_recruit_creature"
 require "heroes/creature_recruitment/write/recruit_creature/rule_not_exceed_available_creatures"
