@@ -14,4 +14,9 @@ class RecordingCommandBus
   def reset
     @recorded = []
   end
+
+  def register(command, handler)
+    @decorated.register(command, handler)
+  end
+
 end

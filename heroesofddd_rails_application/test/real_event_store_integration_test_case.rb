@@ -10,6 +10,7 @@ class RealEventStoreIntegrationTestCase < ActionDispatch::IntegrationTest
     @previous_command_bus = Rails.configuration.command_bus
     @recording_command_bus = ::RecordingCommandBus.new(@previous_command_bus)
     Rails.configuration.command_bus = @recording_command_bus
+    Configuration.new.call(Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.command_bus, Rails.configuration.event_registry)
     result
   end
 
