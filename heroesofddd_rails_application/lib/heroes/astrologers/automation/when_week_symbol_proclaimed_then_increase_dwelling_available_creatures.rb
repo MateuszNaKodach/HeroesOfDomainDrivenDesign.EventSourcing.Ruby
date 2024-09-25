@@ -15,11 +15,11 @@ module Heroes
       end
 
       def call(event)
-        dwellings = build_state(event)
+        state = build_state(event)
         if is_week_symbol_proclaimed(event)
-          week_of = event[:week_of]
-          growth = event[:growth]
-          symbol_dwellings = dwellings[week_of]
+          week_of = event.data[:week_of]
+          growth = event.data[:growth]
+          symbol_dwellings = state.dwellings[week_of]
           symbol_dwellings.each do |d|
             @command_bus.call(::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(d.dwelling_id, d.creature_id, growth))
           end
