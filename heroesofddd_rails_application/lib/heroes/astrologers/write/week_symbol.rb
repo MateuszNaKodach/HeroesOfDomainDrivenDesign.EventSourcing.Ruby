@@ -30,13 +30,13 @@ module Heroes
         end
 
         def initial_state
-          nil
+          Current.new(0, 0, nil, nil)
         end
 
         def proclaim(command, state)
           current_week_no = week_no state.month, state.week
           command_week_no = week_no command.month, command.week
-          raise ::Heroes::Astrologers::OnlyOneSymbolPerWeek if !state.nil? || current_week_no >= command_week_no
+          raise ::Heroes::Astrologers::OnlyOneSymbolPerWeek if current_week_no >= command_week_no
             [
               WeekSymbolProclaimed.new(month: command.month,
                                        week: command.week,
