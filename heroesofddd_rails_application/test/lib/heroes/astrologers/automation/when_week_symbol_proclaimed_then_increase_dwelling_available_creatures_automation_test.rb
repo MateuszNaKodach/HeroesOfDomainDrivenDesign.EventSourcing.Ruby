@@ -13,7 +13,7 @@ module Heroes
         titan_dwelling_id = given_dwelling_built_event("titan")
 
         # when
-        proclaim_week_symbol = ProclaimWeekSymbol.new(999, 99, "angel", +2)
+        proclaim_week_symbol = ProclaimWeekSymbol.new(2999, 99, "angel", +2)
         execute_command(proclaim_week_symbol)
 
         # then
