@@ -1,5 +1,6 @@
 require "real_event_store_integration_test_case"
 require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol"
+require "heroes/creature_recruitment/write/build_dwelling/event_dwelling_built"
 
 module Heroes
   module Astrologers
@@ -32,7 +33,7 @@ module Heroes
         cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
         stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
 
-        given_domain_event(stream_name, DwellingBuilt.new(dwelling_id, creature_id, cost_per_troop))
+        given_domain_event(stream_name, ::Heroes::CreatureRecruitment::DwellingBuilt.new(dwelling_id, creature_id, cost_per_troop))
         dwelling_id
       end
 

@@ -27,7 +27,7 @@ module Heroes
       end
 
       def build_state(event)
-        stream_name = "Astrologers::WeekSymbol$#{event.data.fetch(:order_id)}"
+        stream_name = "Astrologers::WeekSymbolDwellingEffect"
         past_events = @event_store.read.stream(stream_name).to_a
         last_stored = past_events.size - 1
         @event_store.link(event.event_id, stream_name: stream_name, expected_version: last_stored)
@@ -53,7 +53,6 @@ module Heroes
           end
         end
       end
-
     end
   end
 end
