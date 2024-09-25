@@ -1,4 +1,3 @@
-require "in_memory_event_store_test_case"
 require "real_event_store_integration_test_case"
 require "heroes/creature_recruitment/write/build_dwelling/command_build_dwelling"
 require "heroes/creature_recruitment/write/build_dwelling/rule_only_not_built"
