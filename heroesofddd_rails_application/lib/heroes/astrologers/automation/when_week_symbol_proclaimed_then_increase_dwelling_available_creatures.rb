@@ -16,15 +16,12 @@ module Heroes
 
       def call(event)
         state = build_state(event)
-        if is_week_symbol_proclaimed(event)
-          week_of = event.data[:week_of]
-          growth = event.data[:growth]
-          symbol_dwellings = state.dwellings[week_of]
-          symbol_dwellings.each do |d|
-            @command_bus.call(::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(d.dwelling_id, d.creature_id, growth))
-          end
+        if week_symbol_proclaimed?(event)
+          increase_available_creatures_for_week_symbol(event, state)
         end
       end
+
+      private
 
       def build_state(event)
         stream_name = "Astrologers::WeekSymbolDwellingEffect"
@@ -39,16 +36,25 @@ module Heroes
         retry
       end
 
-      def is_week_symbol_proclaimed(event)
+      def week_symbol_proclaimed?(event)
         event.instance_of?(::EventStore::Heroes::Astrologers::WeekSymbolProclaimed)
+      end
+
+      def increase_available_creatures_for_week_symbol(event, state)
+        week_of = event.data[:week_of]
+        growth = event.data[:growth]
+        symbol_dwellings = state.dwellings[week_of]
+        symbol_dwellings.each do |dwelling_id|
+          @command_bus.call(::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(dwelling_id, week_of, growth))
+        end
       end
 
       DwellingsToProcess = Data.define(:dwellings) do
         def call(event)
-          dwelling_id = event.data[:dwelling_id]
-          creature_id = event.data[:creature_id]
           case event
           when ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt
+            dwelling_id = event.data[:dwelling_id]
+            creature_id = event.data[:creature_id]
             (dwellings[creature_id] ||= []) << dwelling_id
           end
         end

@@ -3,7 +3,7 @@ require "recording_command_bus"
 
 class RealEventStoreIntegrationTestCase < ActionDispatch::IntegrationTest
   include EventStoreTest
-  self.use_transactional_tests = true
+  self.use_transactional_tests = false
 
   def before_setup
     result = super
