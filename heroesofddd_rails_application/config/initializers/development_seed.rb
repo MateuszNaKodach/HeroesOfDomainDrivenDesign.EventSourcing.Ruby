@@ -5,7 +5,7 @@ if Rails.env.development?
   Rails.application.config.after_initialize do
     dwelling_id = SecureRandom.uuid
     creature_id = "angel"
-    cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:GEM, 1])
+    cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
 
     # Build Dwelling
     build_dwelling_command = Heroes::CreatureRecruitment::BuildDwelling.new(

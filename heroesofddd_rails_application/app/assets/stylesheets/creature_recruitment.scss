@@ -175,4 +175,21 @@
     object-fit: contain;
     // Styles for button images can be added here if needed
   }
+
+  &__message-box {
+    border: 2px solid #A3813F;
+    background-color: #4A2F16;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__text {
+      margin: 0;
+      padding: 0;
+      font-size: 1rem;
+      text-align: center;
+      color: #F8F0D6;
+    }
+  }
 }

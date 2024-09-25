@@ -7,8 +7,8 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     @dwelling_id = SecureRandom.uuid
     @creature_id = "angel"
     @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources(
-                                                                        [:GOLD, 3000],
-                                                                        [:GEM, 1]
+                                                                        [ :GOLD, 3000 ],
+                                                                        [ :GEM, 1 ]
                                                                       )
     @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
   end
