@@ -50,8 +50,6 @@ module Heroes
           case event
           when ::EventStore::Heroes::CreatureRecruitment::DwellingBuilt
             (dwellings[creature_id] ||= []) << dwelling_id
-          else
-            raise "Unknown Event"
           end
         end
       end

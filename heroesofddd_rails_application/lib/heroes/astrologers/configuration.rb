@@ -16,6 +16,8 @@ module Heroes
           ProclaimWeekSymbol,
           ProclaimWeekSymbolCommandHandler.new(application_service, event_registry)
         )
+
+        WhenWeekSymbolProclaimedThenIncreaseDwellingAvailableCreatures.new(event_store, command_bus, event_registry)
       end
     end
   end
