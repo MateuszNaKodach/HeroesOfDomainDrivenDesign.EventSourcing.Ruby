@@ -1,27 +1,22 @@
+require "building_blocks/infrastructure/event_sourcing_application_service"
+require "heroes/astrologers/write/week_symbol"
+require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol"
+
 module Heroes
   module Astrologers
     class Configuration
       def call(event_store, command_bus, event_registry)
         application_service = ::BuildingBlocks::Infrastructure::EventSourcingApplicationService.new(
-          Dwelling,
+          WeekSymbol,
           event_store,
           event_registry
-        ) { |command| "CreatureRecruitment::Dwelling$#{command.dwelling_id}" }
+        ) { |command| "Astrologers::WeekSymbols" }
 
         command_bus.register(
-          BuildDwelling,
-          BuildDwellingCommandHandler.new(application_service, event_registry)
-        )
-        command_bus.register(
-          IncreaseAvailableCreatures,
-          IncreaseAvailableCreaturesCommandHandler.new(application_service, event_registry)
-        )
-        command_bus.register(
-          RecruitCreature,
-          RecruitCreatureCommandHandler.new(application_service, event_registry)
+          ProclaimWeekSymbol,
+          ProclaimWeekSymbolCommandHandler.new(application_service, event_registry)
         )
 
-        Heroes::CreatureRecruitment::DwellingReadModel::Projection.new.call(event_store)
       end
     end
   end

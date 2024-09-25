@@ -1,4 +1,5 @@
 require "heroes/creature_recruitment/configuration"
+require "heroes/astrologers/configuration"
 
 module Heroes
   class Configuration
@@ -8,7 +9,8 @@ module Heroes
 
     def configure_modules(event_store, command_bus, event_mapper)
       [
-        Heroes::CreatureRecruitment::Configuration.new
+        Heroes::CreatureRecruitment::Configuration.new,
+        Heroes::Astrologers::Configuration.new
       ].each { |c| c.call(event_store, command_bus, event_mapper) }
     end
   end

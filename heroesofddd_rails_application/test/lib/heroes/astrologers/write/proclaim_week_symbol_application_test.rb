@@ -38,6 +38,21 @@ module Heroes
           execute_command(proclaim_week_symbol)
         end
       end
+
+      def test_given_week_symbol_proclaimed_when_proclaim_week_symbol_for_the_past_week_then_failed
+        # given
+        month = 1
+        week = 4
+        week_of = "titan"
+        growth = +3
+        given_domain_event(@stream_name, WeekSymbolProclaimed.new(month, week, week_of, growth))
+
+        # when - then
+        proclaim_week_symbol = ProclaimWeekSymbol.new(month, week - 1, week_of, growth)
+        assert_raises(OnlyOneSymbolPerWeek) do
+          execute_command(proclaim_week_symbol)
+        end
+      end
     end
   end
 end

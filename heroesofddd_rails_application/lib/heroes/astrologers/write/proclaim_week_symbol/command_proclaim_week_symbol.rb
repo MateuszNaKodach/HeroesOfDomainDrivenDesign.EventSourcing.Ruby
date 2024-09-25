@@ -1,4 +1,5 @@
 require "rails_event_store"
+require "heroes/astrologers/write/proclaim_week_symbol/event_week_symbol_proclaimed"
 
 module Heroes
   module Astrologers
