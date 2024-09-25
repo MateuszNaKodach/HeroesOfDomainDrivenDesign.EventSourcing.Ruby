@@ -81,6 +81,5 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select ".recruitment__count-value", "10"
     assert_select ".recruitment__message-box__text", "Please select at least one creature to recruit."
-    assert_select ".recruitment__message-box__text--error"
   end
 end

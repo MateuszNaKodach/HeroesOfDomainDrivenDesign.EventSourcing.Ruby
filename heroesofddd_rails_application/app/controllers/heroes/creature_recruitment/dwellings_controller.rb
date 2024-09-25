@@ -20,13 +20,16 @@ module Heroes
         dwelling = DwellingReadModel::State.find_by(id: dwelling_id)
 
         if dwelling
-          command = RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
-
-          begin
-            command_bus.call(command)
-            flash[:notice] = "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize}"
-          rescue StandardError => e
-            flash[:alert] = "Failed to recruit creatures: #{e.message}"
+          if recruit_count > 0
+            command = RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
+            begin
+              command_bus.call(command)
+              flash[:notice] = "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}"
+            rescue StandardError => e
+              flash[:alert] = "Failed to recruit creatures: #{e.message}"
+            end
+          else
+            flash[:alert] = "Please select at least one creature to recruit."
           end
         else
           flash[:alert] = "Dwelling not found"
