@@ -30,6 +30,6 @@ Rails.configuration.to_prepare do
   #   bus.register(SubmitOrder, ->(cmd) { Ordering::OnSubmitOrder.new.call(cmd) })
   # end
 
-  Configuration.new.call(Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.query_bus, Rails.configuration.event_registry) unless Rails.env.test?
+  Configuration.new.call(Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.query_bus, Rails.configuration.event_registry) #unless Rails.env.test?
 
 end
