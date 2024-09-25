@@ -61,6 +61,9 @@
       </div>
       <div class="recruitment__message-box">
         <p class="recruitment__message-box__text">
+          <% flash.each do |type, message| %>
+            <%= message %>
+          <% end %>
         </p>
       </div>
     </div>
@@ -77,6 +80,7 @@
         const cancelBtn = document.getElementById('cancel-btn');
         const recruitForm = document.getElementById('recruit-form');
         const recruitCountInput = document.getElementById('recruit-count-input');
+        const messageBox = document.querySelector('.recruitment__message-box__text');
 
         function updateTotalCost(count) {
             <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
@@ -87,6 +91,12 @@
         function updateRecruitCount(count) {
             recruitCount.textContent = count;
             updateTotalCost(count);
+        }
+
+        function showMessage(message, isError = false) {
+            messageBox.textContent = message;
+            messageBox.classList.toggle('recruitment__message-box__text--error', isError);
+            messageBox.style.display = 'block';
         }
 
         // Initialize with 0
@@ -104,12 +114,22 @@
 
         recruitBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            recruitCountInput.value = parseInt(slider.value);
-            recruitForm.submit();
+            const count = parseInt(slider.value);
+            if (count === 0) {
+                showMessage("Please select at least one creature to recruit.", true);
+            } else {
+                recruitCountInput.value = count;
+                recruitForm.submit();
+            }
         });
 
         cancelBtn.addEventListener('click', function() {
             window.location.href = '<%= heroes_creature_recruitment_dwellings_path %>';
         });
+
+        // Display flash message if present
+        <% flash.each do |type, message| %>
+        showMessage("<%= j message %>", <%= type == 'alert' %>);
+        <% end %>
     });
 </script>
