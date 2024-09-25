@@ -52,6 +52,5 @@ module Heroes
         end
       end
     end
-
   end
 end

@@ -16,7 +16,6 @@ module Heroes
           ProclaimWeekSymbol,
           ProclaimWeekSymbolCommandHandler.new(application_service, event_registry)
         )
-
       end
     end
   end
