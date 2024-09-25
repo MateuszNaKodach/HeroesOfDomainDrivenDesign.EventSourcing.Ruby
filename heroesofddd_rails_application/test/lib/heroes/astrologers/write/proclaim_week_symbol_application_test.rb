@@ -1,40 +1,42 @@
 require "real_event_store_integration_test_case"
 require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol"
+require "heroes/astrologers/write/proclaim_week_symbol/rule_one_symbol_per_week"
 
 module Heroes
   module Astrologers
     class ProclaimWeekSymbolApplicationTest < RealEventStoreIntegrationTestCase
       def setup
         super
-        @dwelling_id = SecureRandom.uuid
-        @creature_id = "angel"
-        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
-        @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+        @stream_name = "Astrologers::WeekSymbols"
       end
 
-      def test_given_nothing_when_build_dwelling_then_success
+      def test_given_nothing_when_proclaim_week_symbol_then_success
         # when
-        build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
-        execute_command(build_dwelling)
+        month = 4
+        week = 2
+        week_of = "angel"
+        growth = +5
+        proclaim_week_symbol = ProclaimWeekSymbol.new(month, week, week_of, growth)
+        execute_command(proclaim_week_symbol)
 
         # then
-        expected_event = DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop)
+        expected_event = WeekSymbolProclaimed.new(month, week, week_of, growth)
         then_domain_event(@stream_name, expected_event)
       end
 
-      def test_given_dwelling_built_when_build_same_dwelling_one_more_time_then_failure_and_event_not_duplicated
+      def test_given_week_symbol_proclaimed_when_proclaim_week_symbol_for_the_same_week_then_failed
         # given
-        stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        given_domain_event(stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
+        month = 1
+        week = 1
+        week_of = "black_dragon"
+        growth = +2
+        given_domain_event(@stream_name, WeekSymbolProclaimed.new(month, week, week_of, growth))
 
-        # when
-        build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
-        assert_raises(OnlyNotBuiltBuildingCanBeBuild) do
-          execute_command(build_dwelling)
+        # when - then
+        proclaim_week_symbol = ProclaimWeekSymbol.new(month, week, week_of, growth)
+        assert_raises(OnlyOneSymbolPerWeek) do
+          execute_command(proclaim_week_symbol)
         end
-
-        # then
-        then_stored_events_count(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
       end
     end
   end
