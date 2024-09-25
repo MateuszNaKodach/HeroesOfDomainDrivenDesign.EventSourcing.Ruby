@@ -172,6 +172,7 @@
   }
 
   &__button-image {
+    object-fit: contain;
     // Styles for button images can be added here if needed
   }
 }
