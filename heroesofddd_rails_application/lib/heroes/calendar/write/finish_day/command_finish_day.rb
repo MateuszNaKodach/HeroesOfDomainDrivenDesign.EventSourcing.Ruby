@@ -1,3 +1,5 @@
+require_relative "../calendar"
+
 module Heroes
   module Calendar
     FinishDay = Data.define(:month, :week, :day)
@@ -5,7 +7,12 @@ module Heroes
     class FinishDayCommandHandler
       def initialize(application_service, event_registry)
         @application_service = application_service
-        # We'll add event mapping in a later step
+        event_registry.map_event_type(
+          Heroes::Calendar::DayFinished,
+          EventStore::Heroes::Calendar::DayFinished,
+          EventStore::Heroes::Calendar::DayFinished.method(:from_domain),
+          EventStore::Heroes::Calendar::DayFinished.method(:to_domain)
+        )
       end
 
       def call(command)

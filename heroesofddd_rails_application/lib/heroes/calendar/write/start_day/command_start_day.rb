@@ -1,3 +1,5 @@
+require_relative "../calendar"
+
 module Heroes
   module Calendar
     StartDay = Data.define(:month, :week, :day)
@@ -5,7 +7,12 @@ module Heroes
     class StartDayCommandHandler
       def initialize(application_service, event_registry)
         @application_service = application_service
-        # We'll add event mapping in a later step
+        event_registry.map_event_type(
+          Heroes::Calendar::DayStarted,
+          EventStore::Heroes::Calendar::DayStarted,
+          EventStore::Heroes::Calendar::DayStarted.method(:from_domain),
+          EventStore::Heroes::Calendar::DayStarted.method(:to_domain)
+        )
       end
 
       def call(command)
