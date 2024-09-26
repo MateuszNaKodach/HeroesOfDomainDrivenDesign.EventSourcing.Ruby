@@ -9,9 +9,9 @@ module BuildingBlocks
           @decorated = decorated
         end
 
-        def call(command)
+        def call(command, metadata)
           @recorded << command
-          @decorated.call(command)
+          @decorated.call(command, metadata)
         end
 
         def reset
