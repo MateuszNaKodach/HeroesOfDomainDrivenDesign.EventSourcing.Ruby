@@ -3,6 +3,7 @@ require "aggregate_root"
 require "arkency/command_bus"
 require "building_blocks/infrastructure/event_store/event_registry"
 require "building_blocks/infrastructure/command_bus/metadata_command_bus"
+require "building_blocks/infrastructure/command_bus/recording_command_bus"
 
 Rails.configuration.to_prepare do
   Rails.configuration.event_store = RailsEventStore::JSONClient.new
@@ -36,5 +37,10 @@ end
 
 def command_bus_instance(event_store)
   arkency_command_bus = Arkency::CommandBus.new
-  ::BuildingBlocks::Infrastructure::CommandBus::MetadataCommandBus.new(arkency_command_bus, event_store)
+  metadata_command_bus = ::BuildingBlocks::Infrastructure::CommandBus::MetadataCommandBus.new(arkency_command_bus, event_store)
+  if Rails.env.test? #todo: do not introduce test noise in production test
+    BuildingBlocks::Infrastructure::CommandBus::RecordingCommandBus.new(metadata_command_bus)
+  else
+    metadata_command_bus
   end
+end
