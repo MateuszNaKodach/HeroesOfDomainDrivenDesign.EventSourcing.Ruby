@@ -12,7 +12,7 @@ module BuildingBlocks
           if metadata.nil?
             @decorated.call(command)
           else
-            @event_store.with_metadata do
+            @event_store.with_metadata(**metadata.to_h) do
               @decorated.call(command)
             end
           end

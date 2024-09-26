@@ -2,6 +2,7 @@ require "real_event_store_integration_test_case"
 require "heroes/creature_recruitment/write/build_dwelling/command_build_dwelling"
 require "heroes/creature_recruitment/write/build_dwelling/rule_only_not_built"
 require "heroes/shared_kernel/resources"
+require "building_blocks/application/metadata"
 
 module Heroes
   module CreatureRecruitment
@@ -11,13 +12,15 @@ module Heroes
         @dwelling_id = SecureRandom.uuid
         @creature_id = "angel"
         @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
+
+        @game_id = SecureRandom.uuid
         @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
       end
 
       def test_given_nothing_when_build_dwelling_then_success
         # when
         build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
-        execute_command(build_dwelling)
+        execute_command(build_dwelling, ::BuildingBlocks::Application::Metadata.for_game(@game_id))
 
         # then
         expected_event = DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop)

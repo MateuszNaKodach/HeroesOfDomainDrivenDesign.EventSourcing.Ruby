@@ -4,7 +4,7 @@ class RealEventStoreIntegrationTestCase < ActionDispatch::IntegrationTest
   include EventStoreTest
   self.use_transactional_tests = false
 
-  def execute_command(command)
-    command_bus.call(command)
+  def execute_command(command, metadata = nil)
+    command_bus.call(command, metadata)
   end
 end
