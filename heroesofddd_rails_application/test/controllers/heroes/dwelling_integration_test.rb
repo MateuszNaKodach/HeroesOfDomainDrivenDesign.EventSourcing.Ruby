@@ -9,7 +9,7 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
 
     @game_id = SecureRandom.uuid
-    @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
+    @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
     @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
   end
 
@@ -83,7 +83,7 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     assert_select ".recruitment__message-box__text", "Please select at least one creature to recruit."
   end
 
-  def game_metadata
-    @metadata
+  def default_app_context
+    @app_context
   end
 end

@@ -9,7 +9,7 @@ module Heroes
       def setup
         super
         @game_id = SecureRandom.uuid
-        @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
+        @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_when_week_symbol_proclaimed_then_increase_symbol_creatures_dwellings_available_creatures
@@ -20,7 +20,7 @@ module Heroes
 
         # when
         proclaim_week_symbol = ProclaimWeekSymbol.new(1, 1, "angel", +2)
-        execute_command(proclaim_week_symbol, @metadata)
+        execute_command(proclaim_week_symbol, @app_context)
 
         # then
         expected_command_1 = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(angel_dwelling_id_1, "angel", +2)
@@ -41,7 +41,7 @@ module Heroes
 
         # when
         proclaim_week_symbol = ProclaimWeekSymbol.new(1, 2, "angel", +3)
-        execute_command(proclaim_week_symbol, @metadata)
+        execute_command(proclaim_week_symbol, @app_context)
 
         # then
         expected_command_1 = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(angel_dwelling_id_1, "angel", +3)
@@ -78,8 +78,8 @@ module Heroes
         assert_not_includes(@recording_command_bus.recorded, command)
       end
 
-      def game_metadata
-        @metadata
+      def default_app_context
+        @app_context
       end
     end
   end

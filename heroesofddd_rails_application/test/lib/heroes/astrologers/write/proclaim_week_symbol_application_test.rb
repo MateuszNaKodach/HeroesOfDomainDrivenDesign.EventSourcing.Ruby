@@ -10,7 +10,7 @@ module Heroes
         super
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::Astrologers::WeekSymbols"
-        @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
+        @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_given_nothing_when_proclaim_week_symbol_then_success
@@ -20,7 +20,7 @@ module Heroes
         week_of = "angel"
         growth = +5
         proclaim_week_symbol = ProclaimWeekSymbol.new(month, week, week_of, growth)
-        execute_command(proclaim_week_symbol, @metadata)
+        execute_command(proclaim_week_symbol, @app_context)
 
         # then
         expected_event = WeekSymbolProclaimed.new(month, week, week_of, growth)
@@ -38,7 +38,7 @@ module Heroes
         # when - then
         proclaim_week_symbol = ProclaimWeekSymbol.new(month, week, week_of, growth)
         assert_raises(OnlyOneSymbolPerWeek) do
-          execute_command(proclaim_week_symbol, @metadata)
+          execute_command(proclaim_week_symbol, @app_context)
         end
       end
 
@@ -53,12 +53,12 @@ module Heroes
         # when - then
         proclaim_week_symbol = ProclaimWeekSymbol.new(month, week - 1, week_of, growth)
         assert_raises(OnlyOneSymbolPerWeek) do
-          execute_command(proclaim_week_symbol, @metadata)
+          execute_command(proclaim_week_symbol, @app_context)
         end
       end
 
-      def game_metadata
-        @metadata
+      def default_app_context
+        @app_context
       end
     end
   end

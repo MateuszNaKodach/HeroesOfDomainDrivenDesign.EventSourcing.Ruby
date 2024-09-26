@@ -16,7 +16,7 @@ module Heroes
 
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
+        @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_not_built_dwelling_when_change_available_creatures_then_failed
@@ -25,7 +25,7 @@ module Heroes
 
         # then
         assert_raises(OnlyBuiltDwellingCanHaveAvailableCreatures) do
-          execute_command(recruit_creature, @metadata)
+          execute_command(recruit_creature, @app_context)
         end
       end
 
@@ -35,7 +35,7 @@ module Heroes
 
         # when
         recruit_creature = IncreaseAvailableCreatures.new(@dwelling_id, @creature_id, 10)
-        execute_command(recruit_creature, @metadata)
+        execute_command(recruit_creature, @app_context)
 
         # then
         expected_event = AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 10)
@@ -49,15 +49,15 @@ module Heroes
 
         # when
         recruit_creature = IncreaseAvailableCreatures.new(@dwelling_id, @creature_id, 3)
-        execute_command(recruit_creature, @metadata)
+        execute_command(recruit_creature, @app_context)
 
         # then
         expected_event = AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 4)
         then_domain_event(@stream_name, expected_event)
       end
 
-      def game_metadata
-        @metadata
+      def default_app_context
+        @app_context
       end
     end
   end

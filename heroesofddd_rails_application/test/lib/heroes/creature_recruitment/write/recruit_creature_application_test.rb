@@ -15,7 +15,7 @@ module Heroes
 
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
+        @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_given_not_built_dwelling_when_recruit_creature_then_failed
@@ -24,7 +24,7 @@ module Heroes
 
         # then
         assert_raises(RecruitCreaturesNotExceedAvailableCreatures) do
-          execute_command(recruit_creature, @metadata)
+          execute_command(recruit_creature, @app_context)
         end
       end
 
@@ -37,7 +37,7 @@ module Heroes
 
         # then
         assert_raises(RecruitCreaturesNotExceedAvailableCreatures) do
-          execute_command(recruit_creature, @metadata)
+          execute_command(recruit_creature, @app_context)
         end
       end
 
@@ -48,7 +48,7 @@ module Heroes
 
         # when
         recruit_creature = RecruitCreature.new(@dwelling_id, @creature_id, 1)
-        execute_command(recruit_creature, @metadata)
+        execute_command(recruit_creature, @app_context)
 
         # then
         expected_event = CreatureRecruited.new(@dwelling_id, @creature_id, 1, @cost_per_troop)
@@ -62,7 +62,7 @@ module Heroes
 
         # when
         recruit_creature = RecruitCreature.new(@dwelling_id, @creature_id, 2)
-        execute_command(recruit_creature, @metadata)
+        execute_command(recruit_creature, @app_context)
 
         # then
         expected_cost = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 6000 ], [ :GEM, 2 ])
@@ -81,7 +81,7 @@ module Heroes
 
         # then
         assert_raises(RecruitCreaturesNotExceedAvailableCreatures) do
-          execute_command(recruit_creature, @metadata)
+          execute_command(recruit_creature, @app_context)
         end
       end
 
@@ -96,12 +96,12 @@ module Heroes
 
         # then
         assert_raises(RecruitCreaturesNotExceedAvailableCreatures) do
-          execute_command(recruit_creature, @metadata)
+          execute_command(recruit_creature, @app_context)
         end
       end
 
-      def game_metadata
-        @metadata
+      def default_app_context
+        @app_context
       end
     end
   end
