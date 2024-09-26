@@ -15,7 +15,7 @@ Fixing format errors:
 `rubocop --autocorrect`
 
 ## Routes:
-- http://127.0.0.1:3000/heroes/creature_recruitment/dwellings
+- http://127.0.0.1:3000/heroes/games/fcc8f601-76cb-4b5a-972d-b7431303f69a/creature_recruitment/dwellings/cecc4307-e940-4ef2-8436-80c475729938
 
 You can run the server with test env: `rails server -e test`
 
