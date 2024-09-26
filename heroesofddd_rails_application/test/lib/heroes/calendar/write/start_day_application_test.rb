@@ -1,5 +1,6 @@
 require "real_event_store_integration_test_case"
 require "heroes/calendar/write/start_day/command_start_day"
+require "heroes/calendar/write/start_day/rule_cannot_skip_days"
 require "heroes/calendar/write/start_day/event_day_started"
 require "heroes/calendar/write/finish_day/command_finish_day"
 require "heroes/calendar/write/finish_day/event_day_finished"
@@ -46,7 +47,7 @@ module Heroes
 
         # when/then
         start_day = StartDay.new(month: 1, week: 1, day: 3)
-        assert_raises(RuntimeError, "Cannot skip days") do
+        assert_raises(CannotSkipDays) do
           execute_command(start_day)
         end
       end

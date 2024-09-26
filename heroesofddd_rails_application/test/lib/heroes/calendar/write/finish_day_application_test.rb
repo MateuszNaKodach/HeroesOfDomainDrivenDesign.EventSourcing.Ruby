@@ -1,5 +1,6 @@
 require "real_event_store_integration_test_case"
 require "heroes/calendar/write/start_day/command_start_day"
+require "heroes/calendar/write/finish_day/rule_can_only_finish_the_current_day"
 require "heroes/calendar/write/finish_day/command_finish_day"
 require "building_blocks/application/app_context"
 
@@ -32,7 +33,7 @@ module Heroes
 
         # when/then
         finish_day = FinishDay.new(month: 1, week: 1, day: 2)
-        assert_raises(RuntimeError, "Can only finish the current day") do
+        assert_raises(CanOnlyFinishCurrentDay) do
           execute_command(finish_day)
         end
       end

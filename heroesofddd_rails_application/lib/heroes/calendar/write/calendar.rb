@@ -47,11 +47,11 @@ module Heroes
         end
 
         def validate_start_day(command, state)
-          raise "Cannot skip days" unless next_day?(command, state)
+          raise CannotSkipDays unless next_day?(command, state)
         end
 
         def validate_finish_day(command, state)
-          raise "Can only finish the current day" unless current_day?(command, state)
+          raise CanOnlyFinishCurrentDay unless current_day?(command, state)
         end
 
         def next_day?(command, state)
