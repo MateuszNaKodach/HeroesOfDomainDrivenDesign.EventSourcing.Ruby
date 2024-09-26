@@ -9,7 +9,7 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
 
     @game_id = SecureRandom.uuid
-    @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
+    @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
     @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
   end
 

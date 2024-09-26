@@ -22,7 +22,7 @@ module Heroes
           if recruit_count > 0
             command = RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
             begin
-              command_bus.call(command, BuildingBlocks::Application::Metadata.for_game(game_id))
+              command_bus.call(command, BuildingBlocks::Application::AppContext.for_game(game_id))
               flash[:notice] = "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}"
             rescue StandardError => e
               flash[:alert] = "Failed to recruit creatures: #{e.message}"

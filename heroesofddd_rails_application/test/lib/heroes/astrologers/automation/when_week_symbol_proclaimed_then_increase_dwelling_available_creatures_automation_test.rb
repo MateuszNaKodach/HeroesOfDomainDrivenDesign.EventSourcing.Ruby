@@ -9,7 +9,7 @@ module Heroes
       def setup
         super
         @game_id = SecureRandom.uuid
-        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
+        @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_when_week_symbol_proclaimed_then_increase_symbol_creatures_dwellings_available_creatures

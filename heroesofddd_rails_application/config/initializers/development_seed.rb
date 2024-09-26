@@ -1,11 +1,11 @@
 # This file contains code that will run only in the development environment
 # It seeds the database with initial data for testing and development purposes
-require "building_blocks/application/metadata"
+require "building_blocks/application/app_context"
 
 if Rails.env.development?
   Rails.application.config.after_initialize do
     game_id = SecureRandom.uuid
-    metadata = ::BuildingBlocks::Application::Metadata.for_game(game_id)
+    metadata = ::BuildingBlocks::Application::AppContext.for_game(game_id)
     dwelling_id = SecureRandom.uuid
     creature_id = "angel"
     cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])

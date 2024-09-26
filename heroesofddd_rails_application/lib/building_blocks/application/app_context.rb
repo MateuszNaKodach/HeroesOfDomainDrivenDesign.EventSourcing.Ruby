@@ -1,6 +1,6 @@
 module BuildingBlocks
   module Application
-    Metadata = Data.define(:game_id) do
+    AppContext = Data.define(:game_id) do
       def self.for_game(game_id)
         new(game_id)
       end

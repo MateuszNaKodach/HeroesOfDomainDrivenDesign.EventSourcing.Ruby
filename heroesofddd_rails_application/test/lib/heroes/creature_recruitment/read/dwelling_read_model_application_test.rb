@@ -13,7 +13,7 @@ module Heroes
 
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
+        @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_create_on_dwelling_built

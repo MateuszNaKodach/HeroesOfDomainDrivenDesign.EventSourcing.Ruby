@@ -3,7 +3,7 @@ require "heroes/creature_recruitment/write/recruit_creature/command_recruit_crea
 require "heroes/creature_recruitment/write/recruit_creature/rule_not_exceed_available_creatures"
 require "heroes/creature_recruitment/write/change_available_creatures/rule_only_built"
 require "heroes/shared_kernel/resources"
-require "building_blocks/application/metadata"
+require "building_blocks/application/app_context"
 
 module Heroes
   module CreatureRecruitment
@@ -16,7 +16,7 @@ module Heroes
 
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
+        @metadata = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_not_built_dwelling_when_change_available_creatures_then_failed
