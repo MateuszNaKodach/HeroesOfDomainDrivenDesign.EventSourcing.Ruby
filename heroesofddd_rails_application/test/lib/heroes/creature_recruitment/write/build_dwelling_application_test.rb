@@ -41,6 +41,10 @@ module Heroes
         # then
         then_stored_events_count(@stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
       end
+
+      def game_metadata
+        @metadata
+      end
     end
   end
 end

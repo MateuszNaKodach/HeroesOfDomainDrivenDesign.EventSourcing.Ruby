@@ -99,6 +99,11 @@ module Heroes
           execute_command(recruit_creature, @metadata)
         end
       end
+
+      def game_metadata
+        @metadata
+      end
+
     end
   end
 end

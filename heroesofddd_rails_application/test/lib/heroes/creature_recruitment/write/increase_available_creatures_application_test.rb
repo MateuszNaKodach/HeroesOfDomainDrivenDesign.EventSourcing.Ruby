@@ -55,6 +55,10 @@ module Heroes
         expected_event = AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 4)
         then_domain_event(@stream_name, expected_event)
       end
+
+      def game_metadata
+        @metadata
+      end
     end
   end
 end

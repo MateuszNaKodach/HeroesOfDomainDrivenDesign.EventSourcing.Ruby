@@ -13,6 +13,7 @@ module Heroes
 
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
+        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
       end
 
       def test_create_on_dwelling_built
@@ -64,6 +65,10 @@ module Heroes
                                                       available_creatures: 98,
                                                       cost_per_troop: @cost_per_troop)
         assert_equal expected_state, state
+      end
+
+      def game_metadata
+        @metadata
       end
     end
   end

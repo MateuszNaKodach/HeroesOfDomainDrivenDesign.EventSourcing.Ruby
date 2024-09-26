@@ -56,6 +56,10 @@ module Heroes
           execute_command(proclaim_week_symbol, @metadata)
         end
       end
+
+      def game_metadata
+        @metadata
+      end
     end
   end
 end
