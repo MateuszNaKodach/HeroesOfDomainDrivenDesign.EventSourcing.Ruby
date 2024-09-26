@@ -12,7 +12,7 @@ module Heroes
       [
         Heroes::CreatureRecruitment::Configuration.new,
         Heroes::Astrologers::Configuration.new,
-        Heroes::Calendar::Configuration.new,
+        Heroes::Calendar::Configuration.new
       ].each { |c| c.call(event_store, command_bus, event_mapper) }
     end
   end
