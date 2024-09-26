@@ -1,12 +1,13 @@
 require "rails_event_store"
 require "aggregate_root"
 require "arkency/command_bus"
-require_relative "../../lib/building_blocks/infrastructure/event_store/event_registry"
+require "building_blocks/infrastructure/event_store/event_registry"
+require "building_blocks/infrastructure/command_bus/metadata_command_bus"
 
 Rails.configuration.to_prepare do
   Rails.configuration.event_store = RailsEventStore::JSONClient.new
   Rails.configuration.event_registry = BuildingBlocks::Infrastructure::EventStore::EventRegistry.new
-  Rails.configuration.command_bus = Arkency::CommandBus.new
+  Rails.configuration.command_bus = command_bus_instance(Rails.configuration.event_store)
   Rails.configuration.query_bus = Arkency::CommandBus.new
 
   AggregateRoot.configure do |config|
@@ -32,3 +33,8 @@ Rails.configuration.to_prepare do
 
   Configuration.new.call(Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.query_bus, Rails.configuration.event_registry)
 end
+
+def command_bus_instance(event_store)
+  arkency_command_bus = Arkency::CommandBus.new
+  ::BuildingBlocks::Infrastructure::CommandBus::MetadataCommandBus.new(arkency_command_bus, event_store)
+  end
