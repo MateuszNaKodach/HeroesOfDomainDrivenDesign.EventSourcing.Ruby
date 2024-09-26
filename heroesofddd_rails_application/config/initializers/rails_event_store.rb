@@ -38,7 +38,7 @@ end
 def command_bus_instance(event_store)
   arkency_command_bus = Arkency::CommandBus.new
   metadata_command_bus = ::BuildingBlocks::Infrastructure::CommandBus::MetadataCommandBus.new(arkency_command_bus, event_store)
-  if Rails.env.test? #todo: do not introduce test noise in production test
+  if Rails.env.test? # todo: do not introduce test noise in production test
     BuildingBlocks::Infrastructure::CommandBus::RecordingCommandBus.new(metadata_command_bus)
   else
     metadata_command_bus

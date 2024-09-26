@@ -21,7 +21,6 @@ module BuildingBlocks
         def register(command, handler)
           @decorated.register(command, handler)
         end
-
       end
     end
   end

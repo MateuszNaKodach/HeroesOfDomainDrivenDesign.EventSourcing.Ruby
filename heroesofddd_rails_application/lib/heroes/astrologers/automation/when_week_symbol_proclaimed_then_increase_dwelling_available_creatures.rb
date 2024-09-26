@@ -29,7 +29,10 @@ module Heroes
 
       def build_state(event, game_id)
         stream_name = "Game::$#{game_id}::Astrologers::WeekSymbolDwellingEffect"
-        past_events = @event_store.read.stream(stream_name).to_a
+        proclaimed_at = event.metadata[:timestamp]
+        past_events = @event_store.read.stream(stream_name)
+                                  .older_than(proclaimed_at)
+                                  .to_a
         last_stored = past_events.size - 1
         @event_store.link(event.event_id, stream_name: stream_name, expected_version: last_stored)
         DwellingsToProcess.new(Hash.new).tap do |state|

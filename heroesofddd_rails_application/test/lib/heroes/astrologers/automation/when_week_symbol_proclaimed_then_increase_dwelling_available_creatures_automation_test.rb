@@ -12,7 +12,7 @@ module Heroes
         @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
       end
 
-      def test_case_1
+      def test_when_week_symbol_proclaimed_then_increase_symbol_creatures_dwellings_available_creatures
         # given
         angel_dwelling_id_1 = given_dwelling_built_event("angel")
         angel_dwelling_id_2 = given_dwelling_built_event("angel")
@@ -33,14 +33,40 @@ module Heroes
         then_command_not_executed(not_expected_command)
       end
 
+      def test_when_week_symbol_proclaimed_then_increase_all_dwellings_built_till_the_proclamation
+        # given
+        angel_dwelling_id_1 = given_dwelling_built_event("angel")
+        given_week_symbol_proclaimed(1, 1, "angel", +2)
+        angel_dwelling_id_2 = given_dwelling_built_event("angel")
+
+        # when
+        proclaim_week_symbol = ProclaimWeekSymbol.new(1, 2, "angel", +3)
+        execute_command(proclaim_week_symbol, @metadata)
+
+        # then
+        expected_command_1 = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(angel_dwelling_id_1, "angel", +3)
+        then_command_executed(expected_command_1)
+
+        expected_command_2 = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(angel_dwelling_id_2, "angel", +3)
+        then_command_executed(expected_command_2)
+      end
+
       private
 
       def given_dwelling_built_event(creature_id)
         dwelling_id = SecureRandom.uuid
-        cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:GEM, 1])
-        stream_name = "CreatureRecruitment::Dwelling$#{dwelling_id}"
+        cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
+        stream_name = "Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{dwelling_id}"
 
         given_domain_event(stream_name, ::Heroes::CreatureRecruitment::DwellingBuilt.new(dwelling_id, creature_id, cost_per_troop))
+        dwelling_id
+      end
+
+      def given_week_symbol_proclaimed(month, week, symbol, growth)
+        dwelling_id = SecureRandom.uuid
+        stream_name = "Game::$#{@game_id}::Astrologers::WeekSymbols"
+
+        given_domain_event(stream_name, ::Heroes::Astrologers::WeekSymbolProclaimed.new(month, week, symbol, growth))
         dwelling_id
       end
 
