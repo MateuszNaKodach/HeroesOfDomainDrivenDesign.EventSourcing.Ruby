@@ -3,7 +3,7 @@ require "heroes/creature_recruitment/write/recruit_creature/command_recruit_crea
 require "heroes/creature_recruitment/write/recruit_creature/rule_not_exceed_available_creatures"
 require "heroes/creature_recruitment/write/change_available_creatures/rule_only_built"
 require "heroes/shared_kernel/resources"
-require "building_blocks/application/metadata"
+require "building_blocks/application/app_context"
 
 module Heroes
   module CreatureRecruitment
@@ -16,7 +16,7 @@ module Heroes
 
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
+        @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_not_built_dwelling_when_change_available_creatures_then_failed
@@ -25,7 +25,7 @@ module Heroes
 
         # then
         assert_raises(OnlyBuiltDwellingCanHaveAvailableCreatures) do
-          execute_command(recruit_creature, @metadata)
+          execute_command(recruit_creature, @app_context)
         end
       end
 
@@ -35,7 +35,7 @@ module Heroes
 
         # when
         recruit_creature = IncreaseAvailableCreatures.new(@dwelling_id, @creature_id, 10)
-        execute_command(recruit_creature, @metadata)
+        execute_command(recruit_creature, @app_context)
 
         # then
         expected_event = AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 10)
@@ -49,15 +49,15 @@ module Heroes
 
         # when
         recruit_creature = IncreaseAvailableCreatures.new(@dwelling_id, @creature_id, 3)
-        execute_command(recruit_creature, @metadata)
+        execute_command(recruit_creature, @app_context)
 
         # then
         expected_event = AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 4)
         then_domain_event(@stream_name, expected_event)
       end
 
-      def game_metadata
-        @metadata
+      def default_app_context
+        @app_context
       end
     end
   end

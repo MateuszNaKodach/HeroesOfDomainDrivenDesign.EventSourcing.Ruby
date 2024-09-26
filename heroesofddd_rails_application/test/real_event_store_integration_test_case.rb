@@ -4,9 +4,8 @@ class RealEventStoreIntegrationTestCase < ActionDispatch::IntegrationTest
   include EventStoreTest
   self.use_transactional_tests = false
 
-  def execute_command(command, metadata = nil)
-    # command_bus.call(command, metadata || game_metadata)
-    command_bus.call(command, metadata)
+  def execute_command(command, app_context = nil)
+    command_bus.call(command, app_context || default_app_context)
   end
 
   def before_setup

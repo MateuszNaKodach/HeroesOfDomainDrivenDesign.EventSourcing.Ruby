@@ -2,7 +2,7 @@ require "real_event_store_integration_test_case"
 require "heroes/creature_recruitment/write/build_dwelling/command_build_dwelling"
 require "heroes/creature_recruitment/write/build_dwelling/rule_only_not_built"
 require "heroes/shared_kernel/resources"
-require "building_blocks/application/metadata"
+require "building_blocks/application/app_context"
 
 module Heroes
   module CreatureRecruitment
@@ -15,13 +15,13 @@ module Heroes
 
         @game_id = SecureRandom.uuid
         @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
+        @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
       end
 
       def test_given_nothing_when_build_dwelling_then_success
         # when
         build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
-        execute_command(build_dwelling, @metadata)
+        execute_command(build_dwelling, @app_context)
 
         # then
         expected_event = DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop)
@@ -35,15 +35,15 @@ module Heroes
         # when
         build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
         assert_raises(OnlyNotBuiltBuildingCanBeBuild) do
-          execute_command(build_dwelling,  @metadata)
+          execute_command(build_dwelling,  @app_context)
         end
 
         # then
         then_stored_events_count(@stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
       end
 
-      def game_metadata
-        @metadata
+      def default_app_context
+        @app_context
       end
     end
   end
