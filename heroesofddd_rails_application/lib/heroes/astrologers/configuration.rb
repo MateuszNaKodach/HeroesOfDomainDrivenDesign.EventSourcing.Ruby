@@ -10,7 +10,7 @@ module Heroes
           WeekSymbol,
           event_store,
           event_registry
-        ) { |command| "Astrologers::WeekSymbols" }
+        ) { |_, metadata| "Game::$#{metadata[:game_id]}::Astrologers::WeekSymbols" }
 
         command_bus.register(
           ProclaimWeekSymbol,

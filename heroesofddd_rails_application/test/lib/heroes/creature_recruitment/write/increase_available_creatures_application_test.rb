@@ -3,6 +3,7 @@ require "heroes/creature_recruitment/write/recruit_creature/command_recruit_crea
 require "heroes/creature_recruitment/write/recruit_creature/rule_not_exceed_available_creatures"
 require "heroes/creature_recruitment/write/change_available_creatures/rule_only_built"
 require "heroes/shared_kernel/resources"
+require "building_blocks/application/metadata"
 
 module Heroes
   module CreatureRecruitment
@@ -12,7 +13,10 @@ module Heroes
         @dwelling_id = SecureRandom.uuid
         @creature_id = "angel"
         @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
-        @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+
+        @game_id = SecureRandom.uuid
+        @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
+        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
       end
 
       def test_not_built_dwelling_when_change_available_creatures_then_failed
@@ -21,7 +25,7 @@ module Heroes
 
         # then
         assert_raises(OnlyBuiltDwellingCanHaveAvailableCreatures) do
-          execute_command(recruit_creature)
+          execute_command(recruit_creature, @metadata)
         end
       end
 
@@ -31,7 +35,7 @@ module Heroes
 
         # when
         recruit_creature = IncreaseAvailableCreatures.new(@dwelling_id, @creature_id, 10)
-        execute_command(recruit_creature)
+        execute_command(recruit_creature, @metadata)
 
         # then
         expected_event = AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 10)
@@ -45,7 +49,7 @@ module Heroes
 
         # when
         recruit_creature = IncreaseAvailableCreatures.new(@dwelling_id, @creature_id, 3)
-        execute_command(recruit_creature)
+        execute_command(recruit_creature, @metadata)
 
         # then
         expected_event = AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 4)

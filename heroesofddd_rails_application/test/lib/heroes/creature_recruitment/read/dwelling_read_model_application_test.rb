@@ -10,7 +10,9 @@ module Heroes
         @dwelling_id = SecureRandom.uuid
         @creature_id = "black_dragon"
         @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 4000 ], [ :SULFUR, 2 ])
-        @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+
+        @game_id = SecureRandom.uuid
+        @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
       end
 
       def test_create_on_dwelling_built

@@ -13,7 +13,7 @@ module Heroes
           Dwelling,
           event_store,
           event_registry
-        ) { |command| "CreatureRecruitment::Dwelling$#{command.dwelling_id}" }
+        ) { |command, metadata| "Game::$#{metadata[:game_id]}::CreatureRecruitment::Dwelling$#{command.dwelling_id}" }
 
         command_bus.register(
           BuildDwelling,

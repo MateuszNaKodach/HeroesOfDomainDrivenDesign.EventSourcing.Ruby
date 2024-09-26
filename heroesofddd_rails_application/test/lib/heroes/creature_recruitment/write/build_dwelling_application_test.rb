@@ -14,13 +14,14 @@ module Heroes
         @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
 
         @game_id = SecureRandom.uuid
-        @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+        @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
+        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
       end
 
       def test_given_nothing_when_build_dwelling_then_success
         # when
         build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
-        execute_command(build_dwelling, ::BuildingBlocks::Application::Metadata.for_game(@game_id))
+        execute_command(build_dwelling, @metadata)
 
         # then
         expected_event = DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop)
@@ -29,17 +30,16 @@ module Heroes
 
       def test_given_dwelling_built_when_build_same_dwelling_one_more_time_then_failure_and_event_not_duplicated
         # given
-        stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
-        given_domain_event(stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
+        given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
 
         # when
         build_dwelling = BuildDwelling.new(@dwelling_id, @creature_id, @cost_per_troop)
         assert_raises(OnlyNotBuiltBuildingCanBeBuild) do
-          execute_command(build_dwelling)
+          execute_command(build_dwelling,  @metadata)
         end
 
         # then
-        then_stored_events_count(stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
+        then_stored_events_count(@stream_name, EventStore::Heroes::CreatureRecruitment::DwellingBuilt, 1)
       end
     end
   end
