@@ -12,7 +12,7 @@ module Heroes
             t.timestamps
             t.integer :lock_version, null: false, default: 0
 
-            t.index [:game_id, :id], unique: true
+            t.index [ :game_id, :id ], unique: true
           end
         end
       end

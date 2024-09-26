@@ -103,7 +103,6 @@ module Heroes
       def game_metadata
         @metadata
       end
-
     end
   end
 end

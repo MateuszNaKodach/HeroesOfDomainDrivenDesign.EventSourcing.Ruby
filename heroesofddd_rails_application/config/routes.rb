@@ -15,8 +15,8 @@ Rails.application.routes.draw do
   namespace :heroes do
     resources :games, only: [] do
       namespace :creature_recruitment do
-        resources :dwellings, only: [:show] do
-          post 'recruit', on: :member
+        resources :dwellings, only: [ :show ] do
+          post "recruit", on: :member
         end
       end
     end

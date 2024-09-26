@@ -2,7 +2,6 @@ module BuildingBlocks
   module Infrastructure
     module CommandBus
       class MetadataCommandBus
-
         def initialize(decorated, event_store)
           @decorated = decorated
           @event_store = event_store
@@ -21,7 +20,6 @@ module BuildingBlocks
         def register(command, handler)
           @decorated.register(command, handler)
         end
-
       end
     end
   end
