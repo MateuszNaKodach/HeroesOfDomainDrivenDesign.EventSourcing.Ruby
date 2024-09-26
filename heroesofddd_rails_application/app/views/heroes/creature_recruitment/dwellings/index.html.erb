@@ -1,4 +1,4 @@
-<%= form_with(url: recruit_heroes_creature_recruitment_dwelling_path(@dwelling), local: true, method: :post, id: 'recruit-form', class: 'recruitment') do |form| %>
+<%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(@dwelling.game_id, @dwelling), local: true, method: :post, id: 'recruit-form', class: 'recruitment') do |form| %>
   <div class="recruitment__container">
     <div class="recruitment__border">
       <div class="recruitment__component">
@@ -124,7 +124,7 @@
         });
 
         cancelBtn.addEventListener('click', function() {
-            window.location.href = '<%= heroes_creature_recruitment_dwellings_path %>';
+            window.location.href = '<%= heroes_game_creature_recruitment_dwellings_path(@dwelling.game_id) %>';
         });
 
         // Display flash message if present

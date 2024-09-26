@@ -18,7 +18,7 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     given_domain_event(@stream_name, Heroes::CreatureRecruitment::AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 10))
 
     # When
-    get heroes_creature_recruitment_dwelling_path(@dwelling_id)
+    get heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id)
 
     # Then
     assert_response :success
@@ -34,10 +34,10 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     given_domain_event(@stream_name, Heroes::CreatureRecruitment::AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 10))
 
     # When
-    post recruit_heroes_creature_recruitment_dwelling_path(@dwelling_id), params: { recruit_count: 5 }
+    post recruit_heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id), params: { recruit_count: 5 }
 
     # Then
-    assert_redirected_to heroes_creature_recruitment_dwelling_path(@dwelling_id)
+    assert_redirected_to heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id)
     follow_redirect!
     assert_select ".recruitment__count-value", "5"
   end
@@ -47,7 +47,7 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     non_existent_id = SecureRandom.uuid
 
     # When
-    get heroes_creature_recruitment_dwelling_path(non_existent_id)
+    get heroes_game_creature_recruitment_dwelling_path(@game_id, non_existent_id)
 
     # Then
     assert_response :not_found
@@ -59,7 +59,7 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     given_domain_event(@stream_name, Heroes::CreatureRecruitment::AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 10))
 
     # When
-    get heroes_creature_recruitment_dwelling_path(@dwelling_id)
+    get heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id)
 
     # Then
     assert_response :success
@@ -73,10 +73,10 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     given_domain_event(@stream_name, Heroes::CreatureRecruitment::AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 10))
 
     # When
-    post recruit_heroes_creature_recruitment_dwelling_path(@dwelling_id), params: { recruit_count: 0 }
+    post recruit_heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id), params: { recruit_count: 0 }
 
     # Then
-    assert_redirected_to heroes_creature_recruitment_dwelling_path(@dwelling_id)
+    assert_redirected_to heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id)
     follow_redirect!
     assert_select ".recruitment__count-value", "10"
     assert_select ".recruitment__message-box__text", "Please select at least one creature to recruit."
