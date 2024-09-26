@@ -8,10 +8,6 @@ module Heroes
     class WhenWeekSymbolProclaimedThenIncreaseDwellingAvailableCreaturesApplicationTest < RealEventStoreIntegrationTestCase
       def setup
         super
-        @dwelling_id = SecureRandom.uuid
-        @creature_id = "black_dragon"
-        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 4000], [:SULFUR, 2])
-
         @game_id = SecureRandom.uuid
         @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
       end
@@ -42,7 +38,7 @@ module Heroes
       def given_dwelling_built_event(creature_id)
         dwelling_id = SecureRandom.uuid
         cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:GEM, 1])
-        stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+        stream_name = "CreatureRecruitment::Dwelling$#{dwelling_id}"
 
         given_domain_event(stream_name, ::Heroes::CreatureRecruitment::DwellingBuilt.new(dwelling_id, creature_id, cost_per_troop))
         dwelling_id
