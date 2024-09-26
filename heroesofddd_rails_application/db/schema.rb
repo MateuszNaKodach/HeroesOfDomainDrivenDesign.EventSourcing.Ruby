@@ -15,12 +15,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_19_115455) do
   enable_extension "plpgsql"
 
   create_table "dwelling_read_models", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "game_id", null: false
     t.string "creature_id", null: false
     t.integer "available_creatures", null: false
     t.jsonb "cost_per_troop", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "lock_version", default: 0, null: false
+    t.index ["game_id", "id"], name: "index_dwelling_read_models_on_game_id_and_id", unique: true
   end
 
   create_table "event_store_events", force: :cascade do |t|

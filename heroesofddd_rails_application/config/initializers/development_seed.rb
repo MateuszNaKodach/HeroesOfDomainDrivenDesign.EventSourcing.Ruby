@@ -1,8 +1,11 @@
 # This file contains code that will run only in the development environment
 # It seeds the database with initial data for testing and development purposes
+require "building_blocks/application/metadata"
 
 if Rails.env.development?
   Rails.application.config.after_initialize do
+    game_id = SecureRandom.uuid
+    metadata = ::BuildingBlocks::Application::Metadata.for_game(game_id)
     dwelling_id = SecureRandom.uuid
     creature_id = "angel"
     cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
@@ -13,7 +16,7 @@ if Rails.env.development?
       creature_id,
       cost_per_troop
     )
-    Rails.configuration.command_bus.call(build_dwelling_command)
+    Rails.configuration.command_bus.call(build_dwelling_command, metadata)
     puts "🏠 Dwelling built with ID: #{dwelling_id}"
 
     # Increase Available Creatures
@@ -22,7 +25,7 @@ if Rails.env.development?
       creature_id,
       10
     )
-    Rails.configuration.command_bus.call(increase_creatures_command)
+    Rails.configuration.command_bus.call(increase_creatures_command, metadata)
     puts "👼 Increased available creatures by 10"
 
     puts "✅ Development seed completed successfully!"

@@ -1,13 +1,16 @@
 require "real_event_store_integration_test_case"
 require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol"
 require "heroes/astrologers/write/proclaim_week_symbol/rule_one_symbol_per_week"
+require "building_blocks/application/metadata"
 
 module Heroes
   module Astrologers
     class ProclaimWeekSymbolApplicationTest < RealEventStoreIntegrationTestCase
       def setup
         super
-        @stream_name = "Astrologers::WeekSymbols"
+        @game_id = SecureRandom.uuid
+        @stream_name ="Game::$#{@game_id}::Astrologers::WeekSymbols"
+        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
       end
 
       def test_given_nothing_when_proclaim_week_symbol_then_success
@@ -17,7 +20,7 @@ module Heroes
         week_of = "angel"
         growth = +5
         proclaim_week_symbol = ProclaimWeekSymbol.new(month, week, week_of, growth)
-        execute_command(proclaim_week_symbol)
+        execute_command(proclaim_week_symbol, @metadata)
 
         # then
         expected_event = WeekSymbolProclaimed.new(month, week, week_of, growth)
@@ -35,7 +38,7 @@ module Heroes
         # when - then
         proclaim_week_symbol = ProclaimWeekSymbol.new(month, week, week_of, growth)
         assert_raises(OnlyOneSymbolPerWeek) do
-          execute_command(proclaim_week_symbol)
+          execute_command(proclaim_week_symbol, @metadata)
         end
       end
 
@@ -50,8 +53,12 @@ module Heroes
         # when - then
         proclaim_week_symbol = ProclaimWeekSymbol.new(month, week - 1, week_of, growth)
         assert_raises(OnlyOneSymbolPerWeek) do
-          execute_command(proclaim_week_symbol)
+          execute_command(proclaim_week_symbol, @metadata)
         end
+      end
+
+      def game_metadata
+        @metadata
       end
     end
   end

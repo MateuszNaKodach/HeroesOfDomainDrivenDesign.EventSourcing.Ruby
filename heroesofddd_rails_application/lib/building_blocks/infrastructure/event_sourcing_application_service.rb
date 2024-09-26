@@ -9,7 +9,8 @@ module BuildingBlocks
       end
 
       def call(command)
-        stream_name = @command_to_stream_name.call(command)
+        metadata = @event_store.metadata
+        stream_name = @command_to_stream_name.call(command, metadata)
         stored_events = @event_store
                           .read
                           .stream(stream_name)

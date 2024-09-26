@@ -28,8 +28,10 @@ module EventStoreTest
   end
 
   def given_domain_event(stream_name, domain_event)
-    store_event = event_registry.domain_to_store(domain_event)
-    event_store.publish(store_event, stream_name: stream_name)
+    event_store.with_metadata(game_id: game_metadata.game_id) do
+      store_event = event_registry.domain_to_store(domain_event)
+      event_store.publish(store_event, stream_name: stream_name)
+    end
   end
 
   def then_stored_event(stream_name, event_class, data)

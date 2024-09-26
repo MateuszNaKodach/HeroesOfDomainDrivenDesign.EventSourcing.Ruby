@@ -10,7 +10,10 @@ module Heroes
         @dwelling_id = SecureRandom.uuid
         @creature_id = "black_dragon"
         @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 4000 ], [ :SULFUR, 2 ])
-        @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+
+        @game_id = SecureRandom.uuid
+        @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
+        @metadata = ::BuildingBlocks::Application::Metadata.for_game(@game_id)
       end
 
       def test_create_on_dwelling_built
@@ -18,10 +21,11 @@ module Heroes
         given_domain_event(@stream_name, DwellingBuilt.new(@dwelling_id, @creature_id, @cost_per_troop))
 
         # when
-        state = DwellingReadModel::State.find_by(id: @dwelling_id)
+        state = DwellingReadModel::State.find_by(game_id: @game_id, id: @dwelling_id)
 
         # then
         expected_state = DwellingReadModel::State.new(id: @dwelling_id,
+                                                      game_id: @game_id,
                                                       creature_id: @creature_id,
                                                       available_creatures: 0,
                                                       cost_per_troop: @cost_per_troop)
@@ -34,10 +38,11 @@ module Heroes
         given_domain_event(@stream_name, AvailableCreaturesChanged.new(@dwelling_id, @creature_id, 99))
 
         # when
-        state = DwellingReadModel::State.find_by(id: @dwelling_id)
+        state = DwellingReadModel::State.find_by(game_id: @game_id, id: @dwelling_id)
 
         # then
         expected_state = DwellingReadModel::State.new(id: @dwelling_id,
+                                                      game_id: @game_id,
                                                       creature_id: @creature_id,
                                                       available_creatures: 99,
                                                       cost_per_troop: @cost_per_troop)
@@ -51,14 +56,19 @@ module Heroes
         given_domain_event(@stream_name, CreatureRecruited.new(@dwelling_id, @creature_id, 1, @cost_per_troop))
 
         # when
-        state = DwellingReadModel::State.find_by(id: @dwelling_id)
+        state = DwellingReadModel::State.find_by(game_id: @game_id, id: @dwelling_id)
 
         # then
         expected_state = DwellingReadModel::State.new(id: @dwelling_id,
+                                                      game_id: @game_id,
                                                       creature_id: @creature_id,
                                                       available_creatures: 98,
                                                       cost_per_troop: @cost_per_troop)
         assert_equal expected_state, state
+      end
+
+      def game_metadata
+        @metadata
       end
     end
   end
