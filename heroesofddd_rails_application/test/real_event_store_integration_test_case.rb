@@ -1,5 +1,4 @@
 require "test_helper"
-require "recording_command_bus"
 
 class RealEventStoreIntegrationTestCase < ActionDispatch::IntegrationTest
   include EventStoreTest
@@ -7,17 +6,13 @@ class RealEventStoreIntegrationTestCase < ActionDispatch::IntegrationTest
 
   def before_setup
     result = super
-    @previous_command_bus = Rails.configuration.command_bus
-    @recording_command_bus = ::RecordingCommandBus.new(@previous_command_bus)
-    Rails.configuration.command_bus = @recording_command_bus
-    Configuration.new.call(Rails.configuration.event_store, Rails.configuration.command_bus, Rails.configuration.command_bus, Rails.configuration.event_registry)
+    @recording_command_bus = Rails.configuration.command_bus
     result
   end
 
   def before_teardown
     result = super
     @recording_command_bus.reset
-    Rails.configuration.command_bus = @previous_command_bus
     result
   end
 
