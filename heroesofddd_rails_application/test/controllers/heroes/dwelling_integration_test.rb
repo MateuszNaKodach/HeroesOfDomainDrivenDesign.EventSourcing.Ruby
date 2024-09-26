@@ -6,11 +6,10 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
   def setup
     @dwelling_id = SecureRandom.uuid
     @creature_id = "angel"
-    @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources(
-                                                                        [ :GOLD, 3000 ],
-                                                                        [ :GEM, 1 ]
-                                                                      )
-    @stream_name = "CreatureRecruitment::Dwelling$#{@dwelling_id}"
+    @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
+
+    @game_id = SecureRandom.uuid
+    @stream_name ="Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
   end
 
   test "viewing the recruitment page" do
