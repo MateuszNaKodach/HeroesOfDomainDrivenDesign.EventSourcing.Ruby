@@ -51,7 +51,7 @@ module Heroes
         week_of = event.data[:week_of]
         growth = event.data[:growth]
         symbol_dwellings = state.dwellings[week_of]
-        symbol_dwellings.each do |dwelling_id|
+        symbol_dwellings&.each do |dwelling_id|
           metadata = ::BuildingBlocks::Application::AppContext.for_game(game_id)
           command = ::Heroes::CreatureRecruitment::IncreaseAvailableCreatures.new(dwelling_id, week_of, growth)
           @command_bus.call(command, metadata)
