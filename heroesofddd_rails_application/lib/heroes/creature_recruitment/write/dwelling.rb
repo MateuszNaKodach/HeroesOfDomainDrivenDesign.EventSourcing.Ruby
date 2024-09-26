@@ -1,6 +1,7 @@
 require_relative "./build_dwelling/rule_only_not_built"
 require_relative "./build_dwelling/event_dwelling_built"
 require_relative "./change_available_creatures/event_available_creatures_changed"
+require_relative "./change_available_creatures/rule_only_built"
 require_relative "./recruit_creature/event_creature_recruited"
 
 module Heroes
@@ -56,7 +57,7 @@ module Heroes
         end
 
         def increase_available_creatures(command, state)
-          raise ::Heroes::CreatureRecruitment::OnlyBuiltDwellingCanHaveAvailableCreatures unless state.is_a?(Built)
+          raise ::Heroes::CreatureRecruitment::OnlyBuiltDwellingCanHaveAvailableCreatures if state.is_a?(NotBuilt)
 
           [
             AvailableCreaturesChanged.new(dwelling_id: command.dwelling_id,
