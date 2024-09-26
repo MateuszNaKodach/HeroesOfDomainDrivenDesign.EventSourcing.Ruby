@@ -24,7 +24,7 @@ module Heroes
               current_month: event.month
             )
           when DayFinished
-            state  # Day finished doesn't change the state
+            state
           else
             raise "Unknown event"
           end

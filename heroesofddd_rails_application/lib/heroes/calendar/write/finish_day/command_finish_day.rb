@@ -1,4 +1,5 @@
 require_relative "../calendar"
+require_relative "./event_day_finished"
 
 module Heroes
   module Calendar
