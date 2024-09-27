@@ -7,8 +7,7 @@ Install ruby on your machine and Rails:
 
 0. `bundle install`
 1. `docker compose up`
-2. `rails db:create`
-3. `rails db:migrate`
+2. `rake db:drop db:create db:migrate db:seed`
 4. `rails server`
 
 Fixing format errors:
@@ -31,11 +30,3 @@ Generate code in one file for LLM context:
 - calendar read model
 
 add UI to passing days in calendar, show astrologers on first week day
-
-
-```
-rake db:drop:all
-rake db:create:all
-rake db:migrate
-rake db:seed
-```
