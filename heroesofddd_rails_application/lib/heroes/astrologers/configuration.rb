@@ -7,7 +7,6 @@ require "heroes/astrologers/automation/when_week_started_then_proclaim_week_symb
 module Heroes
   module Astrologers
     class Configuration
-
       def initialize(astrologers_available_symbols_provider, astrologers_growth_provider)
         @astrologers_available_symbols_provider = astrologers_available_symbols_provider
         @astrologers_growth_provider = astrologers_growth_provider

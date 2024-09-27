@@ -67,6 +67,6 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   # --- Heroes ---
-  config.astrologers_available_symbols_provider = ::Heroes::Astrologers::InMemoryAstrologersAvailableSymbols.new(%w[angel black_dragon])
-  config.astrologers_growth_provider = ::Heroes::Astrologers::RandomAstrologersGrowth.new
+  config.astrologers_available_symbols_provider = ::Heroes::Astrologers::InMemoryAstrologersAvailableSymbols.new(%w[angel])
+  config.astrologers_growth_provider = -> { 3 }
 end

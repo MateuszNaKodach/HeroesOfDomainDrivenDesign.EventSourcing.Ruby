@@ -5,13 +5,6 @@ require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_sym
 module Heroes
   module Astrologers
     class WhenWeekStartedThenProclaimWeekSymbolAutomationTest < RealEventStoreIntegrationTestCase
-
-      def before_setup
-        super
-        Rails.configuration.astrologers_available_symbols_provider = ::Heroes::Astrologers::InMemoryAstrologersAvailableSymbols.new( %w[angel])
-        Rails.configuration.astrologers_growth_provider = -> { 3 }
-      end
-
       def setup
         super
         @game_id = SecureRandom.uuid
