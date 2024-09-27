@@ -23,10 +23,12 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
 
     # Then
     assert_response :success
-    assert_select ".recruitment__title", "Recruit Angels"
-    assert_select ".recruitment__count-value", "10"
-    assert_select "#recruit-count", "0"
-    assert_select ".recruitment__slider-input[max='10']"
+    assert_select "#dwelling-#{@dwelling_id}" do
+      assert_select ".recruitment__title", "Recruit Angels"
+      assert_select ".recruitment__count-value", "10"
+      assert_select "#recruit-count", "0"
+      assert_select ".recruitment__slider-input[max='10']"
+    end
   end
 
   test "recruiting creatures successfully" do
@@ -40,7 +42,9 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     # Then
     assert_redirected_to heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id)
     follow_redirect!
-    assert_select ".recruitment__count-value", "5"
+    assert_select "#dwelling-#{@dwelling_id}" do
+      assert_select ".recruitment__count-value", "5"
+    end
   end
 
   test "viewing a non-existent dwelling" do
@@ -64,8 +68,8 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
 
     # Then
     assert_response :success
-    assert_select "script", /document\.getElementById\('total-gold'\)\.textContent = count \* 3000/
-    assert_select "script", /document\.getElementById\('total-gem'\)\.textContent = count \* 1/
+    assert_select "script", /container\.querySelector\('#total-gold'\)\.textContent = count \* 3000/
+    assert_select "script", /container\.querySelector\('#total-gem'\)\.textContent = count \* 1/
   end
 
   test "recruiting zero creatures" do
@@ -79,8 +83,10 @@ class DwellingsIntegrationTest < ActionDispatch::IntegrationTest
     # Then
     assert_redirected_to heroes_game_creature_recruitment_dwelling_path(@game_id, @dwelling_id)
     follow_redirect!
-    assert_select ".recruitment__count-value", "10"
-    assert_select ".recruitment__message-box__text", "Please select at least one creature to recruit."
+    assert_select "#dwelling-#{@dwelling_id}" do
+      assert_select ".recruitment__count-value", "10"
+      assert_select ".recruitment__message-box__text", "Please select at least one creature to recruit."
+    end
   end
 
   def default_app_context
