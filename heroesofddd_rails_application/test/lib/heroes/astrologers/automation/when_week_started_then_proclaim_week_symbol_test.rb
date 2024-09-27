@@ -10,8 +10,8 @@ module Heroes
         @game_id = SecureRandom.uuid
         @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
         @calendar_stream = "Game::$#{@game_id}::Calendar"
-        @creatures = %w[angel black_dragon]
-        @growth_provider = -> { 3 }
+        @astrologers_available_symbols_provider = %w[angel]
+        @astrologers_growth_provider = -> { 3 }
       end
 
       def test_when_first_day_of_week_started_then_proclaim_week_symbol
@@ -25,7 +25,7 @@ module Heroes
         expected_command = Heroes::Astrologers::ProclaimWeekSymbol.new(
           month: 1,
           week: 1,
-          week_of: "angel", # We expect either "angel" or "black_dragon"
+          week_of: "angel",
           growth: 3
         )
         assert_includes(@recording_command_bus.recorded, expected_command)
