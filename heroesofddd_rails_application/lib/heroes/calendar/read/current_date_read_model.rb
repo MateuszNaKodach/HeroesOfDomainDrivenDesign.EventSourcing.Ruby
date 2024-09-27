@@ -19,9 +19,9 @@ module Heroes
         self.table_name = "current_date_read_models"
 
         validates :game_id, presence: true, uniqueness: true
-        validates :month, presence: true, numericality: { greater_than_or_equal_to: 1 }
-        validates :week, presence: true, numericality: { greater_than_or_equal_to: 1 }
-        validates :day, presence: true, numericality: { greater_than_or_equal_to: 1 }
+        validates :month, presence: true
+        validates :week, presence: true
+        validates :day, presence: true
       end
 
       class Projection
@@ -31,9 +31,9 @@ module Heroes
               CurrentDateReadModel::State
                 .find_or_create_by!(game_id: event.metadata[:game_id])
                 .update!(
-                  month: event.year[:month],
-                  week: event.year[:week],
-                  day: event.year[:day],
+                  month: event.data[:month],
+                  week: event.data[:week],
+                  day: event.data[:day],
                 )
             },
             to: [ ::EventStore::Heroes::Calendar::DayStarted ])

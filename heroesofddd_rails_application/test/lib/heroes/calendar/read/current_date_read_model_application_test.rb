@@ -14,73 +14,61 @@ module Heroes
 
       def test_create_on_first_day_started
         # given
-        given_domain_event(@stream_name, DayStarted.new(year: 1, month: 1, day: 1))
+        given_domain_event(@stream_name, DayStarted.new(month: 1, week: 1, day: 1))
 
         # when
         state = CurrentDateReadModel::State.find_by(game_id: @game_id)
 
         # then
-        expected_state = CurrentDateReadModel::State.new(
-          game_id: @game_id,
-          year: 1,
-          month: 1,
-          day: 1
-        )
-        assert_equal expected_state.attributes, state.attributes
+        assert_equal @game_id, state.game_id
+        assert_equal 1, state.month
+        assert_equal 1, state.week
+        assert_equal 1, state.day
       end
 
       def test_update_on_next_day_started
         # given
-        given_domain_event(@stream_name, DayStarted.new(year: 1, month: 1, day: 1))
-        given_domain_event(@stream_name, DayStarted.new(year: 1, month: 1, day: 2))
+        given_domain_event(@stream_name, DayStarted.new(month: 1, week: 1, day: 1))
+        given_domain_event(@stream_name, DayStarted.new(month: 1, week: 1, day: 2))
 
         # when
         state = CurrentDateReadModel::State.find_by(game_id: @game_id)
 
         # then
-        expected_state = CurrentDateReadModel::State.new(
-          game_id: @game_id,
-          year: 1,
-          month: 1,
-          day: 2
-        )
-        assert_equal expected_state.attributes, state.attributes
+        assert_equal @game_id, state.game_id
+        assert_equal 1, state.month
+        assert_equal 1, state.week
+        assert_equal 2, state.day
+      end
+
+      def test_update_on_new_week_started
+        # given
+        given_domain_event(@stream_name, DayStarted.new(month: 1, week: 1, day: 7))
+        given_domain_event(@stream_name, DayStarted.new(month: 1, week: 2, day: 1))
+
+        # when
+        state = CurrentDateReadModel::State.find_by(game_id: @game_id)
+
+        # then
+        assert_equal @game_id, state.game_id
+        assert_equal 1, state.month
+        assert_equal 2, state.week
+        assert_equal 1, state.day
       end
 
       def test_update_on_new_month_started
         # given
-        given_domain_event(@stream_name, DayStarted.new(year: 1, month: 1, day: 30))
-        given_domain_event(@stream_name, DayStarted.new(year: 1, month: 2, day: 1))
+        given_domain_event(@stream_name, DayStarted.new(month: 1, week: 4, day: 7))
+        given_domain_event(@stream_name, DayStarted.new(month: 2, week: 1, day: 1))
 
         # when
         state = CurrentDateReadModel::State.find_by(game_id: @game_id)
 
         # then
-        expected_state = CurrentDateReadModel::State.new(
-          game_id: @game_id,
-          year: 1,
-          month: 2,
-          day: 1
-        )
-        assert_equal expected_state.attributes, state.attributes
-      end
-
-      def test_update_on_new_year_started
-        # given
-        given_domain_event(@stream_name, DayStarted.new(year: 1, month: 12, day: 31))
-        given_domain_event(@stream_name, DayStarted.new(year: 2, month: 1, day: 1))
-
-        # when
-        state = CurrentDateReadModel::State.find_by(game_id: @game_id)
-
-        # then
-        expected_state = CurrentDateReadModel::State.new(
-          game_id: @game_id,
-          year: 2,
-          month: 1,
-          day: 1
-        )
-        assert_equal expected_state.attributes, state.attributes
+        assert_equal @game_id, state.game_id
+        assert_equal 2, state.month
+        assert_equal 1, state.week
+        assert_equal 1, state.day
       end
 
       def default_app_context
