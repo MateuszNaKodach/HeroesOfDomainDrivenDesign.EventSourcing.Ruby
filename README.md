@@ -19,6 +19,7 @@ List of modules you can see in `lib/heroes` directory of the Rails application.
 ```
 heroes/
 ├── astrologers
+├── calendar
 ├── creature_recruitment
 ```
 
@@ -26,6 +27,23 @@ heroes/
 
 ![EventModeling_Module_CreatureRecruitment.png](docs/images/EventModeling_Module_CreatureRecruitment.png)
 
+Slices:
+- Write: `BuildDwelling` -> `DwellingBuilt`
+- Write: `IncreaseAvailableCreatures` -> `AvailableCreaturesChanged`
+- Write: `RecruitCreatured` -> `CreatureRecruited`
+
 ### Astrologers
 
 ![EventModeling_Module_Astrologers.png](docs/images/EventModeling_Module_Astrologers.png)
+
+Slices:
+- Write: `ProclaimWeekSymbol` -> `WeekSymbolProclaimed`
+- Automation: When week symbol proclaimed then increase dwellings available creatures if dwelling creature == symbol
+
+### Calendar
+
+![EventModeling_Module_Calendar.png](docs/images/EventModeling_Module_Calendar.png)
+
+Slices:
+- Write: `StartDay` -> `DayStarted`
+- Automation: When week started (DayStarted with day == 1) then proclaim week symbol.
