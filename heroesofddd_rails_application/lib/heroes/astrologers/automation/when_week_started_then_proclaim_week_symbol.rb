@@ -6,7 +6,7 @@ module Heroes
         @command_bus = command_bus
         @astrologers_available_symbols_provider = astrologers_available_symbols_provider
         @astrologers_growth_provider = astrologers_growth_provider
-        @event_store.subscribe(self, to: [::EventStore::Heroes::Calendar::DayStarted])
+        @event_store.subscribe(self, to: [ ::EventStore::Heroes::Calendar::DayStarted ])
       end
 
       def call(event)
@@ -25,7 +25,6 @@ module Heroes
     end
 
     class InMemoryAstrologersAvailableSymbols
-
       def initialize(symbols_list)
         @symbols_list = symbols_list
       end
@@ -36,12 +35,9 @@ module Heroes
     end
 
     class RandomAstrologersGrowth
-
       def call
         rand(1..5)
       end
-
     end
-
   end
 end
