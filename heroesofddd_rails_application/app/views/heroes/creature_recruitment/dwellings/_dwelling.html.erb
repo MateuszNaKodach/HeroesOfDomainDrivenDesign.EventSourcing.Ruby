@@ -1,4 +1,4 @@
-<div class="recruitment__container">
+<div class="recruitment__container" id="dwelling-<%= dwelling.id %>">
   <div class="recruitment__border">
     <div class="recruitment__component">
       <h1 class="recruitment__title">Recruit <%= @dwelling.creature_id.capitalize.pluralize %></h1>
@@ -67,3 +67,63 @@
     </div>
   </div>
 </div>
+
+<script>
+    (function() {
+        const dwellingId = '<%= dwelling.id %>';
+        const availableCreatures = <%= dwelling.available_creatures %>;
+
+        function initializeDwelling(dwellingId, availableCreatures) {
+            const container = document.getElementById(`dwelling-${dwellingId}`);
+            const slider = container.querySelector('.recruitment__slider-input');
+            const recruitCount = container.querySelector('#recruit-count');
+            const selectAllBtn = container.querySelector('#select-all-btn');
+            const recruitBtn = container.querySelector('#recruit-btn');
+            const messageBox = container.querySelector('.recruitment__message-box__text');
+
+            function updateTotalCost(count) {
+                <% dwelling.cost_per_troop['resources'].each do |resource, amount| %>
+                container.querySelector('#total-<%= resource.downcase %>').textContent = count * <%= amount %>;
+                <% end %>
+            }
+
+            function updateRecruitCount(count) {
+                recruitCount.textContent = count;
+                updateTotalCost(count);
+            }
+
+            function showMessage(message, isError = false) {
+                messageBox.textContent = message;
+                messageBox.classList.toggle('recruitment__message-box__text--error', isError);
+                messageBox.style.display = 'block';
+            }
+
+            // Initialize with 0
+            updateRecruitCount(0);
+
+            slider.addEventListener('input', function() {
+                const count = parseInt(this.value);
+                updateRecruitCount(count);
+            });
+
+            selectAllBtn.addEventListener('click', function() {
+                slider.value = availableCreatures;
+                updateRecruitCount(availableCreatures);
+            });
+
+            recruitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const count = parseInt(slider.value);
+                if (count === 0) {
+                    showMessage("Please select at least one creature to recruit.", true);
+                } else {
+                    container.querySelector('#recruit-count-input').value = count;
+                    container.closest('form').submit();
+                }
+            });
+        }
+
+        // Initialize this dwelling
+        initializeDwelling(dwellingId, availableCreatures);
+    })();
+</script>
