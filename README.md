@@ -6,6 +6,18 @@ Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event 
 
 This project probably won't be fully-functional HOMM3 engine implementation, because it's done for education purposes.
 
+## How to run the project?
+
+1. `cd heroesofddd_rails_application`
+2. `docker compose up`
+3. `bundle install`
+4. `rails db:create`
+5. `rails db:migrate`
+6. `rails db:seed`
+7. `rails server`
+
+Go to the url and play around with the app: http://localhost:3000/heroes/games/fcc8f601-76cb-4b5a-972d-b7431303f69a/creature_recruitment/dwellings/cecc4307-e940-4ef2-8436-80c475729938
+
 ## Modules
 
 Modules (mostly designed using Bounded Context heuristic) are designed and documented on EventModeling below.

@@ -31,3 +31,11 @@ Generate code in one file for LLM context:
 - calendar read model
 
 add UI to passing days in calendar, show astrologers on first week day
+
+
+```
+rake db:drop:all
+rake db:create:all
+rake db:migrate
+rake db:seed
+```
