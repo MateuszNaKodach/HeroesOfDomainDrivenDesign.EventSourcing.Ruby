@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require "heroes/astrologers/automation/when_week_started_then_proclaim_week_symbol"
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -64,4 +65,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # --- Heroes ---
+  config.astrologers_available_symbols_provider = ::Heroes::Astrologers::InMemoryAstrologersAvailableSymbols.new(%w[angel black_dragon])
+  config.astrologers_growth_provider = ::Heroes::Astrologers::RandomAstrologersGrowth.new
 end
