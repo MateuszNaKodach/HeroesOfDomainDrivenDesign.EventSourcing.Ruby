@@ -63,8 +63,10 @@
     <% end %>
     <div class="recruitment__message-box">
       <p class="recruitment__message-box__text">
-        <% flash.each do |type, message| %>
-          <%= message %>
+        <%= turbo_frame_tag "flash" do %>
+          <% flash.each do |type, message| %>
+            <%= message %>
+          <% end %>
         <% end %>
       </p>
     </div>
