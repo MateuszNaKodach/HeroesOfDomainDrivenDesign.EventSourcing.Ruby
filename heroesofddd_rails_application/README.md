@@ -23,3 +23,11 @@ You can run the server with test env: `rails server -e test`
 ## Claude.ai
 Generate code in one file for LLM context:
 `npx ai-digest --whitespace-removal `
+
+
+3 things:
+- when first day -> week symbol
+- first day -> increase dwelling population / renew - increase for simplicity
+- calendar read model
+
+add UI to passing days in calendar, show astrologers on first week day

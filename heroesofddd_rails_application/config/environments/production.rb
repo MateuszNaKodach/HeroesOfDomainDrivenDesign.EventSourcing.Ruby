@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require "heroes/astrologers/automation/when_week_started_then_proclaim_week_symbol"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -99,4 +100,8 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # --- Heroes ---
+  config.astrologers_available_symbols_provider = ::Heroes::Astrologers::InMemoryAstrologersAvailableSymbols.new(%w[angel black_dragon])
+  config.astrologers_growth_provider = ::Heroes::Astrologers::RandomAstrologersGrowth.new
 end
