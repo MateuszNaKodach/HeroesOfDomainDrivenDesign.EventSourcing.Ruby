@@ -12,7 +12,7 @@ module Heroes
         super
         @dwelling_id = "portal_of_glory"
         @creature_id = "angel"
-        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :CRYSTAL, 1 ])
+        @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
       end
 
       def test_given_not_built_dwelling_when_build_dwelling_then_dwelling_built
