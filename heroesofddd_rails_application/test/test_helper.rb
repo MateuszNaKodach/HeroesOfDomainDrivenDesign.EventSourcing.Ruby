@@ -64,4 +64,10 @@ module EventStoreTest
     end
     assert matching_event, "Expected to find a #{stored_event} event with data #{data}, but none was found."
   end
+
+  def assert_read_models_equal(expected_state, current_state)
+    excluded_attributes = %w[id created_at updated_at lock_version]
+    assert_equal expected_state.attributes.except(*excluded_attributes),
+                 current_state.attributes.except(*excluded_attributes)
+  end
 end

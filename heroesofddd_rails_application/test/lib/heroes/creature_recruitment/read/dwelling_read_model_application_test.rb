@@ -29,7 +29,7 @@ module Heroes
                                                       creature_id: @creature_id,
                                                       available_creatures: 0,
                                                       cost_per_troop: @cost_per_troop)
-        assert_equal expected_state, state
+        assert_read_models_equal expected_state, state
       end
 
       def test_update_on_available_creatures_changed
@@ -46,7 +46,7 @@ module Heroes
                                                       creature_id: @creature_id,
                                                       available_creatures: 99,
                                                       cost_per_troop: @cost_per_troop)
-        assert_equal expected_state, state
+        assert_read_models_equal expected_state, state
       end
 
       def test_update_on_creature_recruited
@@ -64,7 +64,7 @@ module Heroes
                                                       creature_id: @creature_id,
                                                       available_creatures: 98,
                                                       cost_per_troop: @cost_per_troop)
-        assert_equal expected_state, state
+        assert_read_models_equal expected_state, state
       end
 
       def default_app_context
