@@ -15,8 +15,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_27_125300) do
   enable_extension "plpgsql"
 
   create_table "current_date_read_models", primary_key: "game_id", id: :string, force: :cascade do |t|
-    t.integer "year", default: 0, null: false
     t.integer "month", default: 0, null: false
+    t.integer "week", default: 0, null: false
     t.integer "day", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
