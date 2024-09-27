@@ -1,6 +1,5 @@
 <div class="current-date">
   <% if @current_date %>
     <p>Month: <%= @current_date.month %>, Week: <%= @current_date.week %>, Day: <%= @current_date.day %></p>
-    <%= button_to "Next Day", heroes_game_calendar_next_day_path(@current_date.game_id), method: :post, class: "next-day-button" %>
 <% end %>
 </div>
