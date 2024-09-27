@@ -1,65 +1,63 @@
 <div class="recruitment__container" id="dwelling-<%= dwelling.id %>">
   <div class="recruitment__border">
-    <div class="recruitment__component">
-      <%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(dwelling.game_id, dwelling), local: true, method: :post, id: "recruit-form-#{dwelling.id}", class: 'recruitment') do |form| %>
-        <h1 class="recruitment__title">Recruit <%= dwelling.creature_id.capitalize.pluralize %></h1>
-        <%= image_tag "Recruit#{dwelling.creature_id.capitalize}Image.png", alt: "#{dwelling.creature_id.capitalize} image", class: "recruitment__creature-image" %>
+    <%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(dwelling.game_id, dwelling), local: true, method: :post, id: "recruit-form-#{dwelling.id}", class: "recruitment__component") do |form| %>
+      <h1 class="recruitment__title">Recruit <%= dwelling.creature_id.capitalize.pluralize %></h1>
+      <%= image_tag "Recruit#{dwelling.creature_id.capitalize}Image.png", alt: "#{dwelling.creature_id.capitalize} image", class: "recruitment__creature-image" %>
 
-        <div class="recruitment__controls">
-          <div class="recruitment__cost-per-troop">
-            <p class="recruitment__cost-title">Cost Per Troop</p>
-            <div class="recruitment__cost-details">
-              <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
-                <div class="recruitment__resource">
-                  <%= image_tag "#{resource.downcase}_resource.png", alt: "#{resource.capitalize} resource", class: "recruitment__resource-image" %>
-                  <div class="recruitment__resource-amount"><%= amount %></div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-
-          <div class="recruitment__center-controls">
-            <div class="recruitment__counts">
-              <div class="recruitment__count">
-                <div class="recruitment__count-title">Available</div>
-                <div class="recruitment__count-value"><%= @dwelling.available_creatures %></div>
+      <div class="recruitment__controls">
+        <div class="recruitment__cost-per-troop">
+          <p class="recruitment__cost-title">Cost Per Troop</p>
+          <div class="recruitment__cost-details">
+            <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
+              <div class="recruitment__resource">
+                <%= image_tag "#{resource.downcase}_resource.png", alt: "#{resource.capitalize} resource", class: "recruitment__resource-image" %>
+                <div class="recruitment__resource-amount"><%= amount %></div>
               </div>
-              <div class="recruitment__count">
-                <div class="recruitment__count-title">Recruit</div>
-                <div class="recruitment__count-value" id="recruit-count">0</div>
-              </div>
-            </div>
-            <div class="recruitment__slider">
-              <input type="range" min="0" max="<%= @dwelling.available_creatures %>" value="0" class="recruitment__slider-input" id="recruit-slider">
-              <%= form.hidden_field :recruit_count, id: "recruit-count-input-#{dwelling.id}" %>
-            </div>
-          </div>
-
-          <div class="recruitment__total-cost">
-            <p class="recruitment__cost-title">Total Cost</p>
-            <div class="recruitment__cost-details" id="total-cost">
-              <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
-                <div class="recruitment__resource">
-                  <%= image_tag "#{resource.downcase}_resource.png", alt: "#{resource.capitalize} resource", class: "recruitment__resource-image" %>
-                  <div class="recruitment__resource-amount" id="total-<%= resource.downcase %>"><%= amount %></div>
-                </div>
-              <% end %>
-            </div>
+            <% end %>
           </div>
         </div>
 
-        <div class="recruitment__buttons">
-          <button type="button" class="recruitment__button recruitment__button--select-all" id="select-all-btn">
-            <%= image_tag "button_select_all.png", alt: "Select All", class: "recruitment__button-image" %>
-          </button>
-          <button type="button" class="recruitment__button recruitment__button--recruit" id="recruit-btn">
-            <%= image_tag "button_recruit.png", alt: "Recruit", class: "recruitment__button-image" %>
-          </button>
-          <button type="button" class="recruitment__button recruitment__button--cancel" id="cancel-btn" disabled>
-            <%= image_tag "button_cancel.png", alt: "Cancel", class: "recruitment__button-image" %>
-          </button>
+        <div class="recruitment__center-controls">
+          <div class="recruitment__counts">
+            <div class="recruitment__count">
+              <div class="recruitment__count-title">Available</div>
+              <div class="recruitment__count-value"><%= @dwelling.available_creatures %></div>
+            </div>
+            <div class="recruitment__count">
+              <div class="recruitment__count-title">Recruit</div>
+              <div class="recruitment__count-value" id="recruit-count">0</div>
+            </div>
+          </div>
+          <div class="recruitment__slider">
+            <input type="range" min="0" max="<%= @dwelling.available_creatures %>" value="0" class="recruitment__slider-input" id="recruit-slider">
+            <%= form.hidden_field :recruit_count, id: "recruit-count-input-#{dwelling.id}" %>
+          </div>
         </div>
-      <% end %>
+
+        <div class="recruitment__total-cost">
+          <p class="recruitment__cost-title">Total Cost</p>
+          <div class="recruitment__cost-details" id="total-cost">
+            <% @dwelling.cost_per_troop['resources'].each do |resource, amount| %>
+              <div class="recruitment__resource">
+                <%= image_tag "#{resource.downcase}_resource.png", alt: "#{resource.capitalize} resource", class: "recruitment__resource-image" %>
+                <div class="recruitment__resource-amount" id="total-<%= resource.downcase %>"><%= amount %></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="recruitment__buttons">
+        <button type="button" class="recruitment__button recruitment__button--select-all" id="select-all-btn">
+          <%= image_tag "button_select_all.png", alt: "Select All", class: "recruitment__button-image" %>
+        </button>
+        <button type="button" class="recruitment__button recruitment__button--recruit" id="recruit-btn">
+          <%= image_tag "button_recruit.png", alt: "Recruit", class: "recruitment__button-image" %>
+        </button>
+        <button type="button" class="recruitment__button recruitment__button--cancel" id="cancel-btn" disabled>
+          <%= image_tag "button_cancel.png", alt: "Cancel", class: "recruitment__button-image" %>
+        </button>
+    <% end %>
     </div>
     <div class="recruitment__message-box">
       <p class="recruitment__message-box__text">
