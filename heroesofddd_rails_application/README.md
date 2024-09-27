@@ -22,7 +22,7 @@ You can run the server with test env: `rails server -e test`
 
 ## Claude.ai
 Generate code in one file for LLM context:
-`npx ai-digest --whitespace-removal `
+`npx ai-digest --whitespace-removal`
 
 
 3 things:
