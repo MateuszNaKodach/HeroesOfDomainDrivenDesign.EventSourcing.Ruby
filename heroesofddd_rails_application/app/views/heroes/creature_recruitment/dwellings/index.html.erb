@@ -1,5 +1,2 @@
-<%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(@dwelling.game_id, @dwelling), local: true, method: :post, id: 'recruit-form', class: 'recruitment') do |form| %>
-  <%= render_dwelling(@dwelling, form) %>
-  <%= render 'heroes/calendar/current_date' %>
-  <%= form.hidden_field :recruit_count, id: 'recruit-count-input' %>
-<% end %>
+<%= render_dwelling(@dwelling) %>
+<%= render 'heroes/calendar/current_date' %>
