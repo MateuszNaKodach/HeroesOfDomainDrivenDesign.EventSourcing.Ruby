@@ -1,3 +1,8 @@
+require "heroes/creature_recruitment/read/dwelling_read_model"
+require "heroes/calendar/read/current_date_read_model"
+require "heroes/creature_recruitment/write/recruit_creature/command_recruit_creature"
+require "building_blocks/application/app_context"
+
 module Heroes
   module CreatureRecruitment
     class DwellingsController < ApplicationController
@@ -6,6 +11,7 @@ module Heroes
         dwelling_id = params[:id]
         @dwelling = DwellingReadModel::State.find_by(game_id: game_id, id: dwelling_id)
         if @dwelling
+          @current_date = Heroes::Calendar::CurrentDateReadModel::State.find_by(game_id: game_id)
           render template: "heroes/creature_recruitment/dwellings/index"
         else
           render json: { error: "Dwelling not found" }, status: :not_found
