@@ -1,8 +1,29 @@
 .current-date {
-  margin: 2rem;
-  background-color: #f0f0f0;
+  background-color: #221811;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  font-weight: bold;
+  // align-self: flex-end;
+  color: #F8F0D6;
+  font-weight: 200;
+  margin-top: 2rem;
+
+  &__text {
+    padding: 0;
+    margin: 0
+  }
+
+  &__next-day-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #F5DA76;
+    color: #2B1E12;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #A3813F;
+    }
+  }
 }

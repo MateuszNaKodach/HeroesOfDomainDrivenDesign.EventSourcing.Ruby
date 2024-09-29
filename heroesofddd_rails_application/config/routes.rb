@@ -19,6 +19,9 @@ Rails.application.routes.draw do
           post "recruit", on: :member
         end
       end
+      resource :calendar, only: [] do
+        post :next_day, on: :member
+      end
     end
   end
 end
