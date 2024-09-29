@@ -3,6 +3,9 @@ require "heroes/calendar/read/current_date_read_model"
 require "heroes/creature_recruitment/write/recruit_creature/command_recruit_creature"
 require "building_blocks/application/app_context"
 
+# todo: consider last response from here:
+# https://claude.ai/chat/a081c14c-26e0-4f92-8371-4e13470cd8c9
+
 module Heroes
   module CreatureRecruitment
     class DwellingsController < ApplicationController
@@ -22,30 +25,33 @@ module Heroes
         game_id = params[:game_id]
         dwelling_id = params[:id]
         recruit_count = params[:recruit_count].to_i
+
         dwelling = DwellingReadModel::State.find_by(game_id: game_id, id: dwelling_id)
 
         if dwelling
           if recruit_count > 0
-            command = RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
+            command = Heroes::CreatureRecruitment::RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
+
             begin
               command_bus.call(command, BuildingBlocks::Application::AppContext.for_game(game_id))
-              @message = { type: :notice, text: "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}" }
               dwelling.reload
+              message = { type: :notice, text: "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}" }
             rescue StandardError => e
-              @message = { type: :alert, text: "Failed to recruit creatures: #{e.message}" }
+              message = { type: :alert, text: "Failed to recruit creatures: #{e.message}" }
             end
           else
-            @message = { type: :alert, text: "Please select at least one creature to recruit." }
+            message = { type: :alert, text: "Please select at least one creature to recruit." }
           end
         else
-          @message = { type: :alert, text: "Dwelling not found" }
+          message = { type: :alert, text: "Dwelling not found" }
         end
+
         respond_to do |format|
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace(
               "dwelling-#{dwelling_id}",
-              partial: 'heroes/creature_recruitment/dwellings/dwelling',
-              locals: { dwelling: dwelling, message: @message }
+              partial: "heroes/creature_recruitment/dwellings/dwelling",
+              locals: { dwelling: dwelling, message: message }
             )
           end
           format.html { redirect_to heroes_game_creature_recruitment_dwelling_path(game_id, dwelling_id) }
