@@ -1,6 +1,6 @@
 <div class="recruitment__container" id="dwelling-<%= dwelling.id %>">
   <div class="recruitment__border">
-    <%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(dwelling.game_id, dwelling), local: true, method: :post, id: "recruit-form-#{dwelling.id}", class: "recruitment__component") do |form| %>
+    <%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(dwelling.game_id, dwelling), local: true, method: :post, id: "recruit-form-#{dwelling.id}", class: "recruitment__component") do |f| %>
       <h1 class="recruitment__title">Recruit <%= dwelling.creature_id.capitalize.pluralize %></h1>
       <%= image_tag "Recruit#{dwelling.creature_id.capitalize}Image.png", alt: "#{dwelling.creature_id.capitalize} image", class: "recruitment__creature-image" %>
 
@@ -30,7 +30,7 @@
           </div>
           <div class="recruitment__slider">
             <input type="range" min="0" max="<%= @dwelling.available_creatures %>" value="0" class="recruitment__slider-input" id="recruit-slider">
-            <%= form.hidden_field :recruit_count, id: "recruit-count-input-#{dwelling.id}" %>
+            <%= f.hidden_field :recruit_count, id: "recruit-count-input-#{dwelling.id}" %>
           </div>
         </div>
 
@@ -76,7 +76,7 @@
 
         function initializeDwelling(dwellingId, availableCreatures) {
             const container = document.getElementById(`dwelling-${dwellingId}`);
-            const form = document.getElementById(`recruit-form-${dwellingId}`);
+            const f = document.getElementById(`recruit-form-${dwellingId}`);
             const slider = container.querySelector('.recruitment__slider-input');
             const recruitCount = container.querySelector('#recruit-count');
             const selectAllBtn = container.querySelector('#select-all-btn');
@@ -120,7 +120,7 @@
                     showMessage("Please select at least one creature to recruit.", true);
                 } else {
                     document.getElementById(`recruit-count-input-${dwellingId}`).value = count;
-                    form.submit();
+                    f.submit();
                 }
             });
         }
