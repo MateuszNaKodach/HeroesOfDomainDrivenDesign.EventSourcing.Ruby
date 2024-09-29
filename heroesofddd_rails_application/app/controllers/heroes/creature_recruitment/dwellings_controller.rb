@@ -27,44 +27,35 @@ module Heroes
         recruit_count = params[:recruit_count].to_i
 
         dwelling = DwellingReadModel::State.find_by(game_id: game_id, id: dwelling_id)
-        result = process_recruitment(dwelling, recruit_count, game_id)
+
+        if dwelling
+          if recruit_count > 0
+            command = Heroes::CreatureRecruitment::RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
+
+            begin
+              command_bus.call(command, BuildingBlocks::Application::AppContext.for_game(game_id))
+              dwelling.reload
+              message = { type: :notice, text: "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}" }
+            rescue StandardError => e
+              message = { type: :alert, text: "Failed to recruit creatures: #{e.message}" }
+            end
+          else
+            message = { type: :alert, text: "Please select at least one creature to recruit." }
+          end
+        else
+          message = { type: :alert, text: "Dwelling not found" }
+        end
 
         respond_to do |format|
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace(
               "dwelling-#{dwelling_id}",
               partial: "heroes/creature_recruitment/dwellings/dwelling",
-              locals: { dwelling: dwelling, message: result }
+              locals: { dwelling: dwelling, message: message }
             )
           end
           format.html { redirect_to heroes_game_creature_recruitment_dwelling_path(game_id, dwelling_id) }
-          format.json {
-            case result
-            in { type: :alert }
-              render json: { error: result.text }, status: :bad_request
-            else
-              render json: { error: result.text }, status: :ok
-            end
-          }
         end
-      end
-
-      private
-
-      def process_recruitment(game_id, dwelling, recruit_count)
-        return { type: :alert, text: "Dwelling not found" } unless dwelling
-        return { type: :alert, text: "Please select at least one creature to recruit." } unless recruit_count.positive?
-
-        recruit_creatures(game_id, dwelling, recruit_count)
-      end
-
-      def recruit_creatures(game_id, dwelling, recruit_count)
-        command = Heroes::CreatureRecruitment::RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
-        command_bus.call(command, BuildingBlocks::Application::AppContext.for_game(game_id))
-        dwelling.reload
-        { type: :notice, text: "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}" }
-      rescue StandardError => e
-        { type: :alert, text: "Failed to recruit creatures: #{e.message}" }
       end
     end
   end
