@@ -30,6 +30,7 @@ module Heroes
             begin
               command_bus.call(command, BuildingBlocks::Application::AppContext.for_game(game_id))
               @message = { type: :notice, text: "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}" }
+              dwelling.reload
             rescue StandardError => e
               @message = { type: :alert, text: "Failed to recruit creatures: #{e.message}" }
             end
@@ -39,7 +40,6 @@ module Heroes
         else
           @message = { type: :alert, text: "Dwelling not found" }
         end
-
         respond_to do |format|
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace(

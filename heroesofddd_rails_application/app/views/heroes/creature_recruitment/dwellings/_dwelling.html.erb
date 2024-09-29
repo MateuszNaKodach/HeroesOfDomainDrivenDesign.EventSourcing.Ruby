@@ -5,7 +5,7 @@
      data-dwelling-cost-per-troop-value="<%= dwelling.cost_per_troop['resources'].to_json %>"
      data-dwelling-message-value="<%= local_assigns[:message]&.to_json %>">
   <div class="recruitment__border">
-    <%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(dwelling.game_id, dwelling), local: false, method: :post, id: "recruit-form-#{dwelling.id}", class: "recruitment__component") do |f| %>
+    <%= form_with(url: recruit_heroes_game_creature_recruitment_dwelling_path(dwelling.game_id, dwelling), method: :post, id: "recruit-form-#{dwelling.id}", class: "recruitment__component") do |f| %>
       <h1 class="recruitment__title">Recruit <%= dwelling.creature_id.capitalize.pluralize %></h1>
       <%= image_tag "Recruit#{dwelling.creature_id.capitalize}Image.png", alt: "#{dwelling.creature_id.capitalize} image", class: "recruitment__creature-image" %>
 
@@ -63,7 +63,7 @@
         <button type="button" class="recruitment__button recruitment__button--select-all" data-action="click->dwelling#selectAll">
           <%= image_tag "button_select_all.png", alt: "Select All", class: "recruitment__button-image" %>
         </button>
-        <%= f.button type: "submit", class: "recruitment__button recruitment__button--recruit", data: { action: "click->dwelling#recruit" } do %>
+        <%= f.button type: "submit", class: "recruitment__button recruitment__button--recruit" do %>
           <%= image_tag "button_recruit.png", alt: "Recruit", class: "recruitment__button-image" %>
         <% end %>
         <%= link_to heroes_game_creature_recruitment_dwelling_path(dwelling.game_id, dwelling), class: "recruitment__button recruitment__button--cancel" do %>
