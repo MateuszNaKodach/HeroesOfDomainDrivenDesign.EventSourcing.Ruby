@@ -28,7 +28,7 @@ module Heroes
         WhenWeekSymbolProclaimedThenIncreaseDwellingAvailableCreatures.new(event_store, command_bus, event_registry)
         WhenWeekStartedThenProclaimWeekSymbol.new(event_store, command_bus, @astrologers_available_symbols_provider, @astrologers_growth_provider)
 
-        event_store.subscribe(WeekSymbolModal.new, to: [EventStore::Heroes::Astrologers::WeekSymbolProclaimed])
+        event_store.subscribe(::Heroes::Astrologers::Presentation::WeekSymbolModal.new, to: [EventStore::Heroes::Astrologers::WeekSymbolProclaimed])
       end
     end
   end
