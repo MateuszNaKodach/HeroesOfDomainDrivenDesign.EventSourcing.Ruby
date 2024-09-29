@@ -1,0 +1,9 @@
+<div id="week_symbol_modal" class="modal" data-controller="modal">
+  <div class="modal-content">
+    <h2>Astrologers' Proclamation</h2>
+    <p>Month: <%= month %>, Week: <%= week %></p>
+    <p>Week of: <%= week_of.capitalize %></p>
+    <p>Growth: <%= growth > 0 ? '+' : '' %><%= growth %></p>
+    <button data-action="click->modal#close">Close</button>
+  </div>
+</div>
