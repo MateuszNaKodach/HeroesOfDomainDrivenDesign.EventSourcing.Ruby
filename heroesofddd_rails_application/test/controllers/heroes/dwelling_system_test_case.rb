@@ -10,7 +10,7 @@ class DwellingSystemTest < ApplicationSystemTestCase
     super
     @dwelling_id = SecureRandom.uuid
     @creature_id = "angel"
-    @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([:GOLD, 3000], [:GEM, 1])
+    @cost_per_troop = Heroes::SharedKernel::Resources::Cost.resources([ :GOLD, 3000 ], [ :GEM, 1 ])
     @game_id = SecureRandom.uuid
     @app_context = ::BuildingBlocks::Application::AppContext.for_game(@game_id)
     @stream_name = "Game::$#{@game_id}::CreatureRecruitment::Dwelling$#{@dwelling_id}"
