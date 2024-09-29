@@ -14,7 +14,7 @@ module Heroes
       @current_date = Heroes::Calendar::CurrentDateReadModel::State.find_by(game_id: game_id)
 
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("current-date", partial: "heroes/calendar/current_date") }
+        format.turbo_stream { render turbo_stream: turbo_stream.update("current-date", partial: "heroes/calendar/current_date") }
       end
     end
 
