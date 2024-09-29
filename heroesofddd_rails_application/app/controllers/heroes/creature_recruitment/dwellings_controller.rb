@@ -29,18 +29,27 @@ module Heroes
             command = RecruitCreature.new(dwelling.id, dwelling.creature_id, recruit_count)
             begin
               command_bus.call(command, BuildingBlocks::Application::AppContext.for_game(game_id))
-              flash[:notice] = "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}"
+              @message = { type: :notice, text: "Successfully recruited #{recruit_count} #{dwelling.creature_id.pluralize.capitalize}" }
             rescue StandardError => e
-              flash[:alert] = "Failed to recruit creatures: #{e.message}"
+              @message = { type: :alert, text: "Failed to recruit creatures: #{e.message}" }
             end
           else
-            flash[:alert] = "Please select at least one creature to recruit."
+            @message = { type: :alert, text: "Please select at least one creature to recruit." }
           end
         else
-          flash[:alert] = "Dwelling not found"
+          @message = { type: :alert, text: "Dwelling not found" }
         end
 
-        redirect_to heroes_game_creature_recruitment_dwelling_path(game_id, dwelling_id)
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.replace(
+              "dwelling-#{dwelling_id}",
+              partial: 'heroes/creature_recruitment/dwellings/dwelling',
+              locals: { dwelling: dwelling, message: @message }
+            )
+          end
+          format.html { redirect_to heroes_game_creature_recruitment_dwelling_path(game_id, dwelling_id) }
+        end
       end
     end
   end
