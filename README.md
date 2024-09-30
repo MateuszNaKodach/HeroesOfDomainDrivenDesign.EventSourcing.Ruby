@@ -2,12 +2,14 @@
 
 Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event Sourcing in Heroes of Might & Magic III domain.
 
-- [Read the Heroes of Domain-Driven Design series on LinkedIn]( https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7208819112179908609)
+👉 [Read the Heroes of Domain-Driven Design series on LinkedIn]( https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7208819112179908609)
 
 This project probably won't be fully-functional HOMM3 engine implementation, because it's done for educational purposes.
 If you'd like to talk with me about mentioned development practices fell free to contact on [linkedin.com/in/mateusznakodach/](https://www.linkedin.com/in/mateusznakodach/).
 
 I'm focused on domain modeling on the backend, but I've also played around with Rails app frontend using Hotwire.
+
+![Heroes3_CreatureRecruitment_ExampleGif](https://github.com/user-attachments/assets/19ed08cb-84ea-4c82-a4d4-9d16812c0093)
 
 ## 🚀 How to run the project locally?
 
