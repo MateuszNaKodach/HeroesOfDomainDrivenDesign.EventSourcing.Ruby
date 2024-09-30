@@ -4,7 +4,8 @@ Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event 
 
 - [Read the Heroes of Domain-Driven Design series on LinkedIn]( https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7208819112179908609)
 
-This project probably won't be fully-functional HOMM3 engine implementation, because it's done for education purposes.
+This project probably won't be fully-functional HOMM3 engine implementation, because it's done for educational purposes.
+If you'd like to talk with me about mentioned development practices fell free to contact on [linkedin.com/in/mateusznakodach/](https://www.linkedin.com/in/mateusznakodach/).
 
 ## 🚀 How to run the project locally?
 
@@ -48,7 +49,7 @@ Slices:
 
 ### 🧙 Astrologers
 
-![EventModeling_Module_Astrologers.png](docs/images/EventModeling_Module_Astrologers.png)
+![EventModeling_Module_Astrologers.png](docs/images/EventModeling_Module_AstrologersSlices.png)
 
 Slices:
 - Write: `ProclaimWeekSymbol` -> `WeekSymbolProclaimed`
@@ -88,6 +89,9 @@ def test_given_dwelling_with_3_creature_when_recruit_2_creature_then_success
   then_domain_event(@stream_name, expected_event)
 end
 ```
+
+
+-------
 
 ### 💼 Hire me
 
