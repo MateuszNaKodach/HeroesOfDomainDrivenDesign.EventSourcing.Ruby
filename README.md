@@ -9,7 +9,7 @@ If you'd like to talk with me about mentioned development practices fell free to
 
 I'm focused on domain modeling on the backend, but I've also played around with Rails app frontend using Hotwire.
 
-![Heroes3_CreatureRecruitment_ExampleGif](https://github.com/user-attachments/assets/19ed08cb-84ea-4c82-a4d4-9d16812c0093)
+![Heroes3_CreatureRecruitment_ExampleGif](https://github.com/user-attachments/assets/0e503a1e-e5d2-4e4a-9150-1a224e603be8)
 
 ## 🚀 How to run the project locally?
 
