@@ -47,26 +47,37 @@ Each domain-focused module follows Vertical-Slice Architecture of three possible
 ![EventModeling_Module_CreatureRecruitment.png](docs/images/EventModeling_Module_CreatureRecruitment.png)
 
 Slices:
-- Write: `BuildDwelling` -> `DwellingBuilt`
-- Write: `IncreaseAvailableCreatures` -> `AvailableCreaturesChanged`
-- Write: `RecruitCreatured` -> `CreatureRecruited`
+- Write: [BuildDwelling -> DwellingBuilt](heroesofddd_rails_application/lib/heroes/creature_recruitment/write/build_dwelling/command_build_dwelling.rb) | [test](heroesofddd_rails_application/test/lib/heroes/creature_recruitment/write/build_dwelling_application_test.rb)
+- Write: [IncreaseAvailableCreatures -> AvailableCreaturesChanged](heroesofddd_rails_application/lib/heroes/creature_recruitment/write/change_available_creatures/command_increase_available_creatures.rb) | [test](heroesofddd_rails_application/test/lib/heroes/creature_recruitment/write/increase_available_creatures_application_test.rb)
+- Write: [RecruitCreature -> CreatureRecruited](heroesofddd_rails_application/lib/heroes/creature_recruitment/write/recruit_creature/command_recruit_creature.rb) | [test](heroesofddd_rails_application/test/lib/heroes/creature_recruitment/write/recruit_creature_application_test.rb) 
+- Read: [(DwellingBuilt, AvailableCreaturesChanged, CreatureRecruited) -> DwellingReadModel](heroesofddd_rails_application/lib/heroes/creature_recruitment/read/dwelling_read_model.rb) | [test](heroesofddd_rails_application/test/lib/heroes/creature_recruitment/read/dwelling_read_model_application_test.rb)
+
+Aggregates:
+- [Dwelling](heroesofddd_rails_application/lib/heroes/creature_recruitment/write/dwelling.rb)
 
 ### 🧙 Astrologers
 
 ![EventModeling_Module_Astrologers.png](docs/images/EventModeling_Module_Astrologers.png)
 
 Slices:
-- Write: `ProclaimWeekSymbol` -> `WeekSymbolProclaimed`
-- Automation: When week symbol proclaimed then increase dwellings available creatures if dwelling creature == symbol
+- Write: [ProclaimWeekSymbol -> WeekSymbolProclaimed](heroesofddd_rails_application/lib/heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol.rb) | [test](heroesofddd_rails_application/test/lib/heroes/astrologers/write/proclaim_week_symbol_application_test.rb)
+- Automation: [DayStarted(where day==1) -> ProclaimWeekSymbol](heroesofddd_rails_application/lib/heroes/astrologers/automation/when_week_started_then_proclaim_week_symbol.rb) | [test](heroesofddd_rails_application/test/lib/heroes/astrologers/automation/when_week_started_then_proclaim_week_symbol_test.rb)
+- Automation: [(WeekSymbolProclaimed, all game dwellings derived from DwellingBuilt events) -> IncreaseAvailableCreatures for each dwelling in the game where creature == symbol](heroesofddd_rails_application/lib/heroes/astrologers/automation/when_week_symbol_proclaimed_then_increase_dwelling_available_creatures.rb) | [test](heroesofddd_rails_application/test/lib/heroes/astrologers/automation/when_week_symbol_proclaimed_then_increase_dwelling_available_creatures_test.rb)
+
+Aggregates:
+- [WeekSymbol](heroesofddd_rails_application/lib/heroes/astrologers/write/week_symbol.rb)
 
 ### 📅 Calendar
 
 ![EventModeling_Module_Calendar.png](docs/images/EventModeling_Module_CalendarSlices.png)
 
 Slices:
-- Write: `StartDay` -> `DayStarted`
-- Write: `FinishDay` -> `DayFinished`
-- Automation: When week started (DayStarted with day == 1) then proclaim week symbol.
+- Write: [StartDay -> DayStarted](heroesofddd_rails_application/lib/heroes/calendar/write/start_day/command_start_day.rb) | [test](heroesofddd_rails_application/test/lib/heroes/calendar/write/start_day_application_test.rb)
+- Write: [FinishDay -> DayFinished](heroesofddd_rails_application/lib/heroes/calendar/write/finish_day/command_finish_day.rb) | [test](heroesofddd_rails_application/test/lib/heroes/calendar/write/finish_day_application_test.rb)
+- Read: [DayStarted -> CurrentDateReadModel](heroesofddd_rails_application/lib/heroes/calendar/read/current_date_read_model.rb) | [test](heroesofddd_rails_application/test/lib/heroes/calendar/read/current_date_read_model_application_test.rb)
+
+Aggregates:
+- [Calendar](heroesofddd_rails_application/lib/heroes/calendar/write/calendar.rb)
 
 ## 🤖 Working with AI Large Language Models:
 If you'd like to use the whole source code as your prompt context generate codebase file by:
@@ -77,6 +88,8 @@ Tests using Real postgres Event Store, follows the approach:
 - write slice: given(events) -> when(command) -> then(events)
 - read slice: given(events) -> then(read model)
 - automation: when(event, state?) -> then(command)
+
+Tests are focused on observable behavior which implicitly covers the DDD Aggregates, so the domain model can be refactored without changes in tests.
 
 ```ruby
 def test_given_dwelling_with_3_creature_when_recruit_2_creature_then_success
@@ -101,5 +114,5 @@ end
 ### 💼 Hire me
 
 If you'd like to hire me for Domain-Driven Design and/or Event Sourcing projects I'm available to work with:
-Kotlin, Java, C#, Ruby and TypeScript.
+Kotlin, Java, C# .NET, Ruby and JavaScript/TypeScript (Node.js or React).
 Please reach me out on LinkedIn [linkedin.com/in/mateusznakodach/](https://www.linkedin.com/in/mateusznakodach/).
