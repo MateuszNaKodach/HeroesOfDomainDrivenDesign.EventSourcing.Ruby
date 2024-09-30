@@ -19,9 +19,9 @@ I'm focused on domain modeling on the backend, but I've also played around with 
 2. `rails db:drop db:create db:migrate db:seed` - (re)creates database and seed with example data
 7. `rails server`
 
-Go to the url and play around with the app: 
-- Creature Recruitment: http://127.0.0.1:3000/heroes/games/fcc8f601-76cb-4b5a-972d-b7431303f69a/creature_recruitment/dwellings/cecc4307-e940-4ef2-8436-80c475729938
-Recruit Angels and click "Next day" in order to wait for the astrologers proclamation of the week symbol.
+### Example use case:
+- Go to the url: http://127.0.0.1:3000/heroes/games/fcc8f601-76cb-4b5a-972d-b7431303f69a/creature_recruitment/dwellings/cecc4307-e940-4ef2-8436-80c475729938
+- Recruit Angels and click "Next day" in order to wait for the astrologers proclamation of the week symbol.
 
 ## 🧱 Modules
 
