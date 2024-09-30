@@ -2,8 +2,12 @@ name: 💎 Ruby on Rails App CI
 
 on:
   pull_request:
+    paths:
+      - heroesofddd_rails_application
   push:
     branches: [ main ]
+    paths:
+      - heroesofddd_rails_application
 
 jobs:
   scan_ruby:

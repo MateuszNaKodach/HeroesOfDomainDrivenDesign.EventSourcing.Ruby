@@ -7,6 +7,8 @@ Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event 
 This project probably won't be fully-functional HOMM3 engine implementation, because it's done for educational purposes.
 If you'd like to talk with me about mentioned development practices fell free to contact on [linkedin.com/in/mateusznakodach/](https://www.linkedin.com/in/mateusznakodach/).
 
+I'm focused on domain modeling on the backend, but I've also played around with Rails app frontend using Hotwire.
+
 ## 🚀 How to run the project locally?
 
 1. `cd heroesofddd_rails_application`
