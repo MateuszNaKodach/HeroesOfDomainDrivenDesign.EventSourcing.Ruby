@@ -3,7 +3,12 @@
     <% if @current_date %>
       <p class="current-date__text">Month: <%= @current_date.month %>, Week: <%= @current_date.week %>,
         Day: <%= @current_date.day %></p>
-      <%= button_to "Next day", next_day_heroes_game_calendar_path(@current_date.game_id), method: :post, class: "current-date__next-day-button" %>
+      <%= button_to "Next Day", next_day_heroes_game_calendar_path(@current_date.game_id),
+                    method: :post,
+                    class: "current-date__next-day-button",
+                    data: {
+                      disable_with: "Processing..."
+                    } %>
     <% end %>
   </div>
 <% end %>

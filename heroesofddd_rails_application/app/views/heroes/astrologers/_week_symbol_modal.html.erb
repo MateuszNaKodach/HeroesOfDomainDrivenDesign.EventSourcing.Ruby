@@ -1,0 +1,10 @@
+<div id="week_symbol_modal" class="modal" data-controller="modal">
+  <div class="modal__content modal__border">
+    <p>Astrologers proclaim week of the <%= week_of.capitalize.gsub("_", " ") %>.</p>
+    <p><%= week_of.capitalize.gsub("_", " ") %> growth +<%= growth %></p>
+    <p>All dwellings increase population.</p>
+    <button data-action="click->modal#close" class="modal__submit-button">
+      <%= image_tag "button_submit.png", alt: "Submit" %>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+
+  &__content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    border: 16px solid #831A1C;
+    background-image: asset-url("Heroes3MenuBackground.png");
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  &__border {
+    box-shadow:
+            0 0 0 2px #F5DA76,
+            0 0 0 4px #A3813F,
+            0 0 0 8px #2B1E12,
+            0 0 0 10px #A3813F,
+            0 0 0 12px #F5DA76,
+            0 0 0 14px #000000;
+  }
+
+  &__submit-button {
+    all: unset;
+    cursor: pointer;
+    img {
+      height: 2rem;
+      margin-top: 1rem;
+    }
+  }
+}

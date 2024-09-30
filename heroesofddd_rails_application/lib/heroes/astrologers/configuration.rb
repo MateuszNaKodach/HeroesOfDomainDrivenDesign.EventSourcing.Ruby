@@ -3,6 +3,7 @@ require "heroes/astrologers/write/week_symbol"
 require "heroes/astrologers/write/proclaim_week_symbol/command_proclaim_week_symbol"
 require "heroes/astrologers/automation/when_week_symbol_proclaimed_then_increase_dwelling_available_creatures"
 require "heroes/astrologers/automation/when_week_started_then_proclaim_week_symbol"
+require "heroes/astrologers/read/presentation_week_symbol_modal"
 
 module Heroes
   module Astrologers
@@ -26,6 +27,8 @@ module Heroes
 
         WhenWeekSymbolProclaimedThenIncreaseDwellingAvailableCreatures.new(event_store, command_bus, event_registry)
         WhenWeekStartedThenProclaimWeekSymbol.new(event_store, command_bus, @astrologers_available_symbols_provider, @astrologers_growth_provider)
+
+        event_store.subscribe(::Heroes::Astrologers::Presentation::WeekSymbolModal.new, to: [ EventStore::Heroes::Astrologers::WeekSymbolProclaimed ])
       end
     end
   end

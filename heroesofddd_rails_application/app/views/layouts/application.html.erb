@@ -19,5 +19,8 @@
 
   <body>
     <%= yield %>
+
+    <%= turbo_frame_tag "week_symbol_modal" %>
+    <%= turbo_stream_from "week_symbol_modal" %>
   </body>
 </html>
