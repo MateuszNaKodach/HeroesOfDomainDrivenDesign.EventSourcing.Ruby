@@ -2,10 +2,10 @@
 
 Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event Sourcing in Heroes of Might & Magic III domain.
 
-👉 [Read the Heroes of Domain-Driven Design series on LinkedIn]( https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7208819112179908609)
+👉 [Read the Heroes of Domain-Driven Design series](https://dddheroes.com/)
 
 This project probably won't be fully-functional HOMM3 engine implementation, because it's done for educational purposes.
-If you'd like to talk with me about mentioned development practices fell free to contact on [linkedin.com/in/mateusznakodach/](https://www.linkedin.com/in/mateusznakodach/).
+If you'd like to talk with me about mentioned development practices fell free to contact on [linkedin.com/in/mateusznakodach/](https://www.linkedin.com/in/mateusznakodach).
 
 I'm focused on domain modeling on the backend, but I've also played around with Rails app frontend using Hotwire.
 
@@ -84,6 +84,35 @@ Aggregates:
 If you'd like to use the whole source code as your prompt context generate codebase file by:
 `npx ai-digest --whitespace-removal`
 
+## Domain Model purity
+Domain Events are decoupled from infrastructure RailsEventStore events.
+Every domain event is registered with corresponding functions which maps from domain to storage structure and vice-versa (as shown below).
+
+```ruby
+WeekSymbolProclaimed = Class.new(RubyEventStore::Event) do
+    def self.from_domain(domain_event)
+      ::EventStore::Heroes::Astrologers::WeekSymbolProclaimed.new(
+        data: {
+          month: domain_event.month,
+          week: domain_event.week,
+          week_of: domain_event.week_of,
+          growth: domain_event.growth
+        }
+      )
+    end
+    
+    def self.to_domain(store_event)
+      data = store_event.data.deep_symbolize_keys
+      ::Heroes::Astrologers::WeekSymbolProclaimed.new(
+        month: data[:month],
+        week: data[:week],
+        week_of: data[:week_of],
+        growth: data[:growth],
+      )
+    end
+end
+```
+
 ## 🧪 Testing
 Tests using Real postgres Event Store, follows the approach: 
 - write slice: given(events) -> when(command) -> then(events)
@@ -91,6 +120,10 @@ Tests using Real postgres Event Store, follows the approach:
 - automation: when(event, state?) -> then(command)
 
 Tests are focused on observable behavior which implicitly covers the DDD Aggregates, so the domain model can be refactored without changes in tests.
+
+### Example: write slice
+
+![EventModeling_GWT_TestCase_CreatureRecruitment.png](docs/images/EventModeling_GWT_TestCase_CreatureRecruitment.png)
 
 ```ruby
 def test_given_dwelling_with_3_creature_when_recruit_2_creature_then_success
