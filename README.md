@@ -49,7 +49,7 @@ Slices:
 
 ### 🧙 Astrologers
 
-![EventModeling_Module_Astrologers.png](docs/images/EventModeling_Module_AstrologersSlices.png)
+![EventModeling_Module_Astrologers.png](docs/images/EventModeling_Module_Astrologers.png)
 
 Slices:
 - Write: `ProclaimWeekSymbol` -> `WeekSymbolProclaimed`
@@ -61,6 +61,7 @@ Slices:
 
 Slices:
 - Write: `StartDay` -> `DayStarted`
+- Write: `FinishDay` -> `DayFinished`
 - Automation: When week started (DayStarted with day == 1) then proclaim week symbol.
 
 ## 🤖 Working with AI Large Language Models:
