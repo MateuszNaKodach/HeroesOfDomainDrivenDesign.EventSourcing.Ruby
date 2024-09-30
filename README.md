@@ -41,6 +41,7 @@ heroes/
 ```
 
 Each domain-focused module follows Vertical-Slice Architecture of three possible types: write, read and automation following Event Modeling nomenclature.
+Aggregates are implemented using [Decider](https://thinkbeforecoding.com/) pattern.
 
 ### 👾 Creature Recruitment
 
