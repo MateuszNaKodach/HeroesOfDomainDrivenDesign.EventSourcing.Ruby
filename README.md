@@ -57,7 +57,7 @@ Slices:
 
 ### 📅 Calendar
 
-![EventModeling_Module_Calendar.png](docs/images/EventModeling_Module_Calendar.png)
+![EventModeling_Module_Calendar.png](docs/images/EventModeling_Module_CalendarSlices.png)
 
 Slices:
 - Write: `StartDay` -> `DayStarted`
