@@ -2,7 +2,8 @@
 
 Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event Sourcing in Heroes of Might & Magic III domain.
 
-👉 [Read the Heroes of Domain-Driven Design series](https://dddheroes.com/)
+👉 [Let's explore the Heroes of Domain-Driven Design blogpost series](https://dddheroes.com/)
+- There you will get familiar with the whole Software Development process: from knowledge crunching with domain experts, designing solution using Event Modeling, to implementation using DDD Building Blocks.
 
 This project probably won't be fully-functional HOMM3 engine implementation, because it's done for educational purposes.
 If you'd like to talk with me about mentioned development practices fell free to contact on [linkedin.com/in/mateusznakodach/](https://www.linkedin.com/in/mateusznakodach).
