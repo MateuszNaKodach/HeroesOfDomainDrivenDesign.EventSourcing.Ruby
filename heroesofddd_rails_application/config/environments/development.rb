@@ -81,6 +81,6 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # --- Heroes ---
-  config.astrologers_available_symbols_provider = ::Heroes::Astrologers::InMemoryAstrologersAvailableSymbols.new(%w[angel black_dragon])
+  config.astrologers_available_symbols_provider = ::Heroes::Astrologers::InMemoryAstrologersAvailableSymbols.new(%w[angel])
   config.astrologers_growth_provider = ::Heroes::Astrologers::RandomAstrologersGrowth.new
 end
