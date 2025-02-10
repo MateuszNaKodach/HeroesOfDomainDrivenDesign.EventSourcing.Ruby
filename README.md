@@ -1,7 +1,7 @@
 # Heroes of Domain-Driven Design (Ruby)
 Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event Sourcing in Heroes of Might & Magic III domain.
 
-👉 See implementation also in: **Ruby** | [Java + Spring + Axon](https://github.com/MateuszNaKodach/HeroesOfDomainDrivenDesign.EventSourcing.Java.Axon.Spring)
+👉 See also implementations in: **Ruby** | [Java + Spring + Axon](https://github.com/MateuszNaKodach/HeroesOfDomainDrivenDesign.EventSourcing.Java.Axon.Spring)
 
 👉 [Let's explore the Heroes of Domain-Driven Design blogpost series](https://dddheroes.com/)
 - There you will get familiar with the whole Software Development process: from knowledge crunching with domain experts, designing solution using Event Modeling, to implementation using DDD Building Blocks.
@@ -114,6 +114,28 @@ WeekSymbolProclaimed = Class.new(RubyEventStore::Event) do
     end
 end
 ```
+
+
+## 🏛️ Screaming Architecture
+
+The project follows a Screaming Architecture pattern organized around vertical slices that mirror Event Modeling concepts.
+
+![ScreamingArchitecture](docs/images/ScreamingArchitectureRuby.png)
+
+The package structure screams the capabilities of the system by making explicit: commands available to users, events that capture what happened, queries for retrieving information, business rules, and system automations.
+This architecture makes it immediately obvious what the system can do, what rules govern those actions, and how different parts of the system interact through events.
+
+Each module is structured into three distinct types of slices:
+
+### Write Slices
+Contains commands that represent user intentions, defines business rules through aggregates, produces domain events, and enforces invariants (e.g., RecruitCreature command → CreatureRecruited event, with RecruitCreaturesNotExceedAvailableCreatures rule).
+
+### Read Slices
+Implements queries and read models optimized for specific use cases, with projectors that transform events into queryable state (e.g., GetDwellingById query → DwellingReadModel).
+
+### Automation Slices
+Processes events to trigger subsequent actions, implementing system policies and workflows that connect different modules (e.g., WhenCreatureRecruitedThenAddToArmyProcessor).
+
 
 ## 🧪 Testing
 Tests using Real postgres Event Store, follows the approach: 
