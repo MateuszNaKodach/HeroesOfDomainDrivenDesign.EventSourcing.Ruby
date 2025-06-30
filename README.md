@@ -1,7 +1,10 @@
 # Heroes of Domain-Driven Design (Ruby)
 Shows how to use Domain-Driven Design, Event Storming, Event Modeling and Event Sourcing in Heroes of Might & Magic III domain.
 
-👉 See also implementations in: **Ruby** | [Java + Spring + Axon](https://github.com/MateuszNaKodach/HeroesOfDomainDrivenDesign.EventSourcing.Java.Axon.Spring)
+👉 See also implementations in: 
+- [Kotlin + Axon Framework 5 (DCB)](https://github.com/MateuszNaKodach/HeroesOfDomainDrivenDesign.EventSourcing.DCB.Kotlin.Axon5.Spring)
+- [Java + Axon Framework 4](https://github.com/MateuszNaKodach/HeroesOfDomainDrivenDesign.EventSourcing.Java.Axon.Spring)
+- [TypeScript + Emmett](https://github.com/MateuszNaKodach/HeroesOfDomainDrivenDesign.EventSourcing.TypeScript.Emmett.Express)
 
 👉 [Let's explore the Heroes of Domain-Driven Design blogpost series](https://dddheroes.com/)
 - There you will get familiar with the whole Software Development process: from knowledge crunching with domain experts, designing solution using Event Modeling, to implementation using DDD Building Blocks.
